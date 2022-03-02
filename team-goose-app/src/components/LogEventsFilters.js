@@ -40,7 +40,7 @@ const LogEventsFilters = () => {
 
     return (
         <div>
-            <form onSubmit={handleApplyFilters} style={{display: "flex", justifyContent: "space-between"}}>
+            <form className='log-events-filters' onSubmit={handleApplyFilters}>
                 <FormControl>
                     <FormLabel>Priority</FormLabel>
                     <FormGroup>
