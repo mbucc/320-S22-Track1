@@ -1,0 +1,11 @@
+
+.log-events-container {
+    display: grid;
+    grid-template-rows: 2fr 5fr; 
+    margin: 10px;
+}
+
+.log-events-filters {
+    display: flex;
+    justify-content: space-between;
+}

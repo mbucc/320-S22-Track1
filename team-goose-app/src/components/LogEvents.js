@@ -1,11 +1,13 @@
 import React from 'react';
 import LogEventsFilters from './LogEventsFilters';
 import LogEventsTable from './LogEventsTable';
-  
+
+import './LogEvents.css'
+
 const LogEvents = () => {
 
     return (
-        <div style={{margin: "10px"}}>
+        <div className='log-events-container'>
             <LogEventsFilters></LogEventsFilters>
             <LogEventsTable></LogEventsTable>
         </div>
