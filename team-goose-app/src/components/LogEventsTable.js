@@ -10,29 +10,33 @@ const columns = [
     { field: 'activity', headerName: 'Activity', width: 230 },
 ];
 
-function makeRow(id, severity, createDate, businessDomain, application, activity) {
+function makeRow(id, severity, priority, category, createDate, application, processService, activity) {
     return {
         id: id, 
         severity: severity, 
+        priority: priority,
+        category: category,
         createDate: createDate, 
-        businessDomain: businessDomain, 
         application: application, 
+        processService: processService, 
         activity: activity
     };
 }
 
 const rows = [
-    makeRow("1", "Info", "3/3/2022 HH:MM:SS", "CRM", "CRM App", "Published Customer Info"),
-    makeRow("2", "Warning", "3/3/2022 HH:MM:SS", "CRM", "CRM App", "Published Customer Info"),
-    makeRow("3", "Error", "3/3/2022 HH:MM:SS", "Settlement", "Settlement App", "Published Customer Info"),
-    makeRow("4", "Info", "3/3/2022 HH:MM:SS", "Settlement", "Settlement App", "Published Customer Info"),
-    makeRow("5", "Warning", "3/3/2022 HH:MM:SS", "CRM", "CRM App", "Published Customer Info"),
+    makeRow("1", "Info", "High", "Start", "3/3/2022 HH:MM:SS", "Update Customer", "Published Customer Info"),
+    makeRow("2", "Warning", "Medium", "Status", "3/3/2022 HH:MM:SS", "Update Customer", "Published Customer Info"),
+    makeRow("3", "Error", "Low", "Heartbeat", "3/3/2022 HH:MM:SS", "Update Customer", "Published Customer Info"),
+    makeRow("4", "Info", "High", "Security", "3/3/2022 HH:MM:SS", "Update Customer", "Published Customer Info"),
+    makeRow("5", "Info", "Medium", "Stop", "3/3/2022 HH:MM:SS", "Update Customer", "Published Customer Info"),
+    makeRow("6", "Info", "Low", "Start", "3/3/2022 HH:MM:SS", "Update Customer", "Published Customer Info"),
+    makeRow("7", "Info", "High", "Start", "3/3/2022 HH:MM:SS", "Update Customer", "Published Customer Info"),
 ];
 
 const LogEventsTable = () => {
 
     return (
-        <div style={{ height: 400, width: '100%' }}>
+        <div style={{ height: 500, width: '100%' }}>
             <DataGrid
                 rows={rows}
                 columns={columns}
