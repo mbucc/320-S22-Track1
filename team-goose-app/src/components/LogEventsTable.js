@@ -4,9 +4,11 @@ import { DataGrid } from '@mui/x-data-grid';
 
 const columns = [
     { field: 'severity', headerName: 'Severity', width: 170 },
+    { field: 'priority', headerName: 'Priority', width: 170 },
+    { field: 'category', headerName: 'Category', width: 170 },
     { field: 'createDate', headerName: 'Create Date', width: 230 },
-    { field: 'businessDomain', headerName: 'Business Domain', width: 230 },
     { field: 'application', headerName: 'Application', width: 230 },
+    { field: 'processService', headerName: 'Process/Service', width: 230 },
     { field: 'activity', headerName: 'Activity', width: 230 },
 ];
 
@@ -24,13 +26,13 @@ function makeRow(id, severity, priority, category, createDate, application, proc
 }
 
 const rows = [
-    makeRow("1", "Info", "High", "Start", "3/3/2022 HH:MM:SS", "Update Customer", "Published Customer Info"),
-    makeRow("2", "Warning", "Medium", "Status", "3/3/2022 HH:MM:SS", "Update Customer", "Published Customer Info"),
-    makeRow("3", "Error", "Low", "Heartbeat", "3/3/2022 HH:MM:SS", "Update Customer", "Published Customer Info"),
-    makeRow("4", "Info", "High", "Security", "3/3/2022 HH:MM:SS", "Update Customer", "Published Customer Info"),
-    makeRow("5", "Info", "Medium", "Stop", "3/3/2022 HH:MM:SS", "Update Customer", "Published Customer Info"),
-    makeRow("6", "Info", "Low", "Start", "3/3/2022 HH:MM:SS", "Update Customer", "Published Customer Info"),
-    makeRow("7", "Info", "High", "Start", "3/3/2022 HH:MM:SS", "Update Customer", "Published Customer Info"),
+    makeRow("1", "Info", "High", "Start", "3/3/2022 HH:MM:SS", "CRM", "Update Customer", "Published Customer Info"),
+    makeRow("2", "Warning", "Medium", "Status", "3/3/2022 HH:MM:SS", "CRM", "Update Customer", "Published Customer Info"),
+    makeRow("3", "Error", "Low", "Heartbeat", "3/3/2022 HH:MM:SS", "CRM", "Update Customer", "Published Customer Info"),
+    makeRow("4", "Info", "High", "Security", "3/3/2022 HH:MM:SS", "CRM", "Update Customer", "Published Customer Info"),
+    makeRow("5", "Info", "Medium", "Stop", "3/3/2022 HH:MM:SS", "CRM", "Update Customer", "Published Customer Info"),
+    makeRow("6", "Info", "Low", "Start", "3/3/2022 HH:MM:SS", "CRM", "Update Customer", "Published Customer Info"),
+    makeRow("7", "Info", "High", "Start", "3/3/2022 HH:MM:SS", "CRM", "Update Customer", "Published Customer Info"),
 ];
 
 const LogEventsTable = () => {
