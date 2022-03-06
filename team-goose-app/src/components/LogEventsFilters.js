@@ -1,6 +1,6 @@
-import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Input, InputLabel, MenuItem, OutlinedInput, Select, Stack } from '@mui/material';
+import { Button, FormControl,  InputLabel, MenuItem, OutlinedInput, Select, Stack } from '@mui/material';
 import React from 'react';
-
+import CheckboxGroup from './CheckboxGroup';
 
 const getCurrentDateTimeString = () => {
     let now = new Date();
@@ -12,7 +12,10 @@ const getCurrentDateTimeString = () => {
 
 const LogEventsFilters = () => {
     const allPriorities = ["High", "Medium", "Low"];
-    const [selectedPriorities, setSelectedPriorities] = React.useState(new Set(['High', 'Medium', 'Low']));
+    const [selectedPriorities, setSelectedPriorities] = React.useState(new Set(allPriorities));
+    
+    const allSeverities = ["Error", "Warning", "Success", "Info"];
+    const [selectedSeverities, setSelectedSeverities] = React.useState(new Set(allSeverities));
     const [EAIDomain, setEAIDomain] = React.useState("All");
     const [startTime, setStartTime] = React.useState(getCurrentDateTimeString());
     const [endTime, setEndTime] = React.useState(getCurrentDateTimeString());
@@ -22,16 +25,18 @@ const LogEventsFilters = () => {
         console.log("Apply filters was pressed");
     }
 
-    const handlePriorityCheck = (e) => {
-        // console.log(e);
-        let newPriorities = new Set([...selectedPriorities]);
-        if(e.target.checked) {
-            newPriorities.add(e.target.name);
+    const handleCheckboxSelection = (event, selections, setter) => {
+        let newSelections = new Set([...selections]);
+        if(event.target.checked) {
+            newSelections.add(event.target.name);
         } else {
-            newPriorities.delete(e.target.name);
+            newSelections.delete(event.target.name);
         }
-        setSelectedPriorities(newPriorities);
+        setter(newSelections)
     }
+
+    const handlePriorityCheck = (event) => handleCheckboxSelection(event, selectedPriorities, setSelectedPriorities);
+    const handleSeverityCheck = (event) => handleCheckboxSelection(event, selectedSeverities, setSelectedSeverities);
 
     const handleEAIDomainChange = (e) => {
         // console.log(e);
@@ -41,20 +46,20 @@ const LogEventsFilters = () => {
     return (
         <div>
             <form className='log-events-filters' onSubmit={handleApplyFilters}>
-                <FormControl>
-                    <FormLabel>Priority</FormLabel>
-                    <FormGroup>
-                        {allPriorities.map(priority => 
-                            <FormControlLabel
-                                key={priority}
-                                name={priority}
-                                checked={selectedPriorities.has(priority)}
-                                control={<Checkbox onChange={handlePriorityCheck}/>}
-                                label={priority}
-                            />
-                        )}
-                    </FormGroup>
-                </FormControl>
+                <CheckboxGroup 
+                    label={"Priorities"}
+                    options={allPriorities} 
+                    selectedOptions={selectedPriorities} 
+                    handleSelection={handlePriorityCheck}
+                ></CheckboxGroup>
+                <CheckboxGroup 
+                    label={"Severities"}
+                    options={allSeverities} 
+                    selectedOptions={selectedSeverities} 
+                    handleSelection={handleSeverityCheck}
+                ></CheckboxGroup>
+                
+
                 
                 <FormControl style={{width: "294px"}}>
                 <InputLabel>EAI Domain</InputLabel>
