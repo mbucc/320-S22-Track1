@@ -1,5 +1,6 @@
 import { Button, FormControl,  InputLabel, MenuItem, OutlinedInput, Select, Stack } from '@mui/material';
 import React from 'react';
+import { getTableData } from '../fakeDatabase';
 import CheckboxGroup from './CheckboxGroup';
 
 const getCurrentDateTimeString = () => {
@@ -10,11 +11,12 @@ const getCurrentDateTimeString = () => {
     return formattedDate;
 }
 
-const LogEventsFilters = () => {
+const LogEventsFilters = ({tableDataSetter}) => {
     const allPriorities = ["High", "Medium", "Low"];
+    const prioritiesMapping = ["70", "50", "10"];
     const [selectedPriorities, setSelectedPriorities] = React.useState(new Set(allPriorities));
     
-    const allSeverities = ["Error", "Warning", "Success", "Info"];
+    const allSeverities = ["Error", "Warning", "Info"];
     const [selectedSeverities, setSelectedSeverities] = React.useState(new Set(allSeverities));
     const [EAIDomain, setEAIDomain] = React.useState("All");
     const [startTime, setStartTime] = React.useState(getCurrentDateTimeString());
@@ -23,6 +25,16 @@ const LogEventsFilters = () => {
     const handleApplyFilters = (e) => {
         e.preventDefault();
         console.log("Apply filters was pressed");
+        // parse the filters
+        const filters = {
+            "PRIORITY": new Set([...selectedPriorities].map(p => prioritiesMapping[allPriorities.indexOf(p)]))
+        }
+
+        // Request table data according to filters (This is where we would do a axios POST)
+        const resultData = getTableData(filters);
+        // We may need to do some conversion afterwards
+        // Set the changes
+        tableDataSetter(resultData);
     }
 
     const handleCheckboxSelection = (event, selections, setter) => {
