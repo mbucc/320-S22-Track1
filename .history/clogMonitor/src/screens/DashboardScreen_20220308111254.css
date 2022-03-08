@@ -19,7 +19,7 @@
   /* align-self: end; */
 }
 
-.DashboardScreen__NameAndLogout {
-  display: inline-block;
-  margin: 20px;
+.DashboardScreen__rightPane {
+  /* display: flex;
+  flex-direction: column; */
 }

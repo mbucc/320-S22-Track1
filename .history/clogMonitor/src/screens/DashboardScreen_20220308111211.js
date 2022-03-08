@@ -11,9 +11,6 @@ function DashboardScreen() {
         <NavigationPane />
       </div>
       <div className="DashboardScreen__rightPane">
-        <div className="DashboardScreen__NameAndLogout">
-          <NameAndLogout />
-        </div>
         <div className="DashboardScreen__ErrorLogPane">
           <ErrorLogPane />
         </div>
