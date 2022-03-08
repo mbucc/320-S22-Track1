@@ -15,6 +15,10 @@
   /* max-height: 100vh; */
 }
 
+/* .DashboardScreen__ErrorLogPane {
+  /* align-self: end; */
+} */
+
 .DashboardScreen__NameAndLogout {
   display: inline-block;
   margin: 20px;
