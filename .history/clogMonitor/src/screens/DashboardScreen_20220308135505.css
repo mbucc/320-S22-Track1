@@ -5,8 +5,8 @@
   /* display: flex; */
   /* align-self: center; */
   padding: 20px;
-  background-color: #f9f9f9;
-  height: 95vh;
+  /* background-color: #224957; */
+  /* height: 80vh; */
 }
 
 .DashboardScreen {
@@ -21,5 +21,5 @@
 }
 
 .DashboardScreen__rightPane {
-  background-color: #f9f9f9;
+  background-color: aqua;
 }
