@@ -9,9 +9,10 @@ function DashboardScreen() {
       <div className="DashboardScreen__NavigationPane">
         <NavigationPane />
       </div>
-      <div className="DashboardScreen__ErrorLogPane">
+      <div className="DashboardScreen__ErrorLog">
         <ErrorLogPane />
       </div>
+      Pane
     </div>
   );
 }

@@ -12,6 +12,7 @@ function DashboardScreen() {
       <div className="DashboardScreen__ErrorLogPane">
         <ErrorLogPane />
       </div>
+      Pane
     </div>
   );
 }

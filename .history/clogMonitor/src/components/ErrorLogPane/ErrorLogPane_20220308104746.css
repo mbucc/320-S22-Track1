@@ -1,0 +1,9 @@
+.ErrorLogPane {
+  background-color: #f9f9f9;
+  padding: 20px;
+  max-height: inherit;
+}
+
+.ErrorLogPane__heading {
+  color: #224957;
+}

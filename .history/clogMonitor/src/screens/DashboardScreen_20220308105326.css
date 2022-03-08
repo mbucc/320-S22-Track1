@@ -2,11 +2,10 @@
   text-align: left;
   max-width: 250px;
   width: 200px;
-  /* display: flex; */
-  /* align-self: center; */
-  padding: 20px;
+  display: flex;
+  align-self: center;
+  margin-left: 20px;
   /* background-color: #224957; */
-  height: 80vh;
 }
 
 .DashboardScreen {
@@ -15,6 +14,6 @@
   max-height: 100vh;
 }
 
-.DashboardScreen__ErrorLogPane {
+.DashboardScreen_ErrorLogPane {
   align-self: end;
 }

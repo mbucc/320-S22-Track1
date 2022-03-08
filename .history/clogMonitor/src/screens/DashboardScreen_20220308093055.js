@@ -5,11 +5,9 @@ import "./DashboardScreen.css";
 
 function DashboardScreen() {
   return (
-    <div className="DashboardScreen">
+    <div className="wrapper">
       <div className="DashboardScreen__NavigationPane">
         <NavigationPane />
-      </div>
-      <div className="DashboardScreen__ErrorLogPane">
         <ErrorLogPane />
       </div>
     </div>

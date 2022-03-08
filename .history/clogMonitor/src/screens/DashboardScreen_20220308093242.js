@@ -8,8 +8,6 @@ function DashboardScreen() {
     <div className="DashboardScreen">
       <div className="DashboardScreen__NavigationPane">
         <NavigationPane />
-      </div>
-      <div className="DashboardScreen__ErrorLogPane">
         <ErrorLogPane />
       </div>
     </div>
