@@ -1,10 +1,15 @@
-import React from 'react';
+import React from "react";
+import NavigationPane from "../components/NavigationPane";
 import NameAndLogout from '../components/NameAndLogout';
+import "./DashboardScreen.css";
 
-function DashboardScreen(props) {
+function DashboardScreen() {
     return (
-        <div>
-            <NameAndLogout />
+        <div className="wrapper">
+            <div className="DashboardScreen__NavigationPane">
+                <NavigationPane />
+                <NameAndLogout />
+            </div>
         </div>
     );
 }

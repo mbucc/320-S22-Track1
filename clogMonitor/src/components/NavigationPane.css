@@ -1,0 +1,8 @@
+.NavigationPane__heading {
+  color: #224957;
+  display: flex;
+}
+
+.NavigationPane__link {
+  color: #828282;
+}
