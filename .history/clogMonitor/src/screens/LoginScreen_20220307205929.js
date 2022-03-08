@@ -1,7 +1,5 @@
 import React from "react";
 
-function LoginScreen() {
+export default function LoginScreen() {
   return <div>LoginScreen</div>;
 }
-
-export default LoginScreen;
