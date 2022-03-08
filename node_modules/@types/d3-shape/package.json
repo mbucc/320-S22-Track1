@@ -1,0 +1,47 @@
+{
+    "name": "@types/d3-shape",
+    "version": "2.1.3",
+    "description": "TypeScript definitions for D3JS d3-shape module",
+    "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/d3-shape",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Tom Wanzek",
+            "url": "https://github.com/tomwanzek",
+            "githubUsername": "tomwanzek"
+        },
+        {
+            "name": "Alex Ford",
+            "url": "https://github.com/gustavderdrache",
+            "githubUsername": "gustavderdrache"
+        },
+        {
+            "name": "Boris Yankov",
+            "url": "https://github.com/borisyankov",
+            "githubUsername": "borisyankov"
+        },
+        {
+            "name": "denisname",
+            "url": "https://github.com/denisname",
+            "githubUsername": "denisname"
+        },
+        {
+            "name": "Nathan Bierema",
+            "url": "https://github.com/Methuselah96",
+            "githubUsername": "Methuselah96"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/d3-shape"
+    },
+    "scripts": {},
+    "dependencies": {
+        "@types/d3-path": "^2"
+    },
+    "typesPublisherContentHash": "50b3a62db280bb5c90fdaa2b589298c422e51bbc514c1f35dc3eda668b7aa4f3",
+    "typeScriptVersion": "3.6"
+}

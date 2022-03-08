@@ -16,10 +16,28 @@
 }
 
 .DashboardScreen__NameAndLogout {
-  display: inline-block;
   margin: 20px;
 }
 
-.DashboardScreen__rightPane {
+.DashboardScreen_Logo {
+  /* background-color: blue; */
+  width: 100%;
+}
+
+.DashboardScreen__Center {
+  /* background-color:black; */
+  width: 100%;
+}
+
+.DashboardScreen_Charts {
+  /* background-color: red; */
+  position: absolute;
+  top: 10%;
+  left: 30%
+}
+
+.DashboardScreen__ErrorLogPane {
   background-color: #f9f9f9;
+  position: relative;
+  top: 10%
 }
