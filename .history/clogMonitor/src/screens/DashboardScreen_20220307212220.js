@@ -1,6 +1,6 @@
 import React from "react";
 import NavigationPane from "../components/NavigationPane";
-import "./DashboardScreen.css";
+import DashboardScreen.css
 
 function DashboardScreen() {
   return (

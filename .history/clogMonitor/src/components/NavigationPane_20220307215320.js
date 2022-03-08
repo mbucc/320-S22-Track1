@@ -9,17 +9,17 @@ function NavigationPane() {
 
       <div className="NavigationPane__links">
         <h3>
-          <Link href="#" underline="none" className="NavigationPane__link">
+          <Link href="#" underline="none">
             Home
           </Link>
         </h3>
         <h3>
-          <Link href="#" underline="none" className="NavigationPane__link">
+          <Link href="#" underline="none">
             Business Processes
           </Link>
         </h3>
         <h3>
-          <Link href="#" underline="none" className="NavigationPane__link">
+          <Link href="#" underline="none">
             Log Events
           </Link>
         </h3>
