@@ -26,9 +26,13 @@ const LogEventsFilters = ({ tableDataSetter }) => {
   const [selectedPriorities, setSelectedPriorities] = React.useState(
     new Set(allPriorities)
   );
-  const allSeverities = ["Error", "Warning", "Info"];
+  const allSeverities = ["Errors", "Warnings", "Info", "Success"];
   const [selectedSeverities, setSelectedSeverities] = React.useState(
     new Set(allSeverities)
+  );
+  const allCategories = ["Status", "Start", "Stop", "Security", "Heartbeat"];
+  const [selectedCategories, setSelectedCategories] = React.useState(
+    new Set(allCategories)
   );
   // Dropdown states
   const dummyDomainOptions = ["Domain 1", "Domain 2", "Domain 3"];
@@ -81,7 +85,8 @@ const LogEventsFilters = ({ tableDataSetter }) => {
     handleCheckboxSelection(event, selectedPriorities, setSelectedPriorities);
   const handleSeverityCheck = (event) =>
     handleCheckboxSelection(event, selectedSeverities, setSelectedSeverities);
-
+  const handleCategoryCheck = (event) =>
+  handleCheckboxSelection(event, selectedCategories, setSelectedCategories);
   // Dropdown selection handlers
   const handleDropdownSelection = (event, setter) => {
     // this will have to eventually take into account options
@@ -117,6 +122,12 @@ const LogEventsFilters = ({ tableDataSetter }) => {
           options={allSeverities}
           selectedOptions={selectedSeverities}
           handleSelection={handleSeverityCheck}
+        ></CheckboxGroup>
+        <CheckboxGroup
+          label={"Categories"}
+          options={allCategories}
+          selectedOptions={selectedCategories}
+          handleSelection={handleCategoryCheck}
         ></CheckboxGroup>
 
         <div className="dropdown-group">
