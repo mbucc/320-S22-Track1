@@ -54,6 +54,11 @@ const LogEventsFilters = ({ tableDataSetter }) => {
                     (p) => prioritiesMapping[allPriorities.indexOf(p)]
                 )
             ),
+            EAI_DOMAIN: new Set(EAIDomain === "All" ? EAIDomains : [EAIDomain]),
+            BUSINESS_DOMAIN: new Set(businessDomain === "All" ? businessDomains : [businessDomain]),
+            BUSINESS_SUBDOMAIN: new Set(businessSubDomain === "All" ? businessSubDomains : [businessSubDomain]),
+            APPLICATION: new Set(application === "All" ? applications : [application]),
+            PROCESS_ID: new Set(process_service === "All" ? processIds : [process_service]),
         };
 
         // Request table data according to filters (This is where we would do a axios POST)
