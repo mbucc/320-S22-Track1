@@ -44,7 +44,7 @@ const columns = [
 const LogEventsTable = ({data}) => {
 
     return (
-        <div style={{ height: 500, width: '100%' }}>
+        <div className='log-events-table-container'>
             <DataGrid
                 rows={data}
                 columns={columns}

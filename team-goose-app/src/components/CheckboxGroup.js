@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Input, InputLabel, MenuItem, OutlinedInput, Select, Stack } from '@mui/material';
+import { Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel } from '@mui/material';
 
 const CheckboxGroup = ({label, options, selectedOptions, handleSelection}) => {
 

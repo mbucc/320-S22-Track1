@@ -166,7 +166,7 @@ const LogEventsFilters = ({ tableDataSetter }) => {
           ></Dropdown>
         </div>
 
-        <FormControl>
+        <FormControl margin="normal">
           <Stack spacing={2}>
             <FormControl>
               <InputLabel htmlFor="starttime" shrink>
