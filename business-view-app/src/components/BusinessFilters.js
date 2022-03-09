@@ -1,0 +1,1 @@
+//this view is for filters that can be selected to filter results in returned events
