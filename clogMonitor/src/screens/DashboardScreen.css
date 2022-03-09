@@ -30,14 +30,18 @@
 }
 
 .DashboardScreen_Charts {
-  /* background-color: red; */
   position: absolute;
-  top: 10%;
-  left: 30%
+  top: 15%;
+  left: 15%;
+  text-align: center;
 }
 
 .DashboardScreen__ErrorLogPane {
   background-color: #f9f9f9;
   position: relative;
   top: 10%
+}
+
+.DashboardScreen_WelcomeTynography{
+  font-size:30px;
 }
