@@ -72,41 +72,37 @@ const LogEventsFilters = ({ tableDataSetter }) => {
   };
 
   // Checkbox group selection handlers
-  const handleCheckboxSelection = (event, selections, setter) => {
-    let newSelections = new Set([...selections]);
-    if (event.target.checked) {
-      newSelections.add(event.target.name);
-    } else {
-      newSelections.delete(event.target.name);
+  const getCheckboxHandler = (selections, setter) => {
+    return (event) => {
+      let newSelections = new Set([...selections]);
+      if (event.target.checked) {
+        newSelections.add(event.target.name);
+      } else {
+        newSelections.delete(event.target.name);
+      }
+      setter(newSelections);
     }
-    setter(newSelections);
-  };
-  const handlePriorityCheck = (event) =>
-    handleCheckboxSelection(event, selectedPriorities, setSelectedPriorities);
-  const handleSeverityCheck = (event) =>
-    handleCheckboxSelection(event, selectedSeverities, setSelectedSeverities);
-  const handleCategoryCheck = (event) =>
-  handleCheckboxSelection(event, selectedCategories, setSelectedCategories);
+  }
+
   // Dropdown selection handlers
-  const handleDropdownSelection = (event, setter) => {
-    // this will have to eventually take into account options
-    setter(event.target.value);
-  };
-  const handleEAIDomainChange = (event) => {
-    handleDropdownSelection(event, setEAIDomain);
-  };
-  const handleBusinessDomainChange = (event) => {
-    handleDropdownSelection(event, setBusinessDomain);
-  };
-  const handleBusinessSubDomainChange = (event) => {
-    handleDropdownSelection(event, setBusinessSubDomain);
-  };
-  const handleApplicationChange = (event) => {
-    handleDropdownSelection(event, setApplication);
-  };
-  const handleProcessServiceChange = (event) => {
-    handleDropdownSelection(event, setProcess_service);
-  };
+  const getDropdownHandler = (setter) => {
+    return (event) => setter(event.target.value);
+  }
+
+  // Full form error checking
+  const hasError = () => {
+    if (selectedCategories.size < 1) {
+      return true;
+    }
+    if (selectedPriorities.size < 1) {
+      return true;
+    }
+    if (selectedSeverities.size < 1) {
+      return true;
+    }
+    // will need to add error checking for datetime
+    return false;
+  }
 
   return (
     <div>
@@ -115,53 +111,53 @@ const LogEventsFilters = ({ tableDataSetter }) => {
           label={"Priorities"}
           options={allPriorities}
           selectedOptions={selectedPriorities}
-          handleSelection={handlePriorityCheck}
+          handleSelection={getCheckboxHandler(selectedPriorities, setSelectedPriorities)}
         ></CheckboxGroup>
         <CheckboxGroup
           label={"Severities"}
           options={allSeverities}
           selectedOptions={selectedSeverities}
-          handleSelection={handleSeverityCheck}
+          handleSelection={getCheckboxHandler(selectedSeverities, setSelectedSeverities)}
         ></CheckboxGroup>
         <CheckboxGroup
           label={"Categories"}
           options={allCategories}
           selectedOptions={selectedCategories}
-          handleSelection={handleCategoryCheck}
+          handleSelection={getCheckboxHandler(selectedCategories, setSelectedCategories)}
         ></CheckboxGroup>
 
         <div className="dropdown-group">
           <Dropdown
             label={"EAI Domain"}
             value={EAIDomain}
-            handleSelection={handleEAIDomainChange}
+            handleSelection={getDropdownHandler(setEAIDomain)}
             options={dummyDomainOptions}
           ></Dropdown>
 
           <Dropdown
             label={"Business Domain"}
             value={businessDomain}
-            handleSelection={handleBusinessDomainChange}
+            handleSelection={getDropdownHandler(setBusinessDomain)}
             options={dummyDomainOptions}
           ></Dropdown>
 
           <Dropdown
             label={"Business SubDomain"}
             value={businessSubDomain}
-            handleSelection={handleBusinessSubDomainChange}
+            handleSelection={getDropdownHandler(setBusinessSubDomain)}
             options={dummyDomainOptions}
           ></Dropdown>
 
           <Dropdown
             label={"Application"}
             value={application}
-            handleSelection={handleApplicationChange}
+            handleSelection={getDropdownHandler(setApplication)}
             options={dummyApplicationOptions}
           ></Dropdown>
           <Dropdown
             label={"Process/Service"}
             value={process_service}
-            handleSelection={handleProcessServiceChange}
+            handleSelection={getDropdownHandler(setProcess_service)}
             options={dummyProcessOptions}
           ></Dropdown>
         </div>
@@ -194,7 +190,7 @@ const LogEventsFilters = ({ tableDataSetter }) => {
         </FormControl>
 
         <FormControl>
-          <Button variant="contained" type="submit">
+          <Button disabled={hasError()} variant="contained" type="submit">
             Apply
           </Button>
         </FormControl>
