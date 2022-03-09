@@ -81,6 +81,11 @@ const LogEventsFilters = ({ tableDataSetter }) => {
         return (event) => setter(event.target.value);
     }
 
+    // Datetime input handlers
+    const getDatetimeHandler = (setter) => {
+        return (event) => setter(event.target.value);
+    }
+
     // Full form error checking
     const hasError = () => {
         if (selectedCategories.size < 1) {
@@ -162,8 +167,8 @@ const LogEventsFilters = ({ tableDataSetter }) => {
                                 Start Time
                             </InputLabel>
                             <OutlinedInput
-                                defaultValue={getCurrentDateTimeString()}
-                                // value={startTime}
+                                value={startTime}
+                                onChange={getDatetimeHandler(setStartTime)}
                                 label="Start Time"
                                 type="datetime-local"
                                 id="starttime"
@@ -173,7 +178,8 @@ const LogEventsFilters = ({ tableDataSetter }) => {
                         <FormControl>
                             <InputLabel htmlFor="endtime">End Time</InputLabel>
                             <OutlinedInput
-                                defaultValue={getCurrentDateTimeString()}
+                                value={endTime}
+                                onChange={getDatetimeHandler(setEndTime)}
                                 label="End Time"
                                 type="datetime-local"
                                 id="endtime"
