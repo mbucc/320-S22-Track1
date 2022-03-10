@@ -1,11 +1,28 @@
+//import logo from './logo.svg';
+import React from 'react'
+import BusinessTree from './components/BusinessTree'
 import './App.css';
 
-function App() {
+
+
+const App = () => {
+
   return (
-    <div className="App">
-      <p>HOW DO I GET THINGS TO SHOW UP!!!!!!! {'>'}:(</p>
+    <div className="container">
+      <BusinessTree/>
     </div>
-  );
+    
+
+  )
 }
 
+
+/*class App extends React.Component {
+    render() {
+        return (
+        <Header />
+        //<h1>Hi</h1>
+      )
+    }
+}*/
 export default App;
