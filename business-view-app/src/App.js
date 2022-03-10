@@ -3,9 +3,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        Business Process view under construction
-      </header>
+      <p>HOW DO I GET THINGS TO SHOW UP!!!!!!! {'>'}:(</p>
     </div>
   );
 }
