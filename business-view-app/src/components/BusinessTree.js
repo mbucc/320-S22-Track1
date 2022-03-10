@@ -1,5 +1,8 @@
 //this component is for the tree view where customer will be able to expand/contract a tree
 ///<!--<img src={"./shrink1.png"} />-->
+
+//tHIS IS FOR DEMO. this needs to be implemented differently.
+
 import './BusinessTree.css'
 
 const BusinessTree = () => {
