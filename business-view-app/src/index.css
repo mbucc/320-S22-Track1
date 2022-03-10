@@ -141,16 +141,3 @@ footer {
   margin-top: 30px;
   text-align: center;
 }
-
-.rectangle {
-  display: inline-block;
-  max-width: 900px;
-  margin: 60px auto;
-  margin-left: 30px;
-  overflow: auto;
-  min-height: 100px;
-  border: 2px solid black;
-  background: #EAEDED;
-  padding: 0px;
-  border-radius: 2px;
-}
