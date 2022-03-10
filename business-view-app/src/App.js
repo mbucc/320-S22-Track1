@@ -25,4 +25,5 @@ const App = () => {
       )
     }
 }*/
+//export to index.js
 export default App;
