@@ -21,6 +21,7 @@ ReactDOM.render(newElement, document.getElementById("app"));*/
 
 ReactDOM.render(element, document.getElementById("root"));*/
 
+//The action happens 
 ReactDOM.render(
     <React.StrictMode>
         <App />

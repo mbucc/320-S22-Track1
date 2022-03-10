@@ -4,7 +4,8 @@
 const BusinessTree = () => {
 	return (
 
-
+		/// Everything inside className=rectangle is inside the rectangle
+		/// You can find .ractangle in index.css
 		<header>
 			<h1 style = {headingStyle}>Business Processes</h1>
 			<br /><br/><br/><br/><br/>
@@ -58,5 +59,5 @@ const headingStyle = {
 }
 
 
-
+//Export to App.js
 export default BusinessTree
