@@ -9,6 +9,8 @@ const BusinessTree = () => {
 			<h1 style = {headingStyle}>Business Processes</h1>
 			<br /><br/><br/><br/><br/>
 			<p className="rectangle">
+			  <button>&nbsp;Expand All&nbsp;</button>&nbsp;<button>&nbsp;Contract All&nbsp;</button>
+			  <br/>
 			  &nbsp;&nbsp;&nbsp;
 			  <button>&nbsp;-&nbsp;</button>
 			  EAI Domain-1
