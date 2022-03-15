@@ -7,10 +7,13 @@ const columns = [
         headerName: 'Severity', 
         width: 170, 
         valueFormatter: (params) => {
-            // Info >= 10 and < 30, Warning >= 30 and < 50, Error >= 50
+            // Info < 20, Success >= 20 and < 30, Warning >= 30 and < 50, Error >= 50
             const val = params.value;
-            if (val < 30) {
+            if (val < 20) {
                 return "Info";
+            }
+            if (val < 30) {
+                return "Success";
             }
             if (val < 50) {
                 return "Warning";
