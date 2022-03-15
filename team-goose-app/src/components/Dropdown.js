@@ -8,7 +8,7 @@ const Dropdown = ({ label, value, options, handleSelection }) => {
       <Select label={label} value={value} onChange={handleSelection}>
         <MenuItem value={"All"}>All</MenuItem>
         {options.map((option) => (
-          <MenuItem value={option}>{option}</MenuItem>
+          <MenuItem key={option+"_id"} value={option}>{option}</MenuItem>
         ))}
       </Select>
     </FormControl>
