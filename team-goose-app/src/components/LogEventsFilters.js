@@ -22,9 +22,9 @@ const LogEventsFilters = ({ tableDataSetter }) => {
     // Component States
     // Checkbox group states
     const allPriorities = ["High", "Medium", "Low"];
-    const prioritiesMapping = ["70", "50", "10"];
+    
     const [selectedPriorities, setSelectedPriorities] = React.useState(new Set(allPriorities));
-    const allSeverities = ["Errors", "Warnings", "Info", "Success"];
+    const allSeverities = ["Errors", "Warnings", "Success", "Info"];
     const [selectedSeverities, setSelectedSeverities] = React.useState(new Set(allSeverities));
     const allCategories = ["Status", "Start", "Stop", "Security", "Heartbeat"];
     const [selectedCategories, setSelectedCategories] = React.useState(new Set(allCategories));
@@ -47,18 +47,17 @@ const LogEventsFilters = ({ tableDataSetter }) => {
     const handleApplyFilters = (e) => {
         e.preventDefault(); // don't actually submit the form
         console.log("Apply filters was pressed");
-        // parse the filters
+        // get the filters by column name
         const filters = {
-            PRIORITY: new Set(
-                [...selectedPriorities].map(
-                    (p) => prioritiesMapping[allPriorities.indexOf(p)]
-                )
-            ),
-            EAI_DOMAIN: new Set(EAIDomain === "All" ? EAIDomains : [EAIDomain]),
-            BUSINESS_DOMAIN: new Set(businessDomain === "All" ? businessDomains : [businessDomain]),
-            BUSINESS_SUBDOMAIN: new Set(businessSubDomain === "All" ? businessSubDomains : [businessSubDomain]),
-            APPLICATION: new Set(application === "All" ? applications : [application]),
-            PROCESS_ID: new Set(process_service === "All" ? processIds : [process_service]),
+            PRIORITY: selectedPriorities,
+            SEVERITY: selectedSeverities,
+            CATEGORY: selectedCategories,
+            EAI_DOMAIN: EAIDomain,
+            BUSINESS_DOMAIN: businessDomain,
+            BUSINESS_SUBDOMAIN: businessSubDomain,
+            APPLICATION: application,
+            PROCESS_ID: process_service,
+            // CREATION_TIME: [startTime, endTime]
         };
 
         // Request table data according to filters (This is where we would do a axios POST)
