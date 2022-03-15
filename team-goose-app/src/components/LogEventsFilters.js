@@ -22,12 +22,12 @@ const LogEventsFilters = ({ tableDataSetter }) => {
     // Component States
     // Checkbox group states
     const allPriorities = ["High", "Medium", "Low"];
-    
     const [selectedPriorities, setSelectedPriorities] = React.useState(new Set(allPriorities));
     const allSeverities = ["Errors", "Warnings", "Success", "Info"];
     const [selectedSeverities, setSelectedSeverities] = React.useState(new Set(allSeverities));
     const allCategories = ["Status", "Start", "Stop", "Security", "Heartbeat"];
     const [selectedCategories, setSelectedCategories] = React.useState(new Set(allCategories));
+
     // Dropdown states
     const EAIDomains = getColumnValues("EAI_DOMAIN");
     const [EAIDomain, setEAIDomain] = React.useState("All");
@@ -105,71 +105,76 @@ const LogEventsFilters = ({ tableDataSetter }) => {
         return false;
     }
 
+    // Organize state into lists of props for sub components
+
+    // Checkboxes
+    const makeCheckboxGroupProps = (label, options, selected, setter) => {
+        return {
+            label: label,
+            options: options,
+            selected: selected,
+            handler: getCheckboxHandler(selected, setter),
+        }
+    }
+    const checkBoxGroupProps = [
+        makeCheckboxGroupProps("Priorities", allPriorities, selectedPriorities, setSelectedPriorities),
+        makeCheckboxGroupProps("Severities", allSeverities, selectedSeverities, setSelectedSeverities),
+        makeCheckboxGroupProps("Categories", allCategories, selectedCategories, setSelectedCategories),
+    ];
+    // Dropdowns
+    const makeDropdownProps = (label, options, value, setter) => {
+        return {
+            label: label,
+            options: options,
+            value: value,
+            handler: getDropdownHandler(setter),
+        }
+    }
+    const dropdownProps = [
+        makeDropdownProps("EAI Domain", EAIDomains, EAIDomain, setEAIDomain),
+        makeDropdownProps("Business Domain", businessDomains, businessDomain, setBusinessDomain),
+        makeDropdownProps("Business SubDomain", businessSubDomains, businessSubDomain, setBusinessSubDomain),
+        makeDropdownProps("Application", applications, application, setApplication),
+        makeDropdownProps("Process/Service", processIds, process_service, setProcess_service),
+    ]
+
     return (
         <div>
             <form className="log-events-filters" onSubmit={handleApplyFilters}>
-                <CheckboxGroup
-                    label={"Priorities"}
-                    options={allPriorities}
-                    selectedOptions={selectedPriorities}
-                    handleSelection={getCheckboxHandler(selectedPriorities, setSelectedPriorities)}
-                />
-                <CheckboxGroup
-                    label={"Severities"}
-                    options={allSeverities}
-                    selectedOptions={selectedSeverities}
-                    handleSelection={getCheckboxHandler(selectedSeverities, setSelectedSeverities)}
-                />
-                <CheckboxGroup
-                    label={"Categories"}
-                    options={allCategories}
-                    selectedOptions={selectedCategories}
-                    handleSelection={getCheckboxHandler(selectedCategories, setSelectedCategories)}
-                />
+                {
+                    checkBoxGroupProps.map(cbprops => {
+                        return (
+                            <CheckboxGroup
+                                key={cbprops.label}
+                                label={cbprops.label}
+                                options={cbprops.options}
+                                selectedOptions={cbprops.selected}
+                                handleSelection={cbprops.handler}
+                            />
+                        );
+                    })
+                }
 
                 <div className="dropdown-group">
-                    <Dropdown
-                        label={"EAI Domain"}
-                        value={EAIDomain}
-                        handleSelection={getDropdownHandler(setEAIDomain)}
-                        options={EAIDomains}
-                    />
-
-                    <Dropdown
-                        label={"Business Domain"}
-                        value={businessDomain}
-                        handleSelection={getDropdownHandler(setBusinessDomain)}
-                        options={businessDomains}
-                    />
-
-                    <Dropdown
-                        label={"Business SubDomain"}
-                        value={businessSubDomain}
-                        handleSelection={getDropdownHandler(setBusinessSubDomain)}
-                        options={businessSubDomains}
-                    />
-
-                    <Dropdown
-                        label={"Application"}
-                        value={application}
-                        handleSelection={getDropdownHandler(setApplication)}
-                        options={applications}
-                    />
-
-                    <Dropdown
-                        label={"Process/Service"}
-                        value={process_service}
-                        handleSelection={getDropdownHandler(setProcess_service)}
-                        options={processIds}
-                    />
+                    {
+                        dropdownProps.map(dprops => {
+                            return (
+                                <Dropdown
+                                    key={dprops.label}
+                                    label={dprops.label}
+                                    options={dprops.options}
+                                    value={dprops.value}
+                                    handleSelection={dprops.handler}
+                                />
+                            );
+                        })
+                    }
                 </div>
 
                 <FormControl margin="normal">
                     <Stack spacing={2}>
                         <FormControl>
-                            <InputLabel htmlFor="starttime" shrink>
-                                Start Time
-                            </InputLabel>
+                            <InputLabel htmlFor="starttime" shrink>Start Time</InputLabel>
                             <OutlinedInput
                                 value={startTime}
                                 onChange={getDatetimeHandler(setStartTime)}
@@ -180,7 +185,7 @@ const LogEventsFilters = ({ tableDataSetter }) => {
                         </FormControl>
 
                         <FormControl>
-                            <InputLabel htmlFor="endtime">End Time</InputLabel>
+                            <InputLabel htmlFor="endtime" shrink>End Time</InputLabel>
                             <OutlinedInput
                                 value={endTime}
                                 onChange={getDatetimeHandler(setEndTime)}
