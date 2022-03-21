@@ -1,15 +1,16 @@
-import {
-    Button,
-    FormControl,
-    InputLabel,
-    OutlinedInput,
-    Stack,
-} from "@mui/material";
+import { Button, FormControl } from "@mui/material";
 import React from "react";
 import { getColumnValues, getTableData } from "../fakeDatabase";
 import CheckboxGroup from "./CheckboxGroup";
 import Dropdown from "./Dropdown";
+import TimeRange from "./TimeRange";
 
+/**
+ * Returns the current datetime as a valid string for datetime-local inputs
+ * 
+ * @returns {string} 
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Date_and_time_formats#local_date_and_time_strings}
+ */
 const getCurrentDateTimeString = () => {
     let now = new Date();
     let offset = now.getTimezoneOffset() * 60000;
@@ -18,6 +19,14 @@ const getCurrentDateTimeString = () => {
     return formattedDate;
 };
 
+/**
+ * The filters for the Log Events Table.
+ * 
+ * @param {Object} props
+ * @param {(event: Event) => any} props.tableDataSetter - Setter for table that these filters control
+ * 
+ * @returns {React.ElementType}
+ */
 const LogEventsFilters = ({ tableDataSetter }) => {
     // Component States
     // Checkbox group states
@@ -39,7 +48,7 @@ const LogEventsFilters = ({ tableDataSetter }) => {
     const [application, setApplication] = React.useState("All");
     const processIds = getColumnValues("PROCESS_ID");
     const [process_service, setProcess_service] = React.useState("All");
-    // Datetime states
+    // Datetime states (Dates stored are in local time, not UTC)
     const [startTime, setStartTime] = React.useState(getCurrentDateTimeString());
     const [endTime, setEndTime] = React.useState(getCurrentDateTimeString());
 
@@ -92,6 +101,7 @@ const LogEventsFilters = ({ tableDataSetter }) => {
 
     // Full form error checking
     const hasError = () => {
+        // Checkboxes
         if (selectedCategories.size < 1) {
             return true;
         }
@@ -101,7 +111,13 @@ const LogEventsFilters = ({ tableDataSetter }) => {
         if (selectedSeverities.size < 1) {
             return true;
         }
-        // will need to add error checking for datetime
+        // Datetime
+        if (startTime === "" || endTime === "") {
+            return true;
+        }
+        if ((new Date(endTime) < (new Date(startTime)))) {
+            return true;
+        }
         return false;
     }
 
@@ -171,31 +187,12 @@ const LogEventsFilters = ({ tableDataSetter }) => {
                     }
                 </div>
 
-                <FormControl margin="normal">
-                    <Stack spacing={2}>
-                        <FormControl>
-                            <InputLabel htmlFor="starttime" shrink>Start Time</InputLabel>
-                            <OutlinedInput
-                                value={startTime}
-                                onChange={getDatetimeHandler(setStartTime)}
-                                label="Start Time"
-                                type="datetime-local"
-                                id="starttime"
-                            />
-                        </FormControl>
-
-                        <FormControl>
-                            <InputLabel htmlFor="endtime" shrink>End Time</InputLabel>
-                            <OutlinedInput
-                                value={endTime}
-                                onChange={getDatetimeHandler(setEndTime)}
-                                label="End Time"
-                                type="datetime-local"
-                                id="endtime"
-                            />
-                        </FormControl>
-                    </Stack>
-                </FormControl>
+                <TimeRange 
+                    startTime={startTime} 
+                    startChangeHandler={getDatetimeHandler(setStartTime)}
+                    endTime={endTime}
+                    endChangeHandler={getDatetimeHandler(setEndTime)}
+                />
 
                 <FormControl>
                     <Button disabled={hasError()} variant="contained" type="submit">
