@@ -1,6 +1,8 @@
 import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
+// Defines the columns for mui DataGrid
+// See https://mui.com/components/data-grid/columns/ for possible keys and more details
 const columns = [
     { 
         field: 'SEVERITY', 
@@ -44,6 +46,15 @@ const columns = [
     { field: 'ACTIVITY', headerName: 'Activity', width: 230 },
 ];
 
+/**
+ * A table that displays Log Events
+ * 
+ * @param {Object} props
+ * @param {{ GLOBAL_INSTANCE_ID: Number; [key: string]: any;}[]} props.data 
+ * - A list of maps from strings to any, each map represents one row
+ * 
+ * @returns {React.ElementType}
+ */
 const LogEventsTable = ({data}) => {
 
     return (
