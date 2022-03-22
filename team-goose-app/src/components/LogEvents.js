@@ -4,6 +4,12 @@ import LogEventsTable from './LogEventsTable';
 import { getTableData } from '../fakeDatabase';
 import './LogEvents.css'
 
+/**
+ * The body of the Log Events page, includes filters and table for displaying Log Events.
+ * 
+ * 
+ * @returns {React.ElementType}
+ */
 const LogEvents = () => {
     const [tableData, setTableData] = React.useState([]);
 
