@@ -42,7 +42,8 @@ const columns = [
     { field: 'CATEGORY_NAME', headerName: 'Category', width: 170 },
     { field: 'CREATION_TIME', headerName: 'Create Date', width: 230 },
     { field: 'APPLICATION', headerName: 'Application', width: 230 },
-    { field: 'PROCESS_ID', headerName: 'Process/Service', width: 230 },
+    // EVENT_CONTEXT is the key for PROCESS, COMPONENT is the key for SERVICE
+    { field: 'EVENT_CONTEXT', headerName: 'Process/Service', width: 230 },
     { field: 'ACTIVITY', headerName: 'Activity', width: 230 },
 ];
 

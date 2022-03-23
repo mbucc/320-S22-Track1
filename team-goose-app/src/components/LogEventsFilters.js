@@ -46,7 +46,7 @@ const LogEventsFilters = ({ tableDataSetter }) => {
     const [businessSubDomain, setBusinessSubDomain] = React.useState("All");
     const applications = getColumnValues("APPLICATION");
     const [application, setApplication] = React.useState("All");
-    const processIds = getColumnValues("PROCESS_ID");
+    const processIds = getColumnValues("EVENT_CONTEXT");
     const [process_service, setProcess_service] = React.useState("All");
     // Datetime states (Dates stored are in local time, not UTC)
     const [startTime, setStartTime] = React.useState(getCurrentDateTimeString());
@@ -60,12 +60,12 @@ const LogEventsFilters = ({ tableDataSetter }) => {
         const filters = {
             PRIORITY: selectedPriorities,
             SEVERITY: selectedSeverities,
-            CATEGORY: selectedCategories,
+            CATEGORY_NAME: selectedCategories,
             EAI_DOMAIN: EAIDomain,
             BUSINESS_DOMAIN: businessDomain,
             BUSINESS_SUBDOMAIN: businessSubDomain,
             APPLICATION: application,
-            PROCESS_ID: process_service,
+            EVENT_CONTEXT: process_service,
             // CREATION_TIME: [startTime, endTime]
         };
 

@@ -1,7 +1,7 @@
 // use the dummy data which is in the json
 import data from './sample_log_details.json';
 
-const dropdownFilters = ["EAI_DOMAIN", "BUSINESS_DOMAIN", "BUSINESS_SUBDOMAIN", "APPLICATION", "PROCESS_ID"];
+const dropdownFilters = ["EAI_DOMAIN", "BUSINESS_DOMAIN", "BUSINESS_SUBDOMAIN", "APPLICATION", "EVENT_CONTEXT"];
 const prioritiesMapping = {"High": "70", "Medium": "50", "Low": "10"};
 
 // Takes the raw values of filters (which is just the values of the filters from the UI)
@@ -35,7 +35,7 @@ function parseFilters(filters) {
                     return rawFilter.has("Error");
                 }
             }
-        } else if (columnName === "CATEGORY") {
+        } else if (columnName === "CATEGORY_NAME") {
             // rawFilter should be of type Set("Status"|"Start"|"Stop"|"Security"|"Heartbeat")
             resultFilters[columnName] = (x) => {
                 return rawFilter.has(x);
