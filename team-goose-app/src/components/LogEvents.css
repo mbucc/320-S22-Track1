@@ -2,11 +2,7 @@
   display: grid;
   grid-template-rows: 7fr 13fr;
   padding: 10px;
-  height: 100%;
-}
-
-html, body {
-  height: 100%;
+  height: calc(100% - 20px);
 }
 
 .log-events-filters {
@@ -24,4 +20,8 @@ html, body {
 .log-events-table-container {
   height: 100%;
   width: 100%;
+}
+
+.timerange {
+  min-width: 268px !important; 
 }

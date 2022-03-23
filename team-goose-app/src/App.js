@@ -3,7 +3,7 @@ import LogEvents from './components/LogEvents';
 
 function App() {
   return (
-    <div>
+    <div className='App'>
       <LogEvents></LogEvents>
     </div>
   );
