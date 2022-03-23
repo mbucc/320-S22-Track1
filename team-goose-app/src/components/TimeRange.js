@@ -38,7 +38,7 @@ const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, d
     }
 
     return (
-        <FormControl margin="normal" id="timerangeformcontrol">
+        <FormControl margin="normal" id="timerangeformcontrol" className="timerange">
             <Stack id="timerangestack" spacing={2} direction={direction}>
                 <FormControl id="startformcontrol" error={isInputError(startTime) || isRangeError()}>
                     <InputLabel htmlFor="startimeinput" shrink>Start Time</InputLabel>

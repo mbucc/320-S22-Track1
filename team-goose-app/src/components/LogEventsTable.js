@@ -3,11 +3,18 @@ import { DataGrid } from '@mui/x-data-grid';
 
 // Defines the columns for mui DataGrid
 // See https://mui.com/components/data-grid/columns/ for possible keys and more details
+// Used keys:
+/**
+ * field: string - Defines the key from which to pull data for this column
+ * headerName: string - The string to display in the header for this column
+ * flex: number - The flex value for this column's width (search css flexbox for more on flex)
+ * valueFormatter: (params) => any - transforms the stored value in data into a new value before any operations
+ */
 const columns = [
     { 
         field: 'SEVERITY', 
         headerName: 'Severity', 
-        width: 170, 
+        flex: 2,
         valueFormatter: (params) => {
             // Info < 20, Success >= 20 and < 30, Warning >= 30 and < 50, Error >= 50
             const val = params.value;
@@ -26,7 +33,7 @@ const columns = [
     { 
         field: 'PRIORITY', 
         headerName: 'Priority', 
-        width: 170,
+        flex: 2,
         valueFormatter: (params) => {
             //  Low = 10, Medium = 50, High = 70
             const val = params.value;
@@ -39,12 +46,12 @@ const columns = [
             return "High"
         },
     },
-    { field: 'CATEGORY_NAME', headerName: 'Category', width: 170 },
-    { field: 'CREATION_TIME', headerName: 'Create Date', width: 230 },
-    { field: 'APPLICATION', headerName: 'Application', width: 230 },
+    { field: 'CATEGORY_NAME', headerName: 'Category', flex: 2 },
+    { field: 'CREATION_TIME', headerName: 'Create Date', flex: 6 },
+    { field: 'APPLICATION', headerName: 'Application', flex: 4 },
     // EVENT_CONTEXT is the key for PROCESS, COMPONENT is the key for SERVICE
-    { field: 'EVENT_CONTEXT', headerName: 'Process/Service', width: 230 },
-    { field: 'ACTIVITY', headerName: 'Activity', width: 230 },
+    { field: 'EVENT_CONTEXT', headerName: 'Process/Service', flex: 5 },
+    { field: 'ACTIVITY', headerName: 'Activity', flex: 6 },
 ];
 
 /**
