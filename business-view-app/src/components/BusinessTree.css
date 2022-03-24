@@ -1,0 +1,66 @@
+ /* Remove default bullets */
+ .treeBox {
+    display: inline-block;
+  max-width: 900px;
+  margin: 60px auto;
+  margin-left: 30px;
+  overflow: auto;
+  min-height: 100px;
+  border: 2px solid black;
+  background: #EAEDED;
+  padding: 0px;
+  border-radius: 2px;
+ }
+ 
+ ul, #myUL {
+    list-style-type: none;
+  }
+  
+  /* Remove margins and padding from the parent ul */
+  #myUL {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Style the caret/arrow */
+  .caret {
+    cursor: pointer;
+    user-select: none; /* Prevent text selection */
+  }
+  
+  /* Create the caret/arrow with a unicode, and style it */
+  .caret::before {
+    content: "\25B6";
+    color: black;
+    display: inline-block;
+    margin-right: 6px;
+  }
+  
+  /* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+  .caret-down::before {
+    transform: rotate(90deg);
+  }
+  
+  /* Hide the nested list */
+  .nested {
+    display: none;
+  }
+  
+  /* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+  .active {
+    display: block;
+  } 
+  
+  .rectangle {
+    display: inline-block;
+    width: 900px;
+    max-width: 900px;
+    margin: 60px auto;
+    margin-left: 40px;
+    overflow: auto;
+    height: 200px;
+    border: 2px solid black;
+    background: #EAEDED;
+    padding: 0px;
+    border-radius: 2px;
+  }
