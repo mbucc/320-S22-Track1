@@ -1,0 +1,9 @@
+.Home__subscreen {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Home__Charts {
+  margin-top: 15px;
+  text-align: center;
+}

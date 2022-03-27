@@ -3,7 +3,7 @@ import ErrorLogBox from "../ErrorLogBox/ErrorLogBox";
 import "./ErrorLogPane.css";
 
 function ErrorLogPane() {
-  let arr = ["hi", "hi", "hi", "hi", "hi", "hi"];
+  let arr = ["hi", "hi", "hi", "hi"];
   return (
     <div>
       <div className="ErrorLogPane">

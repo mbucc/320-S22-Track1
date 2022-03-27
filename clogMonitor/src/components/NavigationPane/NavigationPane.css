@@ -1,3 +1,11 @@
+.NavigationPane__Display {
+  display: block;
+}
+
+.NavigationPane__No__Display {
+  display: none;
+}
+
 .NavigationPane__heading {
   color: #224957;
   /* display: flex; */
