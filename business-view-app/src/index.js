@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import CheckboxSeverities from './components/CheckboxSeverities'
+import BusinessDomainDropDown from './components/BusinessDomainDropDown'
 import NavTab from './components/NavTab';
 import BusinessTree from './components/BusinessTree';
   // ========================================
@@ -12,11 +13,12 @@ import BusinessTree from './components/BusinessTree';
                  <NavTab />
                  <BusinessTree />
                  <CheckboxSeverities />
+                 <BusinessDomainDropDown/>
               </div>
           );
       }
   }
-  
+
   ReactDOM.render(
     <BusinessView />,
     document.getElementById('root')
