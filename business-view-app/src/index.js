@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import CheckboxSeverities from './components/CheckboxSeverities'
 import NavTab from './components/NavTab';
 import BusinessTree from './components/BusinessTree';
+import ApplyButton from './components/ApplyButton';
+//import BusinessFilters from './components/BusinessFilters';
   // ========================================
 
   class BusinessView extends React.Component {
@@ -11,6 +13,7 @@ import BusinessTree from './components/BusinessTree';
               <div>
                  <NavTab />
                  <BusinessTree />
+                 <ApplyButton />
                  <CheckboxSeverities />
               </div>
           );
