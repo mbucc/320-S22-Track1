@@ -14,6 +14,9 @@ const columns = [
     { 
         field: 'SEVERITY', 
         headerName: 'Severity', 
+        type: 'number',
+        align: 'left',
+        headerAlign: 'left',
         flex: 2,
         valueFormatter: (params) => {
             // Info < 20, Success >= 20 and < 30, Warning >= 30 and < 50, Error >= 50
@@ -33,7 +36,10 @@ const columns = [
     { 
         field: 'PRIORITY', 
         headerName: 'Priority', 
+        type: 'number',
         flex: 2,
+        align: 'left',
+        headerAlign: 'left',
         valueFormatter: (params) => {
             //  Low = 10, Medium = 50, High = 70
             const val = params.value;
@@ -47,7 +53,19 @@ const columns = [
         },
     },
     { field: 'CATEGORY_NAME', headerName: 'Category', flex: 2 },
-    { field: 'CREATION_TIME', headerName: 'Create Date', flex: 6 },
+    { 
+        field: 'CREATION_TIME', 
+        type: 'dateTime',
+        headerName: 'Create Date', 
+        flex: 5,
+        valueFormatter: (params) => {
+            const val = params.value;
+            const now = new Date();
+            const offset = now.getTimezoneOffset() * 60000;
+            let adjustedDate = new Date(val.getTime() - offset);
+            return adjustedDate.toLocaleString();
+        },
+    },
     { field: 'APPLICATION', headerName: 'Application', flex: 4 },
     // EVENT_CONTEXT is the key for PROCESS, COMPONENT is the key for SERVICE
     { field: 'EVENT_CONTEXT', headerName: 'Process/Service', flex: 5 },
