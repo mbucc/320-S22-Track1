@@ -2,7 +2,7 @@ import React from 'react';
 import { FormLabel, FormControl, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 
 export default function CheckboxSeverities() {
-  const sevs = ["Errors", "Warnings", "Succes", "Info"];
+  const sevs = ["Errors", "Warnings", "Success", "Info"];
 
   return (
     <FormControl>
