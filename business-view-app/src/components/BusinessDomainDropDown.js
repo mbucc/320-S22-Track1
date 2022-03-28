@@ -16,10 +16,10 @@ export default function BasicSelect() {
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">EAI Domain</InputLabel>
+        <InputLabel id="EAI_Domain_label">EAI Domain</InputLabel>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          labelId="EAI_Domain_label"
+          id="simple-select"
           value={EAI_Domain}
           label="EAI Domain"
           onChange={handleChange}
