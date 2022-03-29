@@ -1,0 +1,62 @@
+.featured{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.featuredItem{
+    flex:1;
+    margin: 1em;
+    padding: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    -webkit-box-shadow: 0px 0px 12px -1px #000000; 
+    box-shadow: 0px 0px 12px -1px #000000;
+}
+
+.featuredTitle{
+    font-size : 20px;
+}
+
+.featuredContainer{
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+.todaysnumber{
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.compareYesterday{
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.featuredIcon{
+    font-size: 14px;
+    margin-left: 5px;
+    color: green;
+
+}
+.featuredIcon.negative{
+    color: red;
+}
+
+.featuredSub{
+    font-size: 14px;
+    color:gray;
+}
+
+.titleIcon{
+    font-size: 14px;
+    margin-left: 5px;
+    color: gray;
+}
+.titleIcon.warning{
+    color: yellowgreen;
+}
+.titleIcon.error{
+    color: red;
+}
