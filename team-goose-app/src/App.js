@@ -9,6 +9,4 @@ function App() {
   );
 }
 
-// TEST FOR GITHUB 
-
 export default App;
