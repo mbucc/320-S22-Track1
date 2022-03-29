@@ -1,6 +1,6 @@
 import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-
+import { Button } from "@mui/material";
 // Defines the columns for mui DataGrid
 // See https://mui.com/components/data-grid/columns/ for possible keys and more details
 // Used keys:
@@ -70,6 +70,20 @@ const columns = [
     // EVENT_CONTEXT is the key for PROCESS, COMPONENT is the key for SERVICE
     { field: 'EVENT_CONTEXT', headerName: 'Process/Service', flex: 5 },
     { field: 'ACTIVITY', headerName: 'Activity', flex: 6 },
+    {
+        headerName: 'Log Event',  
+        renderCell: (cellValues) => {
+            return (
+                <Button 
+                    onClick={(event)=>{
+
+                    }}
+                >
+                    Detail
+                </Button>
+            )
+        }
+    }  
 ];
 
 /**
