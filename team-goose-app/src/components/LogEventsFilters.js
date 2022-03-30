@@ -195,7 +195,7 @@ const LogEventsFilters = ({ tableDataSetter }) => {
                 />
 
                 <FormControl>
-                    <Button disabled={hasError()} variant="contained" type="submit">
+                    <Button className="apply-filters-btn" disabled={hasError()} variant="contained" type="submit">
                         Apply
                     </Button>
                 </FormControl>
