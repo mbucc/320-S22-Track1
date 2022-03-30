@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Background from './components/Background';
 import CheckboxSeverities from './components/CheckboxSeverities'
 import BusinessDomainDropDown from './components/BusinessDomainDropDown'
 import DomainDropDownCheck from './components/DomainDropDownCheck'
@@ -17,6 +18,7 @@ import MUIStartTime from './components/MUIStartTime.js';
       render() {
           return (
               <div>
+                <Background />
                 <NavTab />
                 <Grid container spacing={2}>
                   <Grid item xs={2}>
@@ -32,7 +34,6 @@ import MUIStartTime from './components/MUIStartTime.js';
                 </Grid>
 
                 <BusinessTree />
-                <ApplyButton />
                 <CheckboxSeverities />
                  <CheckboxSeverities />
                  <BusinessDomainDropDown/>
