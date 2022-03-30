@@ -47,7 +47,7 @@ const MUIStartTime = ({ startTime, startChangeHandler, endTime, endChangeHandler
                 <FormControl id="muistartcontrol" error={isInputError(startTime) || isRangeError()}>
                     <InputLabel htmlFor="muitimestartinput" shrink>Start Time</InputLabel>
                     <OutlinedInput
-                        value={startTimer}
+                        value={startTime}
                         onChange={startChangeHandler}
                         label="Start Time"
                         type="datetime-local"
