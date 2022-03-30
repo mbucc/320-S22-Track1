@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Background from './components/Background';
 import CheckboxSeverities from './components/CheckboxSeverities'
 import BusinessDomainDropDown from './components/BusinessDomainDropDown'
 import DomainDropDownCheck from './components/DomainDropDownCheck'
@@ -15,11 +16,7 @@ import { Grid } from '@mui/material';
 //import MomentUtils from '@date-io/moment';
 import DateFnsUtils from '@date-io/date-fns';
 //import LuxonUtils from '@date-io/luxon';
-
   // ========================================
-
-
-
   /*<StartTime/>
                  <StartPicker/>
                  <StartTimePicker/>
@@ -31,6 +28,7 @@ import DateFnsUtils from '@date-io/date-fns';
       render() {
           return (
               <div>
+                <Background />
                 <NavTab />
                 <Grid container spacing={2}>
                   <Grid item xs={4}>
@@ -45,8 +43,8 @@ import DateFnsUtils from '@date-io/date-fns';
                 </Grid>
                 <RefreshButton />
                 <BusinessTree />
-                <ApplyButton />
                 <CheckboxSeverities />
+                <ApplyButton />
               </div>
           );
       }
