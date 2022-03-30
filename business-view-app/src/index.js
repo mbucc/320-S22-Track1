@@ -32,8 +32,6 @@ import MUIStartTime from './components/MUIStartTime.js';
                 <BusinessTree />
                 <ApplyButton />
                 <CheckboxSeverities />
-                 <NavTab/>
-                 <BusinessTree />
                  <CheckboxSeverities />
                  <BusinessDomainDropDown/>
               </div>
