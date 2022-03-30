@@ -4,6 +4,7 @@ import NameAndLogout from "../components/NameAndLogout/NameAndLogout";
 import Logo from "../components/Logo/Logo";
 import "./DashboardScreen.css";
 import Home from "../components/Home/Home";
+import LogEvents from "../components/LogEvents";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -44,8 +45,9 @@ function DashboardScreen() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home />} />
-              {/* <Route path="business-processes" element={{}} />
-            <Route path="log-events" element={{}} /> */}
+              {/* <Route path="business-processes" element={{}} /> */}
+              <Route path="/log-events" element={<LogEvents />} />
+              {/* <Route path="/log-details?id=" element={<LogDetail data={apicall(id)}/>} /> */}
             </Routes>
           </BrowserRouter>
         </div>
