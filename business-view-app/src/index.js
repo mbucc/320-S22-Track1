@@ -10,6 +10,7 @@ import RefreshButton from './components/RefreshButton';
 import CustomDateTimePicker from './components/MUIStartTime';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { Grid } from '@mui/material';
+//import isoLogo from './components/isoLogo.PNG';
 
 // pick a date util library
 //import MomentUtils from '@date-io/moment';
@@ -33,7 +34,7 @@ import DateFnsUtils from '@date-io/date-fns';
               <div>
                 <NavTab />
                 <Grid container spacing={2}>
-                  <Grid item xs={4}>
+                  <Grid item xs={2}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <CustomDateTimePicker/>
                     </MuiPickersUtilsProvider>
@@ -42,12 +43,16 @@ import DateFnsUtils from '@date-io/date-fns';
                     <BusinessDomainDropDown/>
                     <DomainDropDownCheck/>
                   </Grid>
+                  <Grid item xs={4}>
+                    <RefreshButton />
+                  </Grid>
                 </Grid>
-                <RefreshButton />
+
                 <BusinessTree />
                 <ApplyButton />
                 <CheckboxSeverities />
               </div>
+              //put additional components after the tag for checkbox severities, I'll format them later - @hiimlo
           );
       }
   }
@@ -57,7 +62,7 @@ import DateFnsUtils from '@date-io/date-fns';
     document.getElementById('root')
   );
   
-/* @hiimlo file
+/* 
 Consider this BusinessView
 removed App.js because it was unnecessary, since we can move what it does to here
 Use the class above to put components in to be rendered
