@@ -5,6 +5,7 @@ import BusinessDomainDropDown from './components/BusinessDomainDropDown'
 import DomainDropDownCheck from './components/DomainDropDownCheck'
 import NavTab from './components/NavTab';
 import BusinessTree from './components/BusinessTree';
+<<<<<<< Updated upstream
 import ApplyButton from './components/ApplyButton';
 import CustomDateTimePicker from './components/MUIStartTime';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -12,24 +13,21 @@ import { Grid } from '@mui/material';
 
 // pick a date util library
 //import MomentUtils from '@date-io/moment';
+=======
+import TimeRange from './components/MUIStartTime.js';
+import CustomDateTimePicker from './components/MUIStartTime';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+>>>>>>> Stashed changes
 import DateFnsUtils from '@date-io/date-fns';
-//import LuxonUtils from '@date-io/luxon';
 
   // ========================================
 
 
-
-  /*<StartTime/>
-                 <StartPicker/>
-                 <StartTimePicker/>
-                 <EndTime/>
-                 <EndPicker/>
-                 <EndTimePicker/>
-                 <RefreshTime/>*/
   class BusinessView extends React.Component {
       render() {
           return (
               <div>
+<<<<<<< Updated upstream
                 <NavTab />
                 <Grid container spacing={2}>
                   <Grid item xs={4}>
@@ -45,6 +43,13 @@ import DateFnsUtils from '@date-io/date-fns';
                 <BusinessTree />
                 <ApplyButton />
                 <CheckboxSeverities />
+=======
+                 <NavTab/>
+                 <TimeRange/>
+                 <BusinessTree />
+                 <CheckboxSeverities />
+                 <BusinessDomainDropDown/>
+>>>>>>> Stashed changes
               </div>
           );
       }
