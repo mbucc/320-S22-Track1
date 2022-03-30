@@ -7,37 +7,38 @@ import NavTab from './components/NavTab';
 import BusinessTree from './components/BusinessTree';
 import ApplyButton from './components/ApplyButton';
 import RefreshButton from './components/RefreshButton';
-import CustomDateTimePicker from './components/MUIStartTime';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { Grid } from '@mui/material';
+<<<<<<< HEAD
 //import isoLogo from './components/isoLogo.PNG';
 
 // pick a date util library
 //import MomentUtils from '@date-io/moment';
 import DateFnsUtils from '@date-io/date-fns';
 //import LuxonUtils from '@date-io/luxon';
+=======
+import MUIStartTime from './components/MUIStartTime.js';
+>>>>>>> f9005565bba727481e0e2a57d6dd0f17704717dc
 
   // ========================================
 
 
-
-  /*<StartTime/>
-                 <StartPicker/>
-                 <StartTimePicker/>
-                 <EndTime/>
-                 <EndPicker/>
-                 <EndTimePicker/>
-                 <RefreshTime/>*/
   class BusinessView extends React.Component {
       render() {
           return (
               <div>
                 <NavTab />
+<<<<<<< HEAD
                 <Grid container spacing={2}>
                   <Grid item xs={2}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <CustomDateTimePicker/>
                     </MuiPickersUtilsProvider>
+=======
+                <Grid container spacing={1}>
+                  <Grid item xs={2}>
+                    <MUIStartTime/>
+>>>>>>> f9005565bba727481e0e2a57d6dd0f17704717dc
                   </Grid>
                   <Grid item xs={4}>
                     <BusinessDomainDropDown/>
@@ -51,6 +52,8 @@ import DateFnsUtils from '@date-io/date-fns';
                 <BusinessTree />
                 <ApplyButton />
                 <CheckboxSeverities />
+                 <CheckboxSeverities />
+                 <BusinessDomainDropDown/>
               </div>
               //put additional components after the tag for checkbox severities, I'll format them later - @hiimlo
           );

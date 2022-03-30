@@ -1,48 +1,77 @@
-import * as React from 'react';
-import AlarmIcon from '@mui/icons-material/Alarm';
-import SnoozeIcon from '@mui/icons-material/Snooze';
-import TextField from '@mui/material/TextField';
-import ClockIcon from '@mui/icons-material/AccessTime';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DateTimePicker from '@mui/lab/DateTimePicker';
-import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
-import Stack from '@mui/material/Stack';
+import React from 'react';
+import {FormControl, FormHelperText, InputLabel, OutlinedInput, Stack} from '@mui/material';
 
-export default function CustomDateTimePicker() {
-  const [clearedDate, setClearedDate] = React.useState(null);
-  const [value, setValue] = React.useState(new Date('2019-01-01T18:54'));
+/**
+ * Wrapper on two datetime-local inputs representing a start and end datetime respectively.
+ *
+ * @author Wilson Neira with credit to Kevin Lin (permission was granted from the team)
+ * Will change soon just to see how it works
+ * @param {Object} props
+ * @param {string} props.startTime - The string representing the start Date, format: YYYY-MM-DDTHH:mm:ss
+ * @param {(event: Event) => any} props.startChangeHandler - Handler for start time changes
+ * @param {string} props.endTime - The string representing the end Date, format: YYYY-MM-DDTHH:mm:ss
+ * @param {(event: Event) => any} props.endChangeHandler - Handler for end time changes
+ * @param {"column" | "row"} [props.direction="column"] - Direction to display the inputs
+ * 
+ * @returns {React.ElementType}
+ */
+const MUIStartTime = ({ startTime, startChangeHandler, endTime, endChangeHandler, direction="column" }) => {
+    // Error checking
+    const isRangeError = () => {
+        // Convert times to actual Date objects to compare
+        // Note: we only care about the relative difference, so time zone should not matter
+        const dt_start = new Date(startTime);
+        const dt_end = new Date(endTime);
+        return dt_end < dt_start;
+    }
 
-  return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Stack spacing={3}>
-        
-        <MobileDateTimePicker
-          value={value}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          label="Start Time"
-          onError={console.log}
-          minDate={new Date('2018-01-01T00:00')}
-          inputFormat="yyyy/MM/dd hh:mm a"
-          mask="___/__/__ __:__ _M"
-          renderInput={(params) => <TextField {...params} />}
-        />
-        <MobileDateTimePicker
-          value={value}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          label="End Time"
-          onError={console.log}
-          minDate={new Date('2018-01-01T00:00')}
-          inputFormat="yyyy/MM/dd hh:mm a"
-          mask="___/__/__ __:__ _M"
-          renderInput={(params) => <TextField {...params} />}
-        />
-        
-      </Stack>
-    </LocalizationProvider>
-  );
+    const isInputError = (time) => time === "";
+
+    const getErrorMess = (time) => {
+        if (isInputError(time)) {
+            return "Input is missing a value";
+        } else if (isRangeError()) {
+            return "Start must be before End";
+        } else {
+            return " ";
+        }
+    }
+    
+    /*const startTimer = () => {
+
+    }*/
+
+    return (
+        <FormControl margin="normal" id="muitime" className="muirange">
+            <Stack id="muitimestack" spacing={1} direction={direction}>
+                <FormControl id="muistartcontrol" error={isInputError(startTime) || isRangeError()}>
+                    <InputLabel htmlFor="muitimestartinput" shrink>Start Time</InputLabel>
+                    <OutlinedInput
+                        value={startTime}
+                        onChange={startChangeHandler}
+                        label="Start Time"
+                        type="datetime-local"
+                        id="muitimestartinput"
+                        notched
+                    />
+                    <FormHelperText sx={{marginRight: 0, marginLeft: 0}}>{getErrorMess(startTime)}</FormHelperText>
+                </FormControl>
+
+                <FormControl id="muiendcontrol" error={isInputError(endTime) || isRangeError()}>
+                    <InputLabel htmlFor="muitimeendinput" shrink>End Time</InputLabel>
+                    <OutlinedInput
+                        value={endTime}
+                        onChange={endChangeHandler}
+                        label="End Time"
+                        type="datetime-local"
+                        id="muitimeendinput"
+                        notched
+                    />
+                    <FormHelperText sx={{marginRight: 0, marginLeft: 0}}>{getErrorMess(endTime)}</FormHelperText>
+                </FormControl>
+            </Stack>
+        </FormControl>
+    );
 }
+
+export default MUIStartTime;
