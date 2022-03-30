@@ -5,6 +5,8 @@ import BusinessDomainDropDown from './components/BusinessDomainDropDown'
 import DomainDropDownCheck from './components/DomainDropDownCheck'
 import NavTab from './components/NavTab';
 import BusinessTree from './components/BusinessTree';
+import ApplyButton from './components/ApplyButton';
+//import BusinessFilters from './components/BusinessFilters';
 //import {StartTime, EndTime, StartPicker, EndPicker, StartTimePicker, EndTimePicker, RefreshTime} from './components/StartTime';
 import CustomDateTimePicker from './components/MUIStartTime';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -34,6 +36,8 @@ import DateFnsUtils from '@date-io/date-fns';
                  <CustomDateTimePicker/>
                  </MuiPickersUtilsProvider>
                  <BusinessTree />
+                 <ApplyButton />
+                 <CheckboxSeverities />
                  <BusinessDomainDropDown/>
                  <DomainDropDownCheck/>
                  <CheckboxSeverities />
