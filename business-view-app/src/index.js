@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import CheckboxSeverities from './components/CheckboxSeverities'
 import BusinessDomainDropDown from './components/BusinessDomainDropDown'
+import DomainDropDownCheck from './components/DomainDropDownCheck'
 import NavTab from './components/NavTab';
 import BusinessTree from './components/BusinessTree';
 //import {StartTime, EndTime, StartPicker, EndPicker, StartTimePicker, EndTimePicker, RefreshTime} from './components/StartTime';
@@ -33,8 +34,9 @@ import DateFnsUtils from '@date-io/date-fns';
                  <CustomDateTimePicker/>
                  </MuiPickersUtilsProvider>
                  <BusinessTree />
-                 <CheckboxSeverities />
                  <BusinessDomainDropDown/>
+                 <DomainDropDownCheck/>
+                 <CheckboxSeverities />
               </div>
           );
       }

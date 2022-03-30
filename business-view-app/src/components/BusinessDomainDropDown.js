@@ -15,7 +15,8 @@ export default function BasicSelect() {
 
   return (
     <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
+      <FormControl sx={{ m: 1, width: 250 }}
+    >
         <InputLabel id="EAI_Domain_label">EAI Domain</InputLabel>
         <Select
           labelId="EAI_Domain_label"
