@@ -7,6 +7,7 @@ import NavTab from './components/NavTab';
 import BusinessTree from './components/BusinessTree';
 <<<<<<< Updated upstream
 import ApplyButton from './components/ApplyButton';
+import RefreshButton from './components/RefreshButton';
 import CustomDateTimePicker from './components/MUIStartTime';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { Grid } from '@mui/material';
@@ -40,6 +41,7 @@ import DateFnsUtils from '@date-io/date-fns';
                     <DomainDropDownCheck/>
                   </Grid>
                 </Grid>
+                <RefreshButton />
                 <BusinessTree />
                 <ApplyButton />
                 <CheckboxSeverities />
