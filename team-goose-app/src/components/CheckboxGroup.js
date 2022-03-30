@@ -21,11 +21,12 @@ const CheckboxGroup = ({label, options, selectedOptions, handleSelection}) => {
     }
 
     return (
-        <FormControl error={isError()} style={{minWidth: "115px"}}>
-            <FormLabel>{label}</FormLabel>
+        <FormControl className={`checkbox-group ${label}`} error={isError()} style={{minWidth: "115px"}}>
+            <FormLabel className='checkbox-label'>{label}</FormLabel>
             <FormGroup>
                 {options.map(option => 
                     <FormControlLabel
+                        className='checkbox'
                         key={option}
                         name={option}
                         checked={selectedOptions.has(option)}
