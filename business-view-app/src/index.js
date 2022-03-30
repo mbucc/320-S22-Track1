@@ -6,10 +6,9 @@ import DomainDropDownCheck from './components/DomainDropDownCheck'
 import NavTab from './components/NavTab';
 import BusinessTree from './components/BusinessTree';
 import ApplyButton from './components/ApplyButton';
-//import BusinessFilters from './components/BusinessFilters';
-//import {StartTime, EndTime, StartPicker, EndPicker, StartTimePicker, EndTimePicker, RefreshTime} from './components/StartTime';
 import CustomDateTimePicker from './components/MUIStartTime';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { Grid } from '@mui/material';
 
 // pick a date util library
 //import MomentUtils from '@date-io/moment';
@@ -31,16 +30,21 @@ import DateFnsUtils from '@date-io/date-fns';
       render() {
           return (
               <div>
-                 <NavTab />
-                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                 <CustomDateTimePicker/>
-                 </MuiPickersUtilsProvider>
-                 <BusinessTree />
-                 <ApplyButton />
-                 <CheckboxSeverities />
-                 <BusinessDomainDropDown/>
-                 <DomainDropDownCheck/>
-                 <CheckboxSeverities />
+                <NavTab />
+                <Grid container spacing={2}>
+                  <Grid item xs={4}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <CustomDateTimePicker/>
+                    </MuiPickersUtilsProvider>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <BusinessDomainDropDown/>
+                    <DomainDropDownCheck/>
+                  </Grid>
+                </Grid>
+                <BusinessTree />
+                <ApplyButton />
+                <CheckboxSeverities />
               </div>
           );
       }
