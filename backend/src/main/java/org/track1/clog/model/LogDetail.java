@@ -48,4 +48,82 @@ public class LogDetail {
     private String activity;
     @Column(name = "MSG")
     private String msg;
+
+    public String getGlobalInstanceId() {
+        return globalInstanceId;
+    }
+
+    public String getBusinessDomain() {
+        return businessDomain;
+    }
+
+    public String getBusinessSubdomain() {
+        return businessSubdomain;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public String getLocalInstanceId() {
+        return localInstanceId;
+    }
+
+    public String getEaiTransactionId() {
+        return eaiTransactionId;
+    }
+
+    public String getEaiDomain() {
+        return eaiDomain;
+    }
+
+    public String getHostname() {
+        return hostname;
+    }
+
+    public String getApplication() {
+        return application;
+    }
+
+    public String getEventContext() {
+        return eventContext;
+    }
+
+    public String getComponent() {
+        return component;
+    }
+
+    public Integer getSeverity() {
+        return severity;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public Timestamp getCreationTime() {
+        return creationTime;
+    }
+
+    public String getReasoningScope() {
+        return reasoningScope;
+    }
+
+    public Integer getProcessId() {
+        return processId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public String getActivity() {
+        return activity;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+
 }
