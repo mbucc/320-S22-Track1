@@ -21,7 +21,7 @@ export default function BusinessTree() {
   };
 
   return (
-    <Box sx={{ height: 270, flexGrow: 1, maxWidth: 950, overflowY: 'auto' }}>
+    <Box sx={{ height: 270, flexGrow: 1, maxWidth: 950, overflowX: 'hidden' ,overflowY: 'auto', border: 1 , borderColor: 'grey.500', borderRadius: 1}}>
       <Box sx={{ mb: 1 }}>
         <Button onClick={handleExpanded}>
           {expanded.length === 0 ? 'Expand all' : 'Collapse all'}
@@ -42,9 +42,9 @@ export default function BusinessTree() {
               <TreeItem nodeId="8" label="Business Process-1c BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
             </TreeItem>
             <TreeItem nodeId="5" label="Business Process 2">
-              <TreeItem nodeId="9" label="Business Process-1a BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
-              <TreeItem nodeId="10" label="Business Process-1b BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
-              <TreeItem nodeId="11" label="Business Process-1c BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
+              <TreeItem nodeId="9" label="Business Process-2a BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
+              <TreeItem nodeId="10" label="Business Process-2b BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
+              <TreeItem nodeId="11" label="Business Process-2c BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
             </TreeItem>
           </TreeItem>
           <TreeItem nodeId="3" label="Publishing Domain 2">
@@ -54,9 +54,9 @@ export default function BusinessTree() {
               <TreeItem nodeId="16" label="Business Process-1c BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
             </TreeItem>
             <TreeItem nodeId="13" label="Business Process 2">
-              <TreeItem nodeId="17" label="Business Process-1a BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
-              <TreeItem nodeId="18" label="Business Process-1b BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
-              <TreeItem nodeId="19" label="Business Process-1c BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
+              <TreeItem nodeId="17" label="Business Process-2a BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
+              <TreeItem nodeId="18" label="Business Process-2b BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
+              <TreeItem nodeId="19" label="Business Process-2c BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
             </TreeItem>
           </TreeItem>
         </TreeItem>
@@ -68,9 +68,9 @@ export default function BusinessTree() {
               <TreeItem nodeId="27" label="Business Process-1c BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
             </TreeItem>
             <TreeItem nodeId="24" label="Business Process 2">
-              <TreeItem nodeId="28" label="Business Process-1a BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
-              <TreeItem nodeId="29" label="Business Process-1b BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
-              <TreeItem nodeId="30" label="Business Process-1c BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
+              <TreeItem nodeId="28" label="Business Process-2a BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
+              <TreeItem nodeId="29" label="Business Process-2b BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
+              <TreeItem nodeId="30" label="Business Process-2c BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
             </TreeItem>
           </TreeItem>
           <TreeItem nodeId="22" label="Publishing Domain 2">
@@ -80,9 +80,9 @@ export default function BusinessTree() {
               <TreeItem nodeId="35" label="Business Process-1c BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
             </TreeItem>
             <TreeItem nodeId="32" label="Business Process 2">
-              <TreeItem nodeId="36" label="Business Process-1a BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
-              <TreeItem nodeId="37" label="Business Process-1b BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
-              <TreeItem nodeId="38" label="Business Process-1c BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
+              <TreeItem nodeId="36" label="Business Process-2a BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
+              <TreeItem nodeId="37" label="Business Process-2b BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
+              <TreeItem nodeId="38" label="Business Process-2c BP Create Date; Context Name 1 = Context Value 1; Context Name 2 = Context Value 2"/>
             </TreeItem>
           </TreeItem>
         </TreeItem>
@@ -91,6 +91,6 @@ export default function BusinessTree() {
   );
 }
 
-//@hiimlo file
+
 //PLEASE DO NOT CHANGE ANY OF THE STRUCTURE ABOVE.
-//final thing to do: selection from this tree is used to filter
+//final thing todo: selection from this tree is used to filter
