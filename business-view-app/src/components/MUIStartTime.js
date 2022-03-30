@@ -37,9 +37,9 @@ const MUIStartTime = ({ startTime, startChangeHandler, endTime, endChangeHandler
         }
     }
     
-    const startTimer = () => {
+    /*const startTimer = () => {
 
-    }
+    }*/
 
     return (
         <FormControl margin="normal" id="muitime" className="muirange">
