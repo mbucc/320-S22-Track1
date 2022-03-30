@@ -71,19 +71,13 @@ const columns = [
     { field: 'EVENT_CONTEXT', headerName: 'Process/Service', flex: 5 },
     { field: 'ACTIVITY', headerName: 'Activity', flex: 6 },
     {
-        headerName: 'Log Event',  
-        renderCell: (cellValues) => {
-            return (
-                <Button 
-                    onClick={(event)=>{
-
-                    }}
-                >
-                    Detail
-                </Button>
-            )
-        }
-    }  
+        headerName: 'Log Event',
+        field: 'actions',
+        type: 'actions',
+        getActions: (params) => [
+            <Button key="detailkey" href={"/log-detail?id=" + params.id}>Detail</Button>
+        ]
+    } 
 ];
 
 /**
