@@ -1,7 +1,8 @@
 import React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
+import { Grid } from '@mui/material';
+import isoLogo from './isoLogo.PNG';
 
 export default function NavTabs() {
   const [value, setValue] = React.useState('one');
@@ -11,18 +12,23 @@ export default function NavTabs() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        textColor="primary"
-        indicatorColor="primary"
-      >
-        <Tab value="Dashboard" label="Dashboard" />
-        <Tab value="Business" label="Business Processes" />
-        <Tab value="Log" label="Log View" />
-      </Tabs>
-    </Box>
+    <Grid container spacing={2}>
+      <Grid item xs={2}>
+        <img src={isoLogo} alt="Logo" width={125} height={62.5} />
+      </Grid>
+      <Grid item xs={6}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          textColor="primary"
+          indicatorColor="primary"
+        >
+          <Tab value="Dashboard" label="Dashboard" />
+          <Tab value="Business" label="Business Processes" />
+          <Tab value="Log" label="Log View" />
+        </Tabs>
+      </Grid>
+    </Grid>
   );
 }
 

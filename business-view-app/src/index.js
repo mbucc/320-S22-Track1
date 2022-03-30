@@ -8,44 +8,45 @@ import NavTab from './components/NavTab';
 import BusinessTree from './components/BusinessTree';
 import ApplyButton from './components/ApplyButton';
 import RefreshButton from './components/RefreshButton';
-import CustomDateTimePicker from './components/MUIStartTime';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { Grid } from '@mui/material';
+
+//import isoLogo from './components/isoLogo.PNG';
 
 // pick a date util library
 //import MomentUtils from '@date-io/moment';
 import DateFnsUtils from '@date-io/date-fns';
 //import LuxonUtils from '@date-io/luxon';
+import MUIStartTime from './components/MUIStartTime.js';
+
   // ========================================
-  /*<StartTime/>
-                 <StartPicker/>
-                 <StartTimePicker/>
-                 <EndTime/>
-                 <EndPicker/>
-                 <EndTimePicker/>
-                 <RefreshTime/>*/
+
+
   class BusinessView extends React.Component {
       render() {
           return (
               <div>
                 <Background />
                 <NavTab />
-                <Grid container spacing={2}>
-                  <Grid item xs={4}>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <CustomDateTimePicker/>
-                    </MuiPickersUtilsProvider>
+                <Grid container spacing={1}>
+                  <Grid item xs={2}>
+                    <MUIStartTime/>
                   </Grid>
                   <Grid item xs={4}>
                     <BusinessDomainDropDown/>
                     <DomainDropDownCheck/>
                   </Grid>
+                  <Grid item xs={4}>
+                    <RefreshButton />
+                  </Grid>
                 </Grid>
-                <RefreshButton />
+
                 <BusinessTree />
                 <CheckboxSeverities />
-                <ApplyButton />
+                 <CheckboxSeverities />
+                 <BusinessDomainDropDown/>
               </div>
+              //put additional components after the tag for checkbox severities, I'll format them later - @hiimlo
           );
       }
   }
@@ -55,7 +56,7 @@ import DateFnsUtils from '@date-io/date-fns';
     document.getElementById('root')
   );
   
-/* @hiimlo file
+/* 
 Consider this BusinessView
 removed App.js because it was unnecessary, since we can move what it does to here
 Use the class above to put components in to be rendered
