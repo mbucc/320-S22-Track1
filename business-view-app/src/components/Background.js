@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 const themeLight = createTheme({
     palette: {
       background: {
-        default: "#CED0CE"
+        default: "#ffffff"
       },
       text: {
         primary: "#000000"

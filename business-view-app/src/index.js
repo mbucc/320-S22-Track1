@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import Background from './components/Background'; <-- commented out for now because unsure of why it's causing format issues
 import CheckboxSeverities from './components/CheckboxSeverities'
 import BusinessDomainDropDown from './components/BusinessDomainDropDown'
 import DomainDropDownCheck from './components/DomainDropDownCheck'
