@@ -7,7 +7,7 @@ import NavTab from './components/NavTab';
 import BusinessTree from './components/BusinessTree';
 import ApplyButton from './components/ApplyButton';
 import RefreshButton from './components/RefreshButton';
-import { Grid } from '@mui/material';
+import { Grid, TextField } from '@mui/material';
 import MUIStartTime from './components/MUIStartTime.js';
 
 /**
@@ -27,6 +27,9 @@ import MUIStartTime from './components/MUIStartTime.js';
               <div>
                 <NavTab />
                 <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
+                  <Grid item lg={3.5} xl={3}>
+                    <h1>Business Process</h1>
+                  </Grid>
                   <Grid item lg={2.75} xl={2}>
                     <MUIStartTime/>
                   </Grid>
@@ -53,6 +56,16 @@ import MUIStartTime from './components/MUIStartTime.js';
                   </Grid>
                   <Grid item lg={2} xl={2}>
                     <BusinessDomainDropDown/>
+                  </Grid>
+                  <Grid item lg={8} xl={8}>
+                    <TextField
+                      fullWidth
+                      id="outlined-read-only-input"
+                      defaultValue="TODO: Functionality! EAI and Publishing domains, Business Process, and BP Create Date would show up here."
+                      InputProps={{
+                      readOnly: true,
+                      }}
+                    />
                   </Grid>
                 </Grid>
               </div>
