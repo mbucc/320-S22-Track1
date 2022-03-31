@@ -23,13 +23,13 @@ public class LogDetailController {
     @GetMapping("/log_detail")
     public ResponseEntity<LogDetail> getByGlobalInstanceId(@RequestParam String globalInstanceId) {
         try {
-            List<LogDetail> logDetails = logDetailRepository.findByGlobalInstanceId(globalInstanceId);
+            Optional<LogDetail> logDetail = logDetailRepository.findById(globalInstanceId);
 
             // no data
-            if (logDetails.isEmpty())
+            if (logDetail.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-            return new ResponseEntity<>(logDetails.get(0), HttpStatus.OK);
+            return new ResponseEntity<>(logDetail.get(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
