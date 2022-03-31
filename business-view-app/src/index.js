@@ -19,8 +19,9 @@ import EnhancedTable from './components/BusinessTable.js';
  * 
  * Grid is used for organizing the elements; it works on the idea that each screen has 12 columns to work with.
  * lg and xl are for large and x-large screens, respectively. They help adjust how many columns the item takes
- * depending on screen size. For our purposes, we assume they only use computer screens and thus at only have
+ * depending on screen size. For our purposes, we assume they only use computer screens and thus only have
  * lg and xl to be specified. - @hiimlo note (feel free to add your own notes)
+ * 
 */
 
   class BusinessView extends React.Component {
@@ -72,7 +73,7 @@ import EnhancedTable from './components/BusinessTable.js';
                       }}
                     />
                   </Grid>
-                  <Grid item lg={9}>
+                  <Grid item lg={9} xl={10}>
                     <EnhancedTable />
                   </Grid>
                 </Grid>
