@@ -72,7 +72,9 @@ import EnhancedTable from './components/BusinessTable.js';
                       }}
                     />
                   </Grid>
-                  <EnhancedTable/>
+                  <Grid item lg={9}>
+                    <EnhancedTable />
+                  </Grid>
                 </Grid>
               </div>
           );
