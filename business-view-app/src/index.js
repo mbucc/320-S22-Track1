@@ -29,7 +29,7 @@ import EnhancedTable from './components/BusinessTable.js';
           return (
               <div>
                 <NavTab />
-                <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
+                <Grid container spacing={1} direction="row" alignItems="center" justifyContent="center">
                   <Grid item lg={2} xl={1.25}>
                     <h1>Business Processes</h1>
                   </Grid>

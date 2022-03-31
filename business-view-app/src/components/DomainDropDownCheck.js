@@ -52,6 +52,7 @@ export default function MultipleSelectCheckmarks() {
           input={<OutlinedInput label="Business Domain" />}
           renderValue={(selected) => selected.join(', ')}
           MenuProps={MenuProps}
+          size="small"
         >
           {names.map((name) => (
             <MenuItem key={name} value={name}>

@@ -13,7 +13,7 @@ const theme = createTheme({
 export default function CustomColor() {
   return (
     <ThemeProvider theme={theme}>
-      <Button color="neutral" variant="contained">
+      <Button color="neutral" variant="contained" size="small">
         Apply
       </Button>
     </ThemeProvider>

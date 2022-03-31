@@ -36,7 +36,7 @@ export default function BusinessTree() {
   };
 
   return (
-    <Box sx={{ height: 200, flexGrow: 1, maxWidth: 950, overflowX: 'hidden', overflowY: 'auto', border: 1, borderColor: 'grey.500', borderRadius: 1}}>
+    <Box sx={{ height: 300, flexGrow: 1, maxWidth: 950, overflowX: 'hidden', overflowY: 'auto', border: 1, borderColor: 'grey.500', borderRadius: 1}}>
       <Box sx={{ mb: 1 }}>
         <Button onClick={handleExpanded}>
           {expanded.length === 0 ? 'Expand all' : 'Collapse all'}

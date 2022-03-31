@@ -24,6 +24,7 @@ export default function BasicSelect() {
           value={EAI_Domain}
           label="EAI Domain"
           onChange={handleChange}
+          size="small"
         >
           <MenuItem value={10}>EAI Domain 1</MenuItem>
           <MenuItem value={20}>EAI Domain 2</MenuItem>
