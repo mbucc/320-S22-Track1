@@ -5,6 +5,20 @@ import { Grid } from '@mui/material';
 import isoLogo from './isoLogo.PNG';
 import Background from './Background'
 
+/**
+ * A navigation bar (temp) for use during demos- real one will be implemented by Team Kick
+ * 
+ * @author @hiimlo
+ * 
+ * Contains: 
+ *    isoLogo.PNG
+ *    Background.js (Toggle button for dark/light mode)
+ *    Tabs (switch between views *hypothetically*)
+ * 
+ * @returns {React.ElementType}
+ *
+*/
+
 export default function NavTabs() {
   const [value, setValue] = React.useState('one');
 
@@ -35,6 +49,3 @@ export default function NavTabs() {
     </Grid>
   );
 }
-
-//temp tab navigation for now, dashboard team is in charge of this (i think?)
-//this is just for demos

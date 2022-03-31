@@ -6,6 +6,21 @@ import TreeItem from '@mui/lab/TreeItem';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
+/**
+ * Tree view for selecting precise business process withing a eai domain/publishing domain
+ * 
+ * @author @hiimlo
+ * 
+ * Uses Box to contain tree view, and control how expanded content is shown (keep it contained in box)
+ * Uses TreeView and TreeItem to build the structure of the tree
+ * --> NOTE: TreeView and TreeItem are from mui/lab, which means they haven't been moved to core yet.
+ *           For our purposes using the should still be fine, and I do not anticipate any major changes
+ *           happening that would break how this set up works. However, imports will need to be updated 
+ *           once TreeView and TreeItem move out of lab.
+ * 
+ * @returns {React.ElementType}
+ */
+
 export default function BusinessTree() {
   const [expanded, setExpanded] = React.useState([]); 
 

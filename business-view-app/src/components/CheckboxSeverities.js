@@ -1,6 +1,22 @@
 import React from 'react';
 import { FormLabel, FormControl, Grid, FormControlLabel, Checkbox } from '@mui/material';
 
+/**
+* Checkboxes to filter by severity
+*
+* @author @hiimlo
+*
+* Using a passed in array, maps array values to create checkboxes.
+* Current implementation hard codes it- this needs to be changed when creating functionality
+* Checkboxes are contained in a Grid container to align them horizontally, as customer did in mock up
+*
+* @returns {React.ElementType}
+*
+*/
+
+
+
+
 export default function CheckboxSeverities() {
   const sevs = ["Errors", "Warnings", "Success", "Info"];
 
@@ -21,11 +37,9 @@ export default function CheckboxSeverities() {
   );
 }
 
-//@hiimlo file
-//this is for the checkboxs for filtering through log events by severity levels.
 
-//previous code (keep this, this will be revisted later for using to filter)
-/*
+/** previous code (keep this, this will be revisted later for using to filter)
+
 <FormControlLabel 
             key = {sevs}
             name = {sevs}

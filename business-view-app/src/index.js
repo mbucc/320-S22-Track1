@@ -10,11 +10,15 @@ import RefreshButton from './components/RefreshButton';
 import { Grid } from '@mui/material';
 import MUIStartTime from './components/MUIStartTime.js';
 
-/* 
-Grid is used for organizing the elements; it works on the idea that each screen has 12 columns to work with.
-lg and xl are for large and x-large screens, respectively. They help adjust how many columns the item takes
-depending on screen size. For our purposes, we assume they only use computer screens and thus at most only need
-lg and xl to be specified. - @hiimlo
+/**
+ * To see visually (for now), each individual component can be placed here
+ * however, filters should be actually be put in their designated group (BusinessFilters) 
+ * for easier control of layout (stage: functionality)
+ * 
+ * Grid is used for organizing the elements; it works on the idea that each screen has 12 columns to work with.
+ * lg and xl are for large and x-large screens, respectively. They help adjust how many columns the item takes
+ * depending on screen size. For our purposes, we assume they only use computer screens and thus at only have
+ * lg and xl to be specified. - @hiimlo
 */
 
   class BusinessView extends React.Component {
@@ -61,9 +65,3 @@ lg and xl to be specified. - @hiimlo
     document.getElementById('root')
   );
   
-/* 
-Consider this BusinessView
-
-For purposes of seeing visually, each individual component can be placed here
-however, filters should be actually be put in their designated group (BusinessFilters) for easier control of layout
-*/
