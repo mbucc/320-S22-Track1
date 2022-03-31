@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormLabel, FormControl, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { FormLabel, FormControl, Grid, FormControlLabel, Checkbox } from '@mui/material';
 
 export default function CheckboxSeverities() {
   const sevs = ["Errors", "Warnings", "Success", "Info"];
@@ -7,7 +7,7 @@ export default function CheckboxSeverities() {
   return (
     <FormControl>
       <FormLabel>Severities</FormLabel>
-      <FormGroup>
+      <Grid container direction="row">
         {sevs.map(sevs =>
             <FormControlLabel 
               key = {sevs}
@@ -16,7 +16,7 @@ export default function CheckboxSeverities() {
               label = {sevs} 
             />
         )}
-      </FormGroup>
+      </Grid>
     </FormControl>
   );
 }

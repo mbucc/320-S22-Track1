@@ -33,21 +33,25 @@ lg and xl to be specified. - @hiimlo
                   <Grid item lg={1} xl={1.5}>
                     <RefreshButton />
                   </Grid>
-                </Grid>
-                <Grid container spacing={2} alignItems="center" justifyContent="center">
                   <Grid item lg={9} xl={6.75}>
                     <BusinessTree />
                   </Grid>
-                  <Grid item justifyContent="flex-end">
+                  <Grid item lg={8} xl={8}/>
+                  <Grid item lg={1} xl={4}>
                     <ApplyButton />
                   </Grid>
+                  <Grid item lg={3.5} xl={3}>
+                    <h2>Business Process Activities</h2>
+                  </Grid>
+                  <Grid item lg={9} xl={10}/>
+                  <Grid item lg={4} xl={3.5}>
+                    <CheckboxSeverities />
+                  </Grid>
+                  <Grid item lg={2} xl={2}>
+                    <BusinessDomainDropDown/>
+                  </Grid>
                 </Grid>
-                
-
-                 <CheckboxSeverities />
-                 <BusinessDomainDropDown/>
               </div>
-              //put additional components after the tag for checkbox severities, I'll format them later - @hiimlo
           );
       }
   }
