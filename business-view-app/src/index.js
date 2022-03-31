@@ -7,12 +7,11 @@ import NavTab from './components/NavTab';
 import BusinessTree from './components/BusinessTree';
 import ApplyButton from './components/ApplyButton';
 import RefreshButton from './components/RefreshButton';
-import { Grid, TextField } from '@mui/material';
+import { Grid, TextField, Stack } from '@mui/material';
 import CustomDateTimePicker from './components/CustomDateTimePicker.js';
 
 
 /**
- *   Author: @wilsonnexus
  * To see visually (for now), each individual component can be placed here
  * however, filters should be actually be put in their designated group (BusinessFilters) 
  * for easier control of layout (stage: functionality)
@@ -20,27 +19,27 @@ import CustomDateTimePicker from './components/CustomDateTimePicker.js';
  * Grid is used for organizing the elements; it works on the idea that each screen has 12 columns to work with.
  * lg and xl are for large and x-large screens, respectively. They help adjust how many columns the item takes
  * depending on screen size. For our purposes, we assume they only use computer screens and thus at only have
- * lg and xl to be specified. - @hiimlo
+ * lg and xl to be specified. - @hiimlo note (feel free to add your own notes)
 */
 
   class BusinessView extends React.Component {
       render() {
           return (
               <div>
-               
                 <NavTab />
-                
                 <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
-                  <Grid item lg={3.5} xl={3}>
-                    <h1>Business Process</h1>
+                  <Grid item lg={2} xl={1.25}>
+                    <h1>Business Processes</h1>
                   </Grid>
                   <Grid item lg={2.75} xl={2}>
                   <CustomDateTimePicker/>
                     
                   </Grid>
                   <Grid item lg={2.75} xl={2}>
-                    <BusinessDomainDropDown/>
-                    <DomainDropDownCheck/>
+                    <Stack spacing={1}>
+                      <BusinessDomainDropDown/>
+                      <DomainDropDownCheck/>
+                    </Stack>
                   </Grid>
                   <Grid item lg={1} xl={1.5}>
                     <RefreshButton />
