@@ -1,28 +1,24 @@
 import React from 'react';
 import {FormControl, FormHelperText, InputLabel, OutlinedInput, Stack} from '@mui/material';
+import { withStyles } from '@mui/styles';
 
 /**
  * Wrapper on two datetime-local inputs representing a start and end datetime respectively.
- *
- * @author Wilson Neira with credit to Kevin Lin (permission was granted from the team)
- * Will change soon just to see how it works
- * @param {Object} props
- * @param {string} props.startTime - The string representing the start Date, format: YYYY-MM-DDTHH:mm:ss
- * @param {(event: Event) => any} props.startChangeHandler - Handler for start time changes
- * @param {string} props.endTime - The string representing the end Date, format: YYYY-MM-DDTHH:mm:ss
- * @param {(event: Event) => any} props.endChangeHandler - Handler for end time changes
- * @param {"column" | "row"} [props.direction="column"] - Direction to display the inputs
+ * Will change more soon
+ * @author @wilsonnexus with credit to Kevin Lin (permission was granted from the team)
+ * I am still trying to figure out how the box can change color when the error of end time is less than start time.
  * 
- * @returns {React.ElementType}
  */
-const MUIStartTime = ({ startTime, startChangeHandler, endTime, endChangeHandler, direction="column" }) => {
+const starter = new Date()
+const ender = new Date()
+const MUIStartTime = ({ starter, startChangeHandler, ender, endChangeHandler, direction="column" }) => {
     // Error checking
     const isRangeError = () => {
         // Convert times to actual Date objects to compare
         // Note: we only care about the relative difference, so time zone should not matter
-        const dt_start = new Date(startTime);
-        const dt_end = new Date(endTime);
-        return dt_end < dt_start;
+        const dt_start = new Date(starter);
+        const dt_end = new Date(ender);
+        return ender < starter;
     }
 
     const isInputError = (time) => time === "";
@@ -37,39 +33,28 @@ const MUIStartTime = ({ startTime, startChangeHandler, endTime, endChangeHandler
         }
     }
     
-    /*const startTimer = () => {
-
-    }*/
+    const startTimer = (muiController, timeHandler, Timer, timeLabel, outlineLabel, timeinputID) => {
+    return(
+                <FormControl id= {muiController} error={isRangeError() } >
+                    {timeLabel()}
+                    <OutlinedInput
+                        value={Timer}
+                        onChange={starter = timeHandler}
+                        label={outlineLabel}
+                        type="datetime-local"
+                        id={timeinputID}    
+                    />
+                    <FormHelperText sx={{marginRight: 0, marginLeft: 0}}>{getErrorMess(Timer)}</FormHelperText>
+                </FormControl>
+        );
+    }
 
     return (
-        <FormControl margin="normal" id="muitime" className="muirange">
-            <Stack id="muitimestack" spacing={1} direction={direction}>
-                <FormControl id="muistartcontrol" error={isInputError(startTime) || isRangeError()}>
-                    <InputLabel htmlFor="muitimestartinput" shrink>Start Time</InputLabel>
-                    <OutlinedInput
-                        value={startTime}
-                        onChange={startChangeHandler}
-                        label="Start Time"
-                        type="datetime-local"
-                        id="muitimestartinput"
-                        notched
-                    />
-                    <FormHelperText sx={{marginRight: 0, marginLeft: 0}}>{getErrorMess(startTime)}</FormHelperText>
-                </FormControl>
-
-                <FormControl id="muiendcontrol" error={isInputError(endTime) || isRangeError()}>
-                    <InputLabel htmlFor="muitimeendinput" shrink>End Time</InputLabel>
-                    <OutlinedInput
-                        value={endTime}
-                        onChange={endChangeHandler}
-                        label="End Time"
-                        type="datetime-local"
-                        id="muitimeendinput"
-                        notched
-                    />
-                    <FormHelperText sx={{marginRight: 0, marginLeft: 0}}>{getErrorMess(endTime)}</FormHelperText>
-                </FormControl>
-            </Stack>
+    <FormControl margin="" id="muitime" className="muirange">
+            <Stack id="muitimestack" spacing={0} direction={direction}>
+        {startTimer("muistartcontrol", startChangeHandler, starter, ()=> {return <InputLabel htmlFor="muitimestartinput" shrink>Start Time</InputLabel>}, "Start Time", "muitimestartinput")}
+        {startTimer("muiendcontrol", endChangeHandler, ender, ()=> {return <InputLabel htmlFor="muitimeendinput" shrink>End Time</InputLabel>}, "End Time", "muitimeendinput")}
+          </Stack>
         </FormControl>
     );
 }
