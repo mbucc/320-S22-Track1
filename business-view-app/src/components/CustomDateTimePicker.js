@@ -9,6 +9,13 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
 import Stack from '@mui/material/Stack';
 
+/* Author: @wilsonnexus
+* Customizable MUI Date Time Range Picker with Error Handling
+* Still needs some more work, but I think the time values could be 
+* sent across files now.
+*/
+
+
 export default function CustomDateTimePicker() {
   const [clearedDate, setClearedDate] = React.useState(null);
   const [startTime, setStartTime] = React.useState(new Date());
@@ -24,7 +31,7 @@ export default function CustomDateTimePicker() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Stack spacing={3} sx={{ width: 0.9}}>
+      <Stack spacing={3} sx={{ width: 0.9}} sy={{ height: 2}}>
         
         <MobileDateTimePicker
         error={isRangeError()}
