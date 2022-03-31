@@ -8,9 +8,11 @@ import BusinessTree from './components/BusinessTree';
 import ApplyButton from './components/ApplyButton';
 import RefreshButton from './components/RefreshButton';
 import { Grid, TextField } from '@mui/material';
-import MUIStartTime from './components/MUIStartTime.js';
+import CustomDateTimePicker from './components/CustomDateTimePicker.js';
+
 
 /**
+ *   Author: @wilsonnexus
  * To see visually (for now), each individual component can be placed here
  * however, filters should be actually be put in their designated group (BusinessFilters) 
  * for easier control of layout (stage: functionality)
@@ -25,13 +27,16 @@ import MUIStartTime from './components/MUIStartTime.js';
       render() {
           return (
               <div>
+               
                 <NavTab />
+                
                 <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
                   <Grid item lg={3.5} xl={3}>
                     <h1>Business Process</h1>
                   </Grid>
                   <Grid item lg={2.75} xl={2}>
-                    <MUIStartTime/>
+                  <CustomDateTimePicker/>
+                    
                   </Grid>
                   <Grid item lg={2.75} xl={2}>
                     <BusinessDomainDropDown/>
