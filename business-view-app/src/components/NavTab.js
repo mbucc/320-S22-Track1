@@ -13,10 +13,10 @@ export default function NavTabs() {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={2}>
+      <Grid item xs={4}>
         <img src={isoLogo} alt="Logo" width={125} height={62.5} />
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={8}>
         <Tabs
           value={value}
           onChange={handleChange}

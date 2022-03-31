@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Background from './components/Background';
+//import Background from './components/Background'; <-- commented out for now because unsure of why it's causing format issues
 import CheckboxSeverities from './components/CheckboxSeverities'
 import BusinessDomainDropDown from './components/BusinessDomainDropDown'
 import DomainDropDownCheck from './components/DomainDropDownCheck'
@@ -11,30 +11,40 @@ import RefreshButton from './components/RefreshButton';
 import { Grid } from '@mui/material';
 import MUIStartTime from './components/MUIStartTime.js';
 
-  // ========================================
-
+/* 
+Grid is used for organizing the elements; it works on the idea that each screen has 12 columns to work with.
+lg and xl are for large and x-large screens, respectively. They help adjust how many columns the item takes
+depending on screen size. For our purposes, we assume they only use computer screens and thus at most only need
+lg and xl to be specified. - @hiimlo
+*/
 
   class BusinessView extends React.Component {
       render() {
           return (
               <div>
-                <Background />
                 <NavTab />
-                <Grid container spacing={2}>
-                  <Grid item xs={2}>
+                <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
+                  <Grid item lg={2.75} xl={2}>
                     <MUIStartTime/>
                   </Grid>
-                  <Grid item xs={4}>
+                  <Grid item lg={2.75} xl={2}>
                     <BusinessDomainDropDown/>
                     <DomainDropDownCheck/>
                   </Grid>
-                  <Grid item xs={4}>
+                  <Grid item lg={1} xl={1.5}>
                     <RefreshButton />
                   </Grid>
                 </Grid>
+                <Grid container spacing={2} alignItems="center" justifyContent="center">
+                  <Grid item lg={9} xl={6.75}>
+                    <BusinessTree />
+                  </Grid>
+                  <Grid item justifyContent="flex-end">
+                    <ApplyButton />
+                  </Grid>
+                </Grid>
+                
 
-                <BusinessTree />
-                <CheckboxSeverities />
                  <CheckboxSeverities />
                  <BusinessDomainDropDown/>
               </div>
@@ -50,9 +60,6 @@ import MUIStartTime from './components/MUIStartTime.js';
   
 /* 
 Consider this BusinessView
-removed App.js because it was unnecessary, since we can move what it does to here
-Use the class above to put components in to be rendered
-if you have questions we can talk about it during team meeting.
 
 For purposes of seeing visually, each individual component can be placed here
 however, filters should be actually be put in their designated group (BusinessFilters) for easier control of layout
