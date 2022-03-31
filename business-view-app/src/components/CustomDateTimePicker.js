@@ -33,9 +33,8 @@ export default function CustomDateTimePicker() {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Stack spacing={3} sx={{ width: 0.9}} sy={{ height: 2}}>
         
-        <MobileDateTimePicker
-        error={isRangeError()}
-           showTodayButton
+        <DateTimePicker
+          showTodayButton
           value={startTime}
           onChange={(newValue) => {
             setStartTime(newValue);
@@ -47,7 +46,7 @@ export default function CustomDateTimePicker() {
           mask="___/__/__ __:__ _M"
           renderInput={(params) => <TextField {...params} />}
         />
-        <MobileDateTimePicker
+        <DateTimePicker
         showTodayButton
           value={endTime}
           onChange={(newValue) => {

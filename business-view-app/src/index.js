@@ -9,6 +9,7 @@ import ApplyButton from './components/ApplyButton';
 import RefreshButton from './components/RefreshButton';
 import { Grid, TextField, Stack } from '@mui/material';
 import CustomDateTimePicker from './components/CustomDateTimePicker.js';
+import EnhancedTable from './components/BusinessTable.js';
 
 
 /**
@@ -71,6 +72,7 @@ import CustomDateTimePicker from './components/CustomDateTimePicker.js';
                       }}
                     />
                   </Grid>
+                  <EnhancedTable/>
                 </Grid>
               </div>
           );
