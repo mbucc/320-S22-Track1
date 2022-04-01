@@ -2,7 +2,7 @@ import React from "react";
 import {Button, FormControl} from "@mui/material";
 
 /**
- * Note: for this to work the way we want it to, we should return a *form*
+ * Note: for this to work the way we want it to, we use a  "form"
  * Components that should be put here (as of 3/31 understanding):
  *   Start/End time
  *   EAI domain drop down
