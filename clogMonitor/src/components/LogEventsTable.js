@@ -60,10 +60,7 @@ const columns = [
         flex: 5,
         valueFormatter: (params) => {
             const val = params.value;
-            const now = new Date();
-            const offset = now.getTimezoneOffset() * 60000;
-            let adjustedDate = new Date(val.getTime() - offset);
-            return adjustedDate.toLocaleString();
+            return val.toLocaleString();
         },
     },
     { field: 'APPLICATION', headerName: 'Application', flex: 4 },
