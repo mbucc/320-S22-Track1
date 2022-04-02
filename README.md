@@ -6,7 +6,7 @@ Java 11
 Apache Maven 3.6.3
 
 # Build application
-mvn spring-boot:run
+Navigate to ./backend directory, run 'mvn spring-boot:run'
 
 # Documentation
-Visit documentation UI at ${host}/swagger-ui.html
+Visit documentation UI at ${host}/swagger-ui/index.html#/
