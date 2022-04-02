@@ -49,6 +49,33 @@ public class LogDetail {
     @Column(name = "MSG")
     private String msg;
 
+    public LogDetail(){
+    }
+
+    public LogDetail(String globalInstanceId, String businessDomain, String businessSubdomain, String version, String localInstanceId, String eaiTransactionId, String eaiDomain, 
+                     String hostname, String application, String eventContext, String component, Integer severity, Integer priority, Timestamp creationTime, String reasoningScope, 
+                     Integer processId, String categoryName, String activity, String msg){
+        this.globalInstanceId = globalInstanceId;
+        this.businessDomain = businessDomain;
+        this.businessSubdomain = businessSubdomain;
+        this.version = version;
+        this.localInstanceId = localInstanceId;
+        this.eaiTransactionId = eaiTransactionId;
+        this.eaiDomain = eaiDomain;
+        this.hostname = hostname;
+        this.application = application;
+        this.eventContext = eventContext;
+        this.component = component;
+        this.severity = severity;
+        this.priority = priority;
+        this.creationTime = creationTime;
+        this.reasoningScope = reasoningScope;
+        this.processId = processId;
+        this.categoryName = categoryName;
+        this.activity = activity;
+        this.msg = msg; 
+    }
+
     public String getGlobalInstanceId() {
         return globalInstanceId;
     }
@@ -124,6 +151,5 @@ public class LogDetail {
     public String getMsg() {
         return msg;
     }
-
 
 }

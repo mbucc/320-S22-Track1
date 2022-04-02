@@ -2,7 +2,7 @@ package org.track1.clog.model;
 import javax.persistence.*;
 import java.sql.Timestamp;
 @Entity
-@Table(name = "BUSINESS_PROCESS_LOG_T")
+@Table(name = "BUSINESS_PROCESS_T")
 public class BusinessProcess {
     @Id
     @Column(name = "BUSINESS_PROCESS")
