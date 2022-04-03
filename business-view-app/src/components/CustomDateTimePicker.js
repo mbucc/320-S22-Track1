@@ -9,10 +9,10 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
 import Stack from '@mui/material/Stack';
 
-/* Author: @wilsonnexus
+/* Author: @wilsonnexus, isRangeError() from Team Goose
 * Customizable MUI Date Time Range Picker with Error Handling
 * Still needs some more work, but I think the time values could be 
-* sent across files now.
+* sent across files now. Military Time To Do
 */
 
 

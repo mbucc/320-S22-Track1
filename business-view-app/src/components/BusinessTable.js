@@ -23,16 +23,16 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 
 /*
-* Author: @wilsonnexus
+* Author: @wilsonnexus This a modified example from MUI, this could be either temporary or for the project
 */
 
-function createData(name, calories, fat, carbs, protein) {
+function createData(severity, date, domain, app, activity) {
   return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
+    severity,
+    date,
+    domain,
+    app,
+    activity,
   };
 }
 
@@ -79,31 +79,31 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: 'name',
+    id: 'severity',
     numeric: false,
     disablePadding: true,
     label: 'Severity',
   },
   {
-    id: 'calories',
+    id: 'date',
     numeric: true,
     disablePadding: false,
     label: 'Business Event Created Date',
   },
   {
-    id: 'fat',
+    id: 'domain',
     numeric: true,
     disablePadding: false,
     label: 'Business Domain',
   },
   {
-    id: 'carbs',
+    id: 'app',
     numeric: true,
     disablePadding: false,
     label: 'Application',
   },
   {
-    id: 'protein',
+    id: 'activity',
     numeric: true,
     disablePadding: false,
     label: 'Activity',
@@ -123,7 +123,7 @@ function EnhancedTableHead(props) {
         <TableCell padding="checkbox">
           <Checkbox
             color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
+            indeterminate={numSelected >= 0 && numSelected < rowCount}
             checked={rowCount >= 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
@@ -223,7 +223,7 @@ EnhancedTableToolbar.propTypes = {
 
 export default function EnhancedTable() {
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
+  const [orderBy, setOrderBy] = React.useState('date');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -237,19 +237,19 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = rows.map((n) => n.severity);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, severity) => {
+    const selectedIndex = selected.indexOf(severity);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, severity);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -277,7 +277,7 @@ export default function EnhancedTable() {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (severity) => selected.indexOf(severity) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -307,17 +307,17 @@ export default function EnhancedTable() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.severity);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row.severity)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.severity}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -335,12 +335,12 @@ export default function EnhancedTable() {
                         scope="row"
                         padding="none"
                       >
-                        {row.name}
+                        {row.severity}
                       </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="right">{row.date}</TableCell>
+                      <TableCell align="right">{row.domain}</TableCell>
+                      <TableCell align="right">{row.app}</TableCell>
+                      <TableCell align="right">{row.activity}</TableCell>
                     </TableRow>
                   );
                 })}
