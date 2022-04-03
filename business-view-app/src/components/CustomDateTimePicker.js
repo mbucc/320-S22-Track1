@@ -31,19 +31,20 @@ export default function CustomDateTimePicker() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Stack spacing={3} sx={{ width: 0.9}} sy={{ height: 2}}>
+      <Stack spacing={3} sx={{ width: 0.9}} sy={{ height: 2}} >
         
-        <DateTimePicker
+        <DateTimePicker 
           showTodayButton
           value={startTime}
           onChange={(newValue) => {
             setStartTime(newValue);
           }}
+          ampm={false}
           label="Start Time"
           onError={console.log}
           maxDate={endTime}
-          inputFormat="yyyy/MM/dd hh:mm a"
-          mask="___/__/__ __:__ _M"
+          inputFormat="yyyy/dd/MM HH:mm"
+          mask="___/__/__ __:__"
           renderInput={(params) => <TextField {...params} />}
         />
         <DateTimePicker
@@ -52,11 +53,12 @@ export default function CustomDateTimePicker() {
           onChange={(newValue) => {
             setEndTime(newValue);
           }}
+          ampm={false}
           label="End Time"
           onError={console.log}
           minDate={startTime}
-          inputFormat="yyyy/MM/dd hh:mm a"
-          mask="___/__/__ __:__ _M"
+          inputFormat="yyyy/dd/MM HH:mm"
+          mask="___/__/__ __:__"
           renderInput={(params) => <TextField {...params} />}
         />
         

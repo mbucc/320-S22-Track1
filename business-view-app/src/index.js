@@ -77,6 +77,7 @@ import EnhancedTable from './components/BusinessTable.js';
                     <EnhancedTable />
                   </Grid>
                 </Grid>
+                
               </div>
           );
       }
