@@ -26,7 +26,7 @@ import { visuallyHidden } from '@mui/utils';
 * Author: @wilsonnexus This a modified example from MUI, this could be either temporary or for the project
 */
 
-function createData(severity, date, domain, app, activity) {
+function createRow(severity, date, domain, app, activity) {
   return {
     severity,
     date,
@@ -37,14 +37,14 @@ function createData(severity, date, domain, app, activity) {
 }
 
 const rows = [
-  createData('Info', '0 7/15/2021 03:23:24:333', 'CRM', 'CRM App', 'Published Customer Info'),
-  createData('Warning', '0 7/14/2021 03:23:24:333', 'Settlement', 'Settlement App', 'Received Customer Update'),
-  createData('Error', '0 7/13/2021 03:23:24:333', 'Settlement', 'Settlement App', 'Persisted Customer Update'),
-  createData('Success', '0 7/12/2021 03:23:24:333', 'CRM', 'CRM App', 'Published Customer Info'),
-  createData('Info', '0 7/11/2021 03:23:24:333', 'CRM', 'CRM App', 'Published Customer Info'),
-  createData('Warning', '0 7/10/2021 03:23:24:333', 'Settlement', 'Settlement App', 'Received Customer Update'),
-  createData('Error', '0 7/09/2021 03:23:24:333', 'Settlement', 'Settlement App', 'Persisted Customer Update'),
-  createData('Success', '0 7/08/2021 03:23:24:333', 'CRM', 'CRM App', 'Published Customer Info'),
+  createRow('Info', '07/15/2021 03:23:24:333', 'CRM', 'CRM App', 'Published Customer Info'),
+  createRow('Warning', '07/14/2021 03:23:24:333', 'Settlement', 'Settlement App', 'Received Customer Update'),
+  createRow('Error', '07/13/2021 03:23:24:333', 'Settlement', 'Settlement App', 'Persisted Customer Update'),
+  createRow('Success', '07/12/2021 03:23:24:333', 'CRM', 'CRM App', 'Published Customer Info'),
+  createRow('Info', '07/11/2021 03:23:24:333', 'CRM', 'CRM App', 'Published Customer Info'),
+  createRow('Warning', '07/10/2021 03:23:24:333', 'Settlement', 'Settlement App', 'Received Customer Update'),
+  createRow('Error', '07/09/2021 03:23:24:333', 'Settlement', 'Settlement App', 'Persisted Customer Update'),
+  createRow('Success', '07/08/2021 03:23:24:333', 'CRM', 'CRM App', 'Published Customer Info'),
 ];
 
 function descendingComparator(a, b, orderBy) {
