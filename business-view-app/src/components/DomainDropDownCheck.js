@@ -46,7 +46,7 @@ export default function MultipleSelectCheckmarks() {
         <Select
           labelId="multiple-checkbox-label"
           id="multiple-checkbox"
-          mulstiple
+          multiple
           value={personName}
           onChange={handleChange}
           input={<OutlinedInput label="Business Domain" />}
