@@ -20,7 +20,7 @@ import Background from './Background'
 */
 
 export default function NavTabs() {
-  const [value, setValue] = React.useState('one');
+  const [value, setValue] = React.useState('Business');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
