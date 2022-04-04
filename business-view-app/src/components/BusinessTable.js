@@ -26,11 +26,13 @@ import { visuallyHidden } from '@mui/utils';
 * Author: @wilsonnexus This a modified example from MUI, this could be either temporary or for the project
 */
 
-function createRow(EAI_TRANSACTION_ID, EAI_DOMAIN, PUBLISHING_BUSINESS_DOMAIN,
+
+function createRow(SEVERITY_NAME, EAI_TRANSACTION_ID, EAI_DOMAIN, PUBLISHING_BUSINESS_DOMAIN,
     BUSINESS_PROCESS,EAI_TRANSACTION_CREATE_TIME, KEY1_APP_CONTEXT_NAME,
     KEY1_APP_CONTEXT_VALUE, KEY2_APP_CONTEXT_NAME, KEY2_APP_CONTEXT_VALUE,
-    GLOBAL_INSTANCE_ID, BUSINESS_DOMAIN, APPLICATION, ACTIVITY, SEVERITY) {
+    GLOBAL_INSTANCE_ID, BUSINESS_DOMAIN, APPLICATION, ACTIVITY, SEVERITY,) {
   return {
+    SEVERITY_NAME,
     EAI_TRANSACTION_ID,
     EAI_DOMAIN,
     PUBLISHING_BUSINESS_DOMAIN,
@@ -45,30 +47,47 @@ function createRow(EAI_TRANSACTION_ID, EAI_DOMAIN, PUBLISHING_BUSINESS_DOMAIN,
     APPLICATION,
     ACTIVITY,
     SEVERITY,
+
   };
+}
+const severityNamer = (severity)=> {
+    if(severity < 20){
+        return "Info"
+    }
+    else if(severity >= 20 && severity < 30){
+        return "Success"
+    }
+    else if(severity >= 30 && severity < 50){
+        return "Warning"
+    }
+    else if(severity >= 50){
+        return "Error"
+    }
 }
 
 const rows = [
-  createRow('eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'crm_server_000001', 'CRM', 'CRM_Adapter', 'Customer Update Started', 10),
-  createRow('eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'crm_server_000002', 'CRM', 'CRM_Adapter', 'Customer Update Published', 10),
-  createRow('eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'accounting_server_000001', 'ACCOUNT', 'ACCOUNT_Adapter', 'Customer Update Received', 10),
-  createRow('eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'accounting_server_000002', 'ACCOUNT', 'ACCOUNT_Adapter', 'Customer Update Persisted', 10),
-  createRow('eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'operations_server_000001', 'OPER', 'OPER_Adapter', 'Customer Update Received', 10),
-  createRow('eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'operations_server_000002', 'OPER', 'OPER_Adapter', 'Customer Update Persisted', 10),
 
-  createRow('eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'crm_server_000001', 'CRM', 'CRM_Adapter', 'Customer Update Started', 10),
-  createRow('eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'crm_server_000002', 'CRM', 'CRM_Adapter', 'Customer Update Published', 10),
-  createRow('eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'accounting_server_000001', 'ACCOUNT', 'ACCOUNT_Adapter', 'Customer Update Received', 10),
-  createRow('eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'accounting_server_000002', 'ACCOUNT', 'ACCOUNT_Adapter', 'Customer Update Persisted', 30),
-  createRow('eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'operations_server_000001', 'OPER', 'OPER_Adapter', 'Customer Update Received', 10),
-  createRow('eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'operations_server_000002', 'OPER', 'OPER_Adapter', 'Customer Update Persisted', 10),
+  createRow(severityNamer(10), 'eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'crm_server_000001', 'CRM', 'CRM_Adapter', 'Customer Update Started', 10),
+  createRow(severityNamer(10), 'eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'crm_server_000002', 'CRM', 'CRM_Adapter', 'Customer Update Published', 10),
+  createRow(severityNamer(10), 'eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'accounting_server_000001', 'ACCOUNT', 'ACCOUNT_Adapter', 'Customer Update Received', 10),
+  createRow(severityNamer(10), 'eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'accounting_server_000002', 'ACCOUNT', 'ACCOUNT_Adapter', 'Customer Update Persisted', 10),
+  createRow(severityNamer(10), 'eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'operations_server_000001', 'OPER', 'OPER_Adapter', 'Customer Update Received', 10),
+  createRow(severityNamer(10), 'eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'operations_server_000002', 'OPER', 'OPER_Adapter', 'Customer Update Persisted', 10),
 
-  createRow('eai_crm_server_111113', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 01.55.03.480000 AM', 'Customer_Id', '345678', 'Effective_Date', '03/01/2022 05:00:00', 'crm_server_000001', 'CRM', 'CRM_Adapter', 'Customer Update Started', 10),
-  createRow('eai_crm_server_111113', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 01.55.03.480000 AM', 'Customer_Id', '345678', 'Effective_Date', '03/01/2022 05:00:00', 'crm_server_000002', 'CRM', 'CRM_Adapter', 'Customer Update Published', 10),
-  createRow('eai_crm_server_111113', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 01.55.03.480000 AM', 'Customer_Id', '345678', 'Effective_Date', '03/01/2022 05:00:00', 'accounting_server_000001', 'ACCOUNT', 'ACCOUNT_Adapter', 'Customer Update Received', 10),
-  createRow('eai_crm_server_111113', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 01.55.03.480000 AM', 'Customer_Id', '345678', 'Effective_Date', '03/01/2022 05:00:00', 'accounting_server_000002', 'ACCOUNT', 'ACCOUNT_Adapter', 'Customer Update Persisted', 10),
-  createRow('eai_crm_server_111113', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 01.55.03.480000 AM', 'Customer_Id', '345678', 'Effective_Date', '03/01/2022 05:00:00', 'operations_server_000001', 'OPER', 'OPER_Adapter', 'Customer Update Received', 10),
-  createRow('eai_crm_server_111113', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 01.55.03.480000 AM', 'Customer_Id', '345678', 'Effective_Date', '03/01/2022 05:00:00', 'operations_server_000002', 'OPER', 'OPER_Adapter', 'Customer Update Persisted', 50),
+  createRow(severityNamer(10), 'eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'crm_server_000001', 'CRM', 'CRM_Adapter', 'Customer Update Started', 10),
+  createRow(severityNamer(10), 'eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'crm_server_000002', 'CRM', 'CRM_Adapter', 'Customer Update Published', 10),
+  createRow(severityNamer(10), 'eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'accounting_server_000001', 'ACCOUNT', 'ACCOUNT_Adapter', 'Customer Update Received', 10),
+  createRow(severityNamer(30), 'eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'accounting_server_000002', 'ACCOUNT', 'ACCOUNT_Adapter', 'Customer Update Persisted', 30),
+  createRow(severityNamer(10), 'eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'operations_server_000001', 'OPER', 'OPER_Adapter', 'Customer Update Received', 10),
+  createRow(severityNamer(10), 'eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'operations_server_000002', 'OPER', 'OPER_Adapter', 'Customer Update Persisted', 10),
+
+  createRow(severityNamer(10), 'eai_crm_server_111113', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 01.55.03.480000 AM', 'Customer_Id', '345678', 'Effective_Date', '03/01/2022 05:00:00', 'crm_server_000001', 'CRM', 'CRM_Adapter', 'Customer Update Started', 10),
+  createRow(severityNamer(10), 'eai_crm_server_111113', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 01.55.03.480000 AM', 'Customer_Id', '345678', 'Effective_Date', '03/01/2022 05:00:00', 'crm_server_000002', 'CRM', 'CRM_Adapter', 'Customer Update Published', 10),
+  createRow(severityNamer(10), 'eai_crm_server_111113', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 01.55.03.480000 AM', 'Customer_Id', '345678', 'Effective_Date', '03/01/2022 05:00:00', 'accounting_server_000001', 'ACCOUNT', 'ACCOUNT_Adapter', 'Customer Update Received', 10),
+  createRow(severityNamer(10), 'eai_crm_server_111113', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 01.55.03.480000 AM', 'Customer_Id', '345678', 'Effective_Date', '03/01/2022 05:00:00', 'accounting_server_000002', 'ACCOUNT', 'ACCOUNT_Adapter', 'Customer Update Persisted', 10),
+  createRow(severityNamer(10), 'eai_crm_server_111113', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 01.55.03.480000 AM', 'Customer_Id', '345678', 'Effective_Date', '03/01/2022 05:00:00', 'operations_server_000001', 'OPER', 'OPER_Adapter', 'Customer Update Received', 10),
+  createRow(severityNamer(50), 'eai_crm_server_111113', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 01.55.03.480000 AM', 'Customer_Id', '345678', 'Effective_Date', '03/01/2022 05:00:00', 'operations_server_000002', 'OPER', 'OPER_Adapter', 'Customer Update Persisted', 50),
+
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -250,7 +269,8 @@ export default function EnhancedTable() {
   const [orderBy, setOrderBy] = React.useState('date');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
+  const [dense, setDense] = React.useState(true);
+  // You can change the numbers of rows that appear
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (event, property) => {
@@ -331,17 +351,28 @@ export default function EnhancedTable() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
+
                   const isItemSelected = isSelected(row.SEVERITY);
+
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
+                  //This section is used to display our Data on the table
                     <TableRow
                       hover
+
                       onClick={(event) => handleClick(event, row.SEVERITY)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row.GLOBAL_INSTANCE_ID}
+
+                      onClick={(event) => handleClick(event, row.Global_Instance_ID)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.Global_Instance_ID}
+
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -353,13 +384,15 @@ export default function EnhancedTable() {
                           }}
                         />
                       </TableCell>
+
                       <TableCell
                         component="th"
                         id={labelId}
                         scope="row"
                         padding="none"
                       >
-                        {row.SEVERITY}
+                      
+                        {row.SEVERITY_NAME}
                       </TableCell>
                       <TableCell align="right">{row.EAI_TRANSACTION_CREATE_TIME}</TableCell>
                       <TableCell align="right">{row.BUSINESS_DOMAIN}</TableCell>
