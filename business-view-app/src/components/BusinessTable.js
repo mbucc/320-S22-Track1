@@ -73,15 +73,6 @@ const rows = [
   createRow('eai_crm_server_111113', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 01.55.03.480000 AM', 'Customer_Id', '345678', 'Effective_Date', '03/01/2022 05:00:00', 'operations_server_000001', 'OPER', 'OPER_Adapter', 'Customer Update Received', 10),
   createRow('eai_crm_server_111113', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 01.55.03.480000 AM', 'Customer_Id', '345678', 'Effective_Date', '03/01/2022 05:00:00', 'operations_server_000002', 'OPER', 'OPER_Adapter', 'Customer Update Persisted', 50),
 
-  createRow('0', 'Info', '07/15/2021 03:23:24:333', 'CRM', 'CRM App', 'Published Customer Info'),
-  createRow('1', 'Warning', '07/14/2021 03:23:24:333', 'Settlement', 'Settlement App', 'Received Customer Update'),
-  createRow('2', 'Error', '07/13/2021 03:23:24:333', 'Settlement', 'Settlement App', 'Persisted Customer Update'),
-  createRow('3', 'Success', '07/12/2021 03:23:24:333', 'CRM', 'CRM App', 'Published Customer Info'),
-  createRow('4', 'Info', '07/11/2021 03:23:24:333', 'CRM', 'CRM App', 'Published Customer Info'),
-  createRow('5', 'Warning', '07/10/2021 03:23:24:333', 'Settlement', 'Settlement App', 'Received Customer Update'),
-  createRow('6', 'Error', '07/09/2021 03:23:24:333', 'Settlement', 'Settlement App', 'Persisted Customer Update'),
-  createRow('7', 'Success', '07/08/2021 03:23:24:333', 'CRM', 'CRM App', 'Published Customer Info'),
-
 ];
 
 function descendingComparator(a, b, orderBy) {
