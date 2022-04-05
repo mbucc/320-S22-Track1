@@ -39,8 +39,9 @@
 .DashboardScreen {
   display: flex;
   justify-content: space-between;
-  flex-direction: column;
+  /* flex-direction: column; */
   /* max-height: 100vh; */
+  max-width: 200vh;
 }
 
 .DashboardScreen__NameAndLogout {
@@ -55,7 +56,7 @@
 .DashboardScreen__Center {
   /* background-color:black; */
   z-index: 1;
-  position: absolute;
+  position: relative;
   margin-left: 40px;
   width: -webkit-fill-available;
   /* margin-left: -15%; */
@@ -63,7 +64,7 @@
 
 .DashboardScreen__Center__main {
   /* position: absolute; */
-  left: 0;
+  /* left: 0; */
   right: 0;
   justify-content: space-between;
   align-items: flex-end;
