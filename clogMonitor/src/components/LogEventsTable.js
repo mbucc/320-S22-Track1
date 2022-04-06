@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Button, Link } from "@mui/material";
 // Defines the columns for mui DataGrid
@@ -87,14 +87,16 @@ const columns = [
  * @returns {React.ElementType}
  */
 const LogEventsTable = ({data}) => {
+    const [pageSize, setPageSize] = useState(5)
 
     return (
         <div className='log-events-table-container'>
             <DataGrid
                 rows={data}
                 columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
+                pageSize={pageSize}
+                rowsPerPageOptions={[5, 10, 25, 50, 100]}
+                onPageSizeChange={(newSize) => setPageSize(newSize)}
                 getRowId={(row) => row["GLOBAL_INSTANCE_ID"]}
             />
       </div>
