@@ -1,6 +1,6 @@
 import { Button, FormControl } from "@mui/material";
 import React from "react";
-import { getColumnValues, getTableData } from "../fakeDatabase";
+import { getColumnValues, getTableData, minmaxtime } from "../fakeDatabase";
 import CheckboxGroup from "./CheckboxGroup";
 import Dropdown from "./Dropdown";
 import TimeRange from "./TimeRange";
@@ -18,6 +18,27 @@ const getCurrentDateTimeString = () => {
     let formattedDate = adjustedDate.toISOString().substring(0, 19);
     return formattedDate;
 };
+
+/**
+ * Returns the default start datetime or end datetime depending on if i is 0 or 1, in local time
+ * 
+ * @param {0 | 1} i 0 if requesting default start, 1 if requesting default end
+ * @returns {string} The default local datetime string formatted for datetime-local inputs
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Date_and_time_formats#local_date_and_time_strings}
+ */
+const getDefaultDateTimeString = (i) => {
+    // Uses min time for start and max time for end
+    // unless there is no data, in which we use current datetime
+    const mmtime = minmaxtime();
+    if(mmtime) {
+        // mmtime is in utc, we need offset;
+        let adjustedDates = mmtime.map((d) => new Date(d.getTime() - (60000 * d.getTimezoneOffset())));
+        // use 23 instead of 19 for ms precision
+        return adjustedDates[i].toISOString().substring(0, 19);
+    } else {
+        return getCurrentDateTimeString();
+    }
+}
 
 /**
  * The filters for the Log Events Table.
@@ -56,8 +77,8 @@ const LogEventsFilters = ({ tableDataSetter }) => {
     const processIds = getColumnValues("EVENT_CONTEXT");
     const [process_service, setProcess_service] = React.useState("All");
     // Datetime states (Dates stored are in local time, not UTC)
-    const [startTime, setStartTime] = React.useState(getCurrentDateTimeString());
-    const [endTime, setEndTime] = React.useState(getCurrentDateTimeString());
+    const [startTime, setStartTime] = React.useState(getDefaultDateTimeString(0));
+    const [endTime, setEndTime] = React.useState(getDefaultDateTimeString(1));
 
     // Handlers
     const handleApplyFilters = (e) => {
