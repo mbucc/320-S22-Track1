@@ -2,19 +2,23 @@ import React from "react";
 import ErrorLogBox from "../ErrorLogBox/ErrorLogBox";
 import "./ErrorLogPane.css";
 
-function ErrorLogPane() {
-  let arr = ["hi", "hi", "hi", "hi"];
+function ErrorLogPane({ logEvents }) {
+  // console.log(logEvents);
+  // setChosenLogEventID(logEvent["GLOBAL_INSTANCE_ID"]
   return (
     <div>
       <div className="ErrorLogPane">
         <h2 className="ErrorLogPane__heading">Recent Error Logs</h2>
         <div className="ErrorLogPane__body">
-          {arr.map((x) => (
-            <ErrorLogBox className="ErrorLogPane__box"></ErrorLogBox>
+          {logEvents.map((logEvent) => (
+            <ErrorLogBox
+              className="ErrorLogPane__box"
+              logEvent={logEvent}
+            ></ErrorLogBox>
           ))}
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
