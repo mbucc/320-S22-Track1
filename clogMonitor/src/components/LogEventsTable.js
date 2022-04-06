@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Button, Link } from "@mui/material";
+import { Button } from "@mui/material";
 // Defines the columns for mui DataGrid
 // See https://mui.com/components/data-grid/columns/ for possible keys and more details
 // Used keys:
@@ -72,7 +72,7 @@ const columns = [
         headerName: 'Log Event',
         type: 'actions',
         getActions: (params) => [
-            <Button key="detailkey" href={"/log-detail?id=" + params.id}>Detail</Button>
+            <Button key="detailkey" href={"/log-details/" + params.id}>Detail</Button>
         ]
     }
 ];

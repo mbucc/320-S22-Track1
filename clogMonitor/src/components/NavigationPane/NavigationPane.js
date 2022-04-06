@@ -15,7 +15,7 @@ function NavigationPane() {
         </h3>
         <h3>
           <Link
-            href="business-processes"
+            href="/business-processes"
             underline="none"
             className="NavigationPane__link"
           >
@@ -24,7 +24,7 @@ function NavigationPane() {
         </h3>
         <h3>
           <Link
-            href="log-events"
+            href="/log-events"
             underline="none"
             className="NavigationPane__link"
           >

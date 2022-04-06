@@ -6,6 +6,7 @@ import "./DashboardScreen.css";
 import Home from "../components/Home/Home";
 import LogEvents from "../components/LogEvents";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LogDetail from "../components/LogDetail";
 
 function DashboardScreen() {
   return (
@@ -25,7 +26,7 @@ function DashboardScreen() {
               <Route path="/" element={<Home />} />
               {/* <Route path="business-processes" element={{}} /> */}
               <Route path="/log-events" element={<LogEvents />} />
-              {/* <Route path="/log-details?id=" element={<LogDetail data={apicall(id)}/>} /> */}
+              <Route path="/log-details/:id" element={<LogDetail/>} />
             </Routes>
           </BrowserRouter>
         </div>

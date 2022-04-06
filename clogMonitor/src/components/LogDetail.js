@@ -1,6 +1,8 @@
 import React from 'react';
 import { Typography, TextField } from '@mui/material';
 import './LogDetail.css'
+import { useParams } from 'react-router-dom';
+import { getRowByID } from '../fakeDatabase';
 /**
  * A group of checkboxes for selecting any or all of some options
  * 
@@ -54,7 +56,10 @@ displayNames.set('MSG', 'Message')
 
 
 
-const LogDetail = ({data}) => {
+const LogDetail = () => {
+    const { id } = useParams();
+    const data = getRowByID(id);
+
     return (
         <div className='log-detail-container'>
 

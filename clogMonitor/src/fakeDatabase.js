@@ -248,3 +248,9 @@ export function produceRows(n) {
     // console.log(rows);
     return rows;
 }
+
+
+export function getRowByID(id) {
+    // in the real database, this should be much faster since id is an index
+    return data.find(row => row["GLOBAL_INSTANCE_ID"] === id);
+}
