@@ -74,6 +74,13 @@ function parseFilters(filters) {
             resultFilters[columnName] = (x) => {
                 return rawFilter.has(x);
             }
+        } else if (columnName === "CREATION_TIME") {
+            // rawFilter should be of type [Datetimestring, Datetimestring]
+            resultFilters[columnName] = (x) => {
+                const startDateObj = new Date(rawFilter[0]);
+                const endDateObj = new Date(rawFilter[1]);
+                return x >= startDateObj && x <= endDateObj;
+            }
         } else {
             console.warn("Unsupported filter: ", columnName);
             // We do not add unsupported columnNames to the resultFilters
@@ -99,6 +106,9 @@ export function getTableData(filters) {
             if(filterfuncs[col]) {
                 const filterfunc = filterfuncs[col];
                 if(!(filterfunc(row[col]))) {
+                    console.log("fails");
+                    console.log(filterfunc);
+                    console.log(row[col]);
                     includeRow = false;
                     break;
                 }

@@ -73,7 +73,7 @@ const LogEventsFilters = ({ tableDataSetter }) => {
             BUSINESS_SUBDOMAIN: businessSubDomain,
             APPLICATION: application,
             EVENT_CONTEXT: process_service,
-            // CREATION_TIME: [startTime, endTime]
+            CREATION_TIME: [startTime, endTime],
         };
 
         // Request table data according to filters (This is where we would do a axios POST)
