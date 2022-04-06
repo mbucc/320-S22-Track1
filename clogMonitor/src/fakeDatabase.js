@@ -35,7 +35,7 @@ for(let row of data) {
 }
 
 const dropdownFilters = ["EAI_DOMAIN", "BUSINESS_DOMAIN", "BUSINESS_SUBDOMAIN", "APPLICATION", "EVENT_CONTEXT"];
-const prioritiesMapping = {"High": "70", "Medium": "50", "Low": "10"};
+const prioritiesMapping = {"High": 70, "Medium": 50, "Low": 10};
 
 
 // Takes the raw values of filters (which is just the values of the filters from the UI)

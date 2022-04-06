@@ -32,10 +32,17 @@ const LogEventsFilters = ({ tableDataSetter }) => {
     // Checkbox group states
     const allPriorities = ["High", "Medium", "Low"];
     const [selectedPriorities, setSelectedPriorities] = React.useState(new Set(allPriorities));
-    const allSeverities = ["Errors", "Warnings", "Success", "Info"];
+    const allSeverities = ["Error", "Warning", "Success", "Info"];
     const [selectedSeverities, setSelectedSeverities] = React.useState(new Set(allSeverities));
     const allCategories = ["Status", "Start", "Stop", "Security", "Heartbeat"];
     const [selectedCategories, setSelectedCategories] = React.useState(new Set(allCategories));
+
+    //Dropdown id's
+    const EAI_DOMAIN_ID = "EAI_DOMAIN_ID"
+    const BUSINESS_DOMAIN_ID = "BUSINESS_DOMAIN_ID"
+    const BUSINESS_SUBDOMAIN_ID = "BUSINESS_SUBDOMAIN_ID"
+    const APPLICATION_ID = "APPLICATION_ID"
+    const PROCESS_SERVICE_ID = "PROCESS_SERVICE_ID"
 
     // Dropdown states
     const EAIDomains = getColumnValues("EAI_DOMAIN");
@@ -138,20 +145,21 @@ const LogEventsFilters = ({ tableDataSetter }) => {
         makeCheckboxGroupProps("Categories", allCategories, selectedCategories, setSelectedCategories),
     ];
     // Dropdowns
-    const makeDropdownProps = (label, options, value, setter) => {
+    const makeDropdownProps = (label, id, options, value, setter) => {
         return {
             label: label,
+            id: id,
             options: options,
             value: value,
             handler: getDropdownHandler(setter),
         }
     }
     const dropdownProps = [
-        makeDropdownProps("EAI Domain", EAIDomains, EAIDomain, setEAIDomain),
-        makeDropdownProps("Business Domain", businessDomains, businessDomain, setBusinessDomain),
-        makeDropdownProps("Business SubDomain", businessSubDomains, businessSubDomain, setBusinessSubDomain),
-        makeDropdownProps("Application", applications, application, setApplication),
-        makeDropdownProps("Process/Service", processIds, process_service, setProcess_service),
+        makeDropdownProps("EAI Domain", EAI_DOMAIN_ID, EAIDomains, EAIDomain, setEAIDomain),
+        makeDropdownProps("Business Domain", BUSINESS_DOMAIN_ID, businessDomains, businessDomain, setBusinessDomain),
+        makeDropdownProps("Business SubDomain", BUSINESS_SUBDOMAIN_ID, businessSubDomains, businessSubDomain, setBusinessSubDomain),
+        makeDropdownProps("Application", APPLICATION_ID, applications, application, setApplication),
+        makeDropdownProps("Process/Service", PROCESS_SERVICE_ID, processIds, process_service, setProcess_service),
     ]
 
     return (
@@ -178,6 +186,7 @@ const LogEventsFilters = ({ tableDataSetter }) => {
                                 <Dropdown
                                     key={dprops.label}
                                     label={dprops.label}
+                                    id={dprops.id}
                                     options={dprops.options}
                                     value={dprops.value}
                                     handleSelection={dprops.handler}
