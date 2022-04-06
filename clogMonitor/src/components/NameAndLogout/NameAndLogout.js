@@ -23,13 +23,16 @@ function NameAndLogout(props) {
       <Box
         sx={{
           position: "absolute",
-          border: "0.5px solid grey",
+          border: "1px solid grey",
           borderRadius: "8%",
           top: "2%",
           right: "5%",
-          width: "12%",
-          height: "6%",
           color: "grey",
+          paddingLeft: 1,
+          paddingRight: 1,
+          paddingBottom: 1,
+          paddingTop: 1,
+
         }}
         onClick={handleClick}
       >
