@@ -12,7 +12,7 @@ function Home() {
         <WelcomeTynography />
       </div>
       <div className="Home__featureInfo">
-      <div classNmae = "Home__FeaturedInfo">
+      <div className = "Home__FeaturedInfo">
       <FeaturedInfo/>
       </div>
       

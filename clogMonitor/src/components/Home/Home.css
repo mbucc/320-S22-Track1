@@ -1,11 +1,17 @@
+
 .Home__subscreen {
   display: flex;
   justify-content: space-between;
 }
 
+.Home__WelcomeTynography {
+  margin: 0 45px;
+}
+
 .Home__FeaturedInfo{
   flex:4;
   margin-top: 10px;
+  margin-left: 45px;
 }
 
 .Home__Charts {

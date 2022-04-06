@@ -1,3 +1,13 @@
+.topnavbar-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+  background-color: #2F2D2D;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+}
+
 .NavigationPane__Display {
   display: block;
 }
@@ -7,10 +17,22 @@
 }
 
 .NavigationPane__heading {
-  color: #224957;
+  color: #f7f7f7;
   /* display: flex; */
+  margin-left: 2em;
+}
+
+.NavigationPane__links {
+  margin-right: -20em;
+  width: 30%;
+  display: flex;
+  justify-content: space-around;
 }
 
 .NavigationPane__link {
-  color: #828282;
+  font-size: 1.5em
+}
+
+.NavigationPane__link:hover{
+  color: #1976D2;
 }

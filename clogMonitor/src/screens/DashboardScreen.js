@@ -10,16 +10,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 function DashboardScreen() {
   return (
     <div className="DashboardScreen">
-      {/* <div className="DashboardScreen__NavigationPane"> */}
-      <div className="DashboardScreen__NavigationPane__Display">
-        <NavigationPane />
-      </div>
-      {/* </div> */}
-      <div className="DashboardScreen__Center">
-        <div className="DashboardScreen_Logo">
+      {/* <div className="DashboardScreen__Center"> */}
+        {/* <div className="DashboardScreen_Logo">
           <Logo />
-        </div>
-        <div className="DashboardScreen__Center__main">
+        </div> */}
+        {/* <div className="DashboardScreen__NameAndLogout">
+          <NameAndLogout />
+        </div> */}
+        <NavigationPane />
+        {/* <div className="DashboardScreen__Center__main"> */}
+        <div>
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -29,10 +29,7 @@ function DashboardScreen() {
             </Routes>
           </BrowserRouter>
         </div>
-        <div className="DashboardScreen__NameAndLogout">
-          <NameAndLogout />
-        </div>
-      </div>
+      {/* </div> */}
     </div>
   );
 }
