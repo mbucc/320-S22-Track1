@@ -1,5 +1,8 @@
 # Compiled class file
 *.class
+.history
+
+node_modules
 
 # Log file
 *.log

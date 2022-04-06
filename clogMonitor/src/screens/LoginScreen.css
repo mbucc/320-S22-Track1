@@ -1,0 +1,46 @@
+.Login__NavigationPane {
+  text-align: left;
+  max-width: 250px;
+  width: 200px;
+  /* display: flex; */
+  /* align-self: center; */
+  padding: 20px;
+  background-color: #f9f9f9;
+  height: 95vh;
+}
+
+.LoginScreen {
+  justify-content: center;
+  /* max-height: 100vh; */
+}
+
+.LoginScreen__NameAndLogout {
+  margin: 20px;
+}
+
+.LoginScreen_Logo {
+  /* background-color: blue; */
+  width: 100%;
+}
+
+.LoginScreen__Center {
+  /* background-color:black; */
+  width: 100%;
+}
+
+.LoginScreen_Charts {
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  text-align: center;
+}
+
+.LoginScreen__ErrorLogPane {
+  background-color: #f9f9f9;
+  position: relative;
+  top: 10%
+}
+
+.LoginScreen_WelcomeTynography{
+  font-size:30px;
+}

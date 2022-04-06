@@ -1,0 +1,83 @@
+.DashboardScreen__Navigation__Button_On {
+  z-index: 2;
+  display: block;
+  text-align: left;
+  /* max-width: 250px; */
+  width: 200px;
+  /* display: flex; */
+  /* align-self: center; */
+  padding: 20px;
+  background-color: #f9f9f9;
+  z-index: 2;
+  transition: 1s;
+}
+
+.DashboardScreen__Navigation__Button_Off {
+  z-index: 2;
+  transition: 1s;
+}
+
+.DashboardScreen__NavigationPane__Display {
+  display: block;
+  text-align: left;
+  max-width: 250px;
+  width: 200px;
+  /* display: flex; */
+  /* align-self: center; */
+  padding: 20px;
+  background-color: #f9f9f9;
+  height: 85vh;
+  z-index: 2;
+  transition: 1s;
+}
+
+.DashboardScreen__NavigationPane__No__Display {
+  display: none;
+  transition: 1s;
+}
+
+.DashboardScreen {
+  display: flex;
+  justify-content: space-between;
+  /* flex-direction: column; */
+  /* max-height: 100vh; */
+  max-width: 200vh;
+}
+
+.DashboardScreen__NameAndLogout {
+  margin: 20px;
+}
+
+.DashboardScreen_Logo {
+  /* background-color: blue; */
+  width: 100%;
+}
+
+.DashboardScreen__Center {
+  /* background-color:black; */
+  z-index: 1;
+  position: relative;
+  margin-left: 40px;
+  width: -webkit-fill-available;
+  /* margin-left: -15%; */
+}
+
+.DashboardScreen__Center__main {
+  /* position: absolute; */
+  /* left: 0; */
+  right: 0;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  /* display: flex; */
+}
+
+.DashboardScreen__ErrorLogPane {
+  background-color: #f9f9f9;
+  position: relative;
+  top: 10%;
+}
+
+.DashboardScreen_WelcomeTynography {
+  font-size: 30px;
+}
