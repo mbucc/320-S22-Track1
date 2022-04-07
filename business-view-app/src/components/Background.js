@@ -24,8 +24,8 @@ const themeLight = createTheme({
       }
     }
   });
-  
-  const App = () => {
+
+  const Background = () => {
     const [light, setLight] = React.useState(true);
     return (
       <ThemeProvider theme={light ? themeLight : themeDark}>
@@ -35,4 +35,4 @@ const themeLight = createTheme({
     );
   };
 
-export default App;
+export default Background;

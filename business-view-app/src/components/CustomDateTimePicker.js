@@ -9,6 +9,7 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
 import Stack from '@mui/material/Stack';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import Background from './Background.js';
 
 /* Author: @wilsonnexus, isRangeError() from Team Goose
 * Customizable MUI Date Time Range Picker with Error Handling
@@ -18,17 +19,6 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 const themeLight = createTheme({
     palette: {
       background: {
-        default: "#FFFFFF"
-      },
-      text: {
-        primary: "#000000"
-      }
-    }
-  });
-  
-const themeDark = createTheme({
-    palette: {
-      background: {
         default: "#000000"
       },
       text: {
@@ -36,9 +26,19 @@ const themeDark = createTheme({
       }
     }
   });
+  
+const themeDark = createTheme({
+    palette: {
+      background: {
+        default: "#FFFFFF"
+      },
+      text: {
+        primary: "#000000"
+      }
+    }
+  });
 
 export default function CustomDateTimePicker() {
-  const [light, setLight] = React.useState(true);
   const [clearedDate, setClearedDate] = React.useState(null);
   const [startTime, setStartTime] = React.useState(new Date());
   const [endTime, setEndTime] = React.useState(new Date());
@@ -52,7 +52,7 @@ export default function CustomDateTimePicker() {
     }
 
   return (
-  <ThemeProvider theme={light ? themeLight : themeDark}>
+  <ThemeProvider theme={Background.light ? themeLight : themeDark}>
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Stack spacing={3} sx={{ width: 0.9}} sy={{ height: 2}} >
         
@@ -66,7 +66,7 @@ export default function CustomDateTimePicker() {
           label="Start Time"
           onError={console.log}
           maxDate={endTime}
-          inputFormat="yyyy/dd/MM HH:mm"
+          inputFormat="dd/MM/yyyy HH:mm"
           mask="___/__/__ __:__"
           renderInput={(params) => <TextField {...params} />}
         />
@@ -80,7 +80,7 @@ export default function CustomDateTimePicker() {
           label="End Time"
           onError={console.log}
           minDate={startTime}
-          inputFormat="yyyy/dd/MM HH:mm"
+          inputFormat="dd/MM/yyyy HH:mm"
           mask="___/__/__ __:__"
           renderInput={(params) => <TextField {...params} />}
         />

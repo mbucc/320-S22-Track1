@@ -27,6 +27,7 @@ import EnhancedTable from './components/BusinessTable.js';
   class BusinessView extends React.Component {
       render() {
           return (
+                
               <div>
                 <NavTab />
                 <Grid container spacing={1} direction="row" alignItems="center" justifyContent="center">
