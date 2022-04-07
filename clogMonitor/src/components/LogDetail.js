@@ -31,6 +31,12 @@ import './LogDetail.css'
 // "CATEGORY_NAME": "Status",
 // "ACTIVITY": "Customer Update Started",
 // "MSG": "Recieved a customer update start event",
+const group1 = ["BUSINESS_DOMAIN", "BUSINESS_SUBDOMAIN", "VERSION", "SEVERITY", "PRIORITY", "CREATION_TIME"];
+
+const group2 = ["GLOBAL_INSTANCE_ID", "LOCAL_INSTANCE_ID", "EAI_TRANSACTION_ID"];
+
+const group3 = ["EAI_DOMAIN", "HOSTNAME", "APPLICATION", "EVENT_CONTEXT", "COMPONENT", "REASONING_SCOPE", "PROCESS_ID", "CATEGORY_NAME", "ACTIVITY"];
+
 const displayNames = new Map();
 displayNames.set('GLOBAL_INSTANCE_ID', 'Global Instance ID')
 displayNames.set('BUSINESS_DOMAIN', 'Business Domain')
@@ -54,36 +60,78 @@ displayNames.set('MSG', 'Message')
 
 
 
+
 const LogDetail = ({data}) => {
+    const makeDetailBox = (key, label, value, isFull) => {
+        return <TextField
+                key={key}
+                id="outlined-read-only-input"
+                label={label}
+                value={value}
+                inputProps={{
+                    readOnly: true,
+                }}
+
+            />
+    }
+    const makeLongBox = (key, label, value) => {
+        return <TextField
+                key={key}
+                id="outlined-read-only-input"
+                label={label}
+                value={value}
+                fullWidth
+                inputProps={{
+                    readOnly: true,
+                }}
+            />
+    }
+    const drawGroup = (group, func) => {
+        const boxes = [];
+        for (let i = 0; i < group.length; i++) {
+            let k = group[i]
+            boxes[i] = (func(k, displayNames.get(k), data[k]))
+        }
+
+        return boxes;
+    }
+
+    const writeMsg = (msg) => {
+        return (
+            <Typography> 
+                Log Message
+                <div class="scroll"> {msg} </div>
+            </Typography> 
+            )
+    }
+    
     return (
         <div className='log-detail-container'>
-
-            {  
-                Object.keys(data).map(k => {
-                    let v = data[k];
-                    let ks = displayNames.get(k)
-                    if (k === 'MSG') {
-                        return (
-                            <Typography> 
-                                Log Message
-                                <div class="scroll"> {v} </div>
-                            </Typography> 
-                        )
-                    } else {    
-                        return <TextField
-                            key={ks}
-                            id="outlined-read-only-input"
-                            label={ks}
-                            value={v}
-                            inputProps={{
-                                readOnly: true,
-                            }}
-                        />
-                    }
-                })
-                    
-             }
-        </div>
+            {drawGroup(group1, makeDetailBox)}   
+            
+            {drawGroup(group2, makeLongBox)}
+            
+            {drawGroup(group3, makeDetailBox)}
+            
+            {writeMsg(data["MSG"])}
+            {/* 
+            Object.keys(data).map(k => {
+                let v = data[k];
+                let ks = displayNames.get(k)
+                if (k === 'MSG') {
+                    return (
+                        <Typography> 
+                            Log Message
+                            <div class="scroll"> {v} </div>
+                        </Typography> 
+                    )
+                } else {    
+                    return makeDetailBox(k, ks, v)
+                }
+            })
+                
+            */} 
+    </div>
     );
 }
 

@@ -3,8 +3,10 @@
     display: flex;
     justify-content: space-evenly;
     flex-flow: row wrap;
-    padding: 20px;
-    height: 60%
+    
+    padding: 35px;
+    /* height: auto; */
+    line-height: normal;
 }
 
 div.scroll {
