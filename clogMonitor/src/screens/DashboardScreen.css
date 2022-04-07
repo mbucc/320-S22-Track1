@@ -40,13 +40,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* flex-direction: column; */
-  /* max-height: 100vh; */
-  max-width: 200vh;
+  max-height: 100vh;
+  /* max-width: 200vh; */
 }
 
 .DashboardScreen__NameAndLogout {
-  margin: 20px;
+  margin-right: 20px;
 }
 
 .DashboardScreen_Logo {
@@ -81,4 +80,8 @@
 
 .DashboardScreen_WelcomeTynography {
   font-size: 30px;
+}
+
+.panel {
+  height: calc(100vh - 63px);
 }

@@ -19,7 +19,7 @@ function DashboardScreen() {
         </div> */}
         <NavigationPane />
         {/* <div className="DashboardScreen__Center__main"> */}
-        <div>
+        <div className="panel">
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home />} />

@@ -8,6 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Typography from "@mui/material/Typography";
+import "./NameAndLogout.css";
 
 function NameAndLogout(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -21,67 +22,28 @@ function NameAndLogout(props) {
   return (
     <div>
       <Box
-        sx={{
-          position: "absolute",
-          border: "0.5px solid grey",
-          borderRadius: "8%",
-          top: "2%",
-          right: "5%",
-          width: "12%",
-          height: "6%",
-          color: "grey",
-        }}
+        className="NameAndLogoutOutline"
         onClick={handleClick}
       >
         <Stack
           direction="row"
           spacing={1}
-          sx={{
-            position: "relative",
-            borderRadius: "50%",
-            top: "15%",
-            left: "2%",
-          }}
+          className="NameAndLogoutLayout"
         >
-          <Box
-            sx={{
-              position: "relative",
-              borderRadius: "50%",
-              width: "13%",
-              left: "5%",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Avatar
-              sx={{
-                borderRadius: "50%",
-                backgroundColor: "red",
-              }}
-              alt="Remy Sharp"
-              src="./img_avatar.png"
-            />
-          </Box>
+          <Avatar
+            className="NameAndLogoutAvatar"
+            alt="Remy Sharp"
+            src="./img_avatar.png"
+          />
 
           <Stack
             direction="column"
-            spacing={1}
-            sx={{
-              position: "relative",
-              borderRadius: "50%",
-              width: "60%",
-              top: "15%",
-              left: "5%",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "90%",
-            }}
           >
-            <Typography variant="body2">Mark Robison</Typography>
-            <Typography variant="body2">Id: 1235687</Typography>
+            <Typography variant="body2" color={"white"}>Mark Robison</Typography>
+            <Typography variant="body2" color={"white"}>ID: 1235687</Typography>
           </Stack>
 
-          <KeyboardArrowDownIcon />
+          <KeyboardArrowDownIcon style={{color: "white"}} />
         </Stack>
       </Box>
       <Menu

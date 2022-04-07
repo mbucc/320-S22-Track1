@@ -1,0 +1,15 @@
+.NameAndLogoutOutline {
+    border: 0.5px solid grey;
+    border-radius: 8%;
+    padding: 5px;
+    color: grey;
+}
+
+.NameAndLogoutLayout {
+    align-items: center;
+}
+
+.NameAndLogoutAvatar {
+    border-radius: 50%;
+    background-color: red !important;
+}

@@ -3,7 +3,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 100vw;
+  /* width: 100vw; */
   background-color: #2F2D2D;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
 }
@@ -20,6 +20,8 @@
   color: #f7f7f7;
   /* display: flex; */
   margin-left: 2em;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .NavigationPane__links {
