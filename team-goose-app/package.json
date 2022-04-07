@@ -18,8 +18,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "cy:runbpv": "cypress run --spec tests/bpv/*.js",
-    "cy:runlev": "cypress run --spec tests/lev/*.js",
+    "cy:runbpv": "cypress run --spec ../tests/bpv/*.js",
+    "cy:runlev": "cypress run --spec ../tests/lev/*.js",
     "testlev": "start-server-and-test start http://localhost:3000 cy:runlev",
     "testbpv": "start-server-and-test start http://localhost:3000 cy:runbpv",
     "eject": "react-scripts eject"
