@@ -1,3 +1,6 @@
+// NOTE: This file defines the API that we want the database to have
+// Eventually, this file will not be needed as we transition to using the actual database
+
 // use the dummy data which is in the json
 import data from './sample_log_details.json';
 
@@ -34,12 +37,17 @@ for(let row of data) {
     }
 }
 
+// Helper data for filter parsing (see below)
 const dropdownFilters = ["EAI_DOMAIN", "BUSINESS_DOMAIN", "BUSINESS_SUBDOMAIN", "APPLICATION", "EVENT_CONTEXT"];
-const prioritiesMapping = {"High": "70", "Medium": "50", "Low": "10"};
+const prioritiesMapping = {"High": 70, "Medium": 50, "Low": 10};
 
 
-// Takes the raw values of filters (which is just the values of the filters from the UI)
-// and transforms it into a filter function, which returns true if the input should pass the filter
+/**
+ * Transforms the raw filters into a list of filter functions
+ * 
+ * @param {{[columnName: string]: Set<String> | String | [String, String];}} filters A map from column names to raw filter values
+ * @returns {{[columnName: string]: (value: any) => boolean}} A list of filter functions
+ */
 function parseFilters(filters) {
     const resultFilters = {}
     for(let columnName in filters) {
@@ -74,6 +82,13 @@ function parseFilters(filters) {
             resultFilters[columnName] = (x) => {
                 return rawFilter.has(x);
             }
+        } else if (columnName === "CREATION_TIME") {
+            // rawFilter should be of type [Datetimestring, Datetimestring]
+            resultFilters[columnName] = (x) => {
+                const startDateObj = new Date(rawFilter[0]);
+                const endDateObj = new Date(rawFilter[1]);
+                return x >= startDateObj && x <= endDateObj;
+            }
         } else {
             console.warn("Unsupported filter: ", columnName);
             // We do not add unsupported columnNames to the resultFilters
@@ -82,8 +97,12 @@ function parseFilters(filters) {
     return resultFilters;
 }
 
-// filters are a mapping from column names to state associated with the filter for that column name
-// and returns the rows of data that pass those filters
+/**
+ * Returns the table data that matches the given filters
+ * 
+ * @param {{[columnName: string]: Set<String> | String | [String, String];}} filters A map from column names to raw filter values
+ * @returns {{[columnName: string]: String;}[]} The row data that passes the filters
+ */
 export function getTableData(filters) {
     if(!filters) {
         return data;
@@ -112,7 +131,12 @@ export function getTableData(filters) {
     return resultData;
 }
 
-// returns all the (unique) values that are in data for the give columnName
+/**
+ * Returns all the (unique) values that are in data for the given columnName
+ * 
+ * @param {String} columnName The name of the column to get the values for
+ * @returns {String[]} The values of the column, [""] if no such column exists
+ */
 export function getColumnValues(columnName) {
     if(!columnName) {
         return [""];
@@ -125,8 +149,32 @@ export function getColumnValues(columnName) {
     return [...deDup];
 }
 
-// The names of the columns
-// In order of usefulness to show in the table demo
+/**
+ * Returns the minimum and maximum Date objects in the data, undefined if no data exists
+ * 
+ * @returns {[Date, Date] | undefined} The minimum and maximum Date objects in the data
+ */
+export function minmaxtime() {
+    if(!data) {
+        return undefined;
+    }
+
+    let mintime = new Date();   // current time
+    let maxtime = new Date(0);  // epoch time
+    for (let row of data) {
+        const d = row["CREATION_TIME"];
+        if(d < mintime) {
+            mintime = d;
+        }
+        if(d > maxtime) {
+            maxtime = d;
+        }
+    }
+    return [mintime, maxtime];
+}
+
+// The names of the columns in order of usefulness to show in the table
+// Used in function produceRows() below
 // KEEP GLOBAL_INSTANCE_ID FIRST!
 const colNames = [
     'GLOBAL_INSTANCE_ID',
@@ -152,6 +200,13 @@ const colNames = [
 
 // Generates n rows by rotating through the possible values of each column
 // possible values are from the column values in data
+
+/**
+ * Returns n rows of data by rotating through possible values of each column
+ * 
+ * @param {Number} n The number of rows to produce
+ * @returns {{[columnName: string]: String;}[]} A list of data rows
+ */
 export function produceRows(n) {
     let columnsMap = {};
     let indices = {};

@@ -1,6 +1,6 @@
 import { Button, FormControl } from "@mui/material";
 import React from "react";
-import { getColumnValues, getTableData } from "../fakeDatabase";
+import { getColumnValues, getTableData, minmaxtime } from "../fakeDatabase";
 import CheckboxGroup from "./CheckboxGroup";
 import Dropdown from "./Dropdown";
 import TimeRange from "./TimeRange";
@@ -20,6 +20,27 @@ const getCurrentDateTimeString = () => {
 };
 
 /**
+ * Returns the default start datetime or end datetime depending on if i is 0 or 1, in local time
+ * 
+ * @param {0 | 1} i 0 if requesting default start, 1 if requesting default end
+ * @returns {string} The default local datetime string formatted for datetime-local inputs
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Date_and_time_formats#local_date_and_time_strings}
+ */
+const getDefaultDateTimeString = (i) => {
+    // Uses min time for start and max time for end
+    // unless there is no data, in which we use current datetime
+    const mmtime = minmaxtime();
+    if(mmtime) {
+        // mmtime is in utc, we need offset;
+        let adjustedDates = mmtime.map((d) => new Date(d.getTime() - (60000 * d.getTimezoneOffset())));
+        // use 23 instead of 19 for ms precision
+        return adjustedDates[i].toISOString().substring(0, 19);
+    } else {
+        return getCurrentDateTimeString();
+    }
+}
+
+/**
  * The filters for the Log Events Table.
  * 
  * @param {Object} props
@@ -32,10 +53,17 @@ const LogEventsFilters = ({ tableDataSetter }) => {
     // Checkbox group states
     const allPriorities = ["High", "Medium", "Low"];
     const [selectedPriorities, setSelectedPriorities] = React.useState(new Set(allPriorities));
-    const allSeverities = ["Errors", "Warnings", "Success", "Info"];
+    const allSeverities = ["Error", "Warning", "Success", "Info"];
     const [selectedSeverities, setSelectedSeverities] = React.useState(new Set(allSeverities));
     const allCategories = ["Status", "Start", "Stop", "Security", "Heartbeat"];
     const [selectedCategories, setSelectedCategories] = React.useState(new Set(allCategories));
+
+    //Dropdown id's
+    const EAI_DOMAIN_ID = "EAI_DOMAIN_ID"
+    const BUSINESS_DOMAIN_ID = "BUSINESS_DOMAIN_ID"
+    const BUSINESS_SUBDOMAIN_ID = "BUSINESS_SUBDOMAIN_ID"
+    const APPLICATION_ID = "APPLICATION_ID"
+    const PROCESS_SERVICE_ID = "PROCESS_SERVICE_ID"
 
     // Dropdown states
     const EAIDomains = getColumnValues("EAI_DOMAIN");
@@ -49,8 +77,8 @@ const LogEventsFilters = ({ tableDataSetter }) => {
     const processIds = getColumnValues("EVENT_CONTEXT");
     const [process_service, setProcess_service] = React.useState("All");
     // Datetime states (Dates stored are in local time, not UTC)
-    const [startTime, setStartTime] = React.useState(getCurrentDateTimeString());
-    const [endTime, setEndTime] = React.useState(getCurrentDateTimeString());
+    const [startTime, setStartTime] = React.useState(getDefaultDateTimeString(0));
+    const [endTime, setEndTime] = React.useState(getDefaultDateTimeString(1));
 
     // Handlers
     const handleApplyFilters = (e) => {
@@ -66,7 +94,7 @@ const LogEventsFilters = ({ tableDataSetter }) => {
             BUSINESS_SUBDOMAIN: businessSubDomain,
             APPLICATION: application,
             EVENT_CONTEXT: process_service,
-            // CREATION_TIME: [startTime, endTime]
+            CREATION_TIME: [startTime, endTime],
         };
 
         // Request table data according to filters (This is where we would do a axios POST)
@@ -138,20 +166,21 @@ const LogEventsFilters = ({ tableDataSetter }) => {
         makeCheckboxGroupProps("Categories", allCategories, selectedCategories, setSelectedCategories),
     ];
     // Dropdowns
-    const makeDropdownProps = (label, options, value, setter) => {
+    const makeDropdownProps = (label, id, options, value, setter) => {
         return {
             label: label,
+            id: id,
             options: options,
             value: value,
             handler: getDropdownHandler(setter),
         }
     }
     const dropdownProps = [
-        makeDropdownProps("EAI Domain", EAIDomains, EAIDomain, setEAIDomain),
-        makeDropdownProps("Business Domain", businessDomains, businessDomain, setBusinessDomain),
-        makeDropdownProps("Business SubDomain", businessSubDomains, businessSubDomain, setBusinessSubDomain),
-        makeDropdownProps("Application", applications, application, setApplication),
-        makeDropdownProps("Process/Service", processIds, process_service, setProcess_service),
+        makeDropdownProps("EAI Domain", EAI_DOMAIN_ID, EAIDomains, EAIDomain, setEAIDomain),
+        makeDropdownProps("Business Domain", BUSINESS_DOMAIN_ID, businessDomains, businessDomain, setBusinessDomain),
+        makeDropdownProps("Business SubDomain", BUSINESS_SUBDOMAIN_ID, businessSubDomains, businessSubDomain, setBusinessSubDomain),
+        makeDropdownProps("Application", APPLICATION_ID, applications, application, setApplication),
+        makeDropdownProps("Process/Service", PROCESS_SERVICE_ID, processIds, process_service, setProcess_service),
     ]
 
     return (
@@ -178,6 +207,7 @@ const LogEventsFilters = ({ tableDataSetter }) => {
                                 <Dropdown
                                     key={dprops.label}
                                     label={dprops.label}
+                                    id={dprops.id}
                                     options={dprops.options}
                                     value={dprops.value}
                                     handleSelection={dprops.handler}

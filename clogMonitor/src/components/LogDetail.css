@@ -1,0 +1,21 @@
+.log-detail-container {
+    /* max-width: 1000px; */
+    display: flex;
+    justify-content: space-evenly;
+    flex-flow: row wrap;
+    
+    padding: 35px;
+    /* height: auto; */
+    line-height: normal;
+}
+
+div.scroll {
+    /* width: 600px; */
+    /* height: 150px; */
+    overflow-x: hidden;
+    overflow-y: scroll; 
+    text-align: left;
+    padding: 40px;
+}
+  
+  
