@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Stack from "@mui/material/Stack";
 import Box from '@mui/material/Box';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
+import { Select, MenuItem } from "@mui/material";
   
 const errorData = [
     {
@@ -59,6 +59,7 @@ const warningData = [
 ];
 
 export default function AppBarChart() {
+    const [chart, setChart] = useState("Warning");
     return (
         <div>
             <Typography component='div'>
@@ -69,7 +70,12 @@ export default function AppBarChart() {
                     fontFamily: 'Monospace',
                     fontSize: 'h4.fontSize',                    
                     }}
-                  > Bar Chart </Box>                
+                  > Bar Chart 
+                  <Select>
+                  <MenuItem value = "Error Log" onClick={() => setChart("Error Log")}> Error Log Events </MenuItem>
+                  <MenuItem value = "Warning Log" onClick={() => setChart("Warning")}> Warning Log Events </MenuItem>
+                </Select>
+                </Box>                
             </Typography>
             <Stack
                 direction="row"
@@ -86,46 +92,45 @@ export default function AppBarChart() {
                     boxShadow: "0px 0px 12px -1px #000000"
                 }}
             >
+    
+                {chart === "Error Log" ? (
                 <div>
-                    <BarChart
-                        width={470}
-                        height={470}
-                        data={errorData}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="application_2" stackId="a" fill="#8884d8" />
-                        <Bar dataKey="application_3" stackId="a" fill="#82ca9d" />
-                        <Bar dataKey="application_1" stackId="a" fill="#ffc658" />
-
+                    <BarChart width={470} height={470} data={errorData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="application_2" stackId="a" fill="#8884D8" />
+                    <Bar dataKey="application_3" stackId="a" fill="#82CA9D" />
+                    <Bar dataKey="application_1" stackId="a" fill="#FFC658" />
                     </BarChart>
-                    <Typography
-                        variant="heading1"
-                    >The number of error log events per application</Typography>
+                    <Typography variant="heading1">
+                        The number of error log events per application
+                    </Typography>
                 </div>
-                <div>
-                    <BarChart
-                        width={470}
-                        height={470}
-                        data={warningData}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="application_2" stackId="a" fill="#60f542" />
-                        <Bar dataKey="application_3" stackId="a" fill="#82ca9d" />
-                        <Bar dataKey="application_1" stackId="a" fill="#f5425d" />
-
+                ) : (
+                <></>
+                )}
+                {chart === "Warning" ? (
+                    <div>
+                    <BarChart width={470} height={470} data={warningData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="application_2" stackId="a" fill="#60F542" />
+                    <Bar dataKey="application_3" stackId="a" fill="#82CA9D" />
+                    <Bar dataKey="application_1" stackId="a" fill="#F5425D" />
                     </BarChart>
-                    <Typography
-                        variant="heading1"
-                    >The number of warning log events per application</Typography>
+                    <Typography variant="heading1">
+                        The number of warning log events per application
+                    </Typography>
                 </div>
+                ) : (
+                <></>
+                )}
             </Stack>
         </div>
     );
