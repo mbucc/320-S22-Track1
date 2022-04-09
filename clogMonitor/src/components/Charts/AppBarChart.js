@@ -1,8 +1,10 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import Stack from "@mui/material/Stack";
+import Box from '@mui/material/Box';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
+  
 const errorData = [
     {
         name: '1/1-1/7',
@@ -59,20 +61,35 @@ const warningData = [
 export default function AppBarChart() {
     return (
         <div>
+            <Typography component='div'>
+                <Box sx={{ 
+                    textAlign: 'left', 
+                    m: 3,
+                    fontWeight: 'bold',
+                    fontFamily: 'Monospace',
+                    fontSize: 'h4.fontSize',                    
+                    }}
+                  > Bar Chart </Box>                
+            </Typography>
             <Stack
                 direction="row"
                 spacing={1}
                 sx={{
+                    display: 'flex', 
+                    justifyContent: 'center',
+                    bgcolor: 'background.paper',
                     position: "relative",
-                    borderRadius: "50%",
                     top: "15%",
                     left: "2%",
+                    border: '1',
+                    borderRadius: '15px',
+                    boxShadow: "0px 0px 12px -1px #000000"
                 }}
             >
                 <div>
                     <BarChart
-                        width={500}
-                        height={500}
+                        width={470}
+                        height={470}
                         data={errorData}
                     >
                         <CartesianGrid strokeDasharray="3 3" />
@@ -91,8 +108,8 @@ export default function AppBarChart() {
                 </div>
                 <div>
                     <BarChart
-                        width={500}
-                        height={500}
+                        width={470}
+                        height={470}
                         data={warningData}
                     >
                         <CartesianGrid strokeDasharray="3 3" />

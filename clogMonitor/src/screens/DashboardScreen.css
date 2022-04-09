@@ -34,6 +34,7 @@
 .DashboardScreen__NavigationPane__No__Display {
   display: none;
   transition: 1s;
+  /*background-color: #8b8787; */
 }
 
 .DashboardScreen {
@@ -47,13 +48,11 @@
   margin: 20px;
 }
 
-.DashboardScreen_Logo {
-  /* background-color: blue; */
+.DashboardScreen_Logo { 
   width: 100%;
 }
 
-.DashboardScreen__Center {
-  /* background-color:black; */
+.DashboardScreen__Center { 
   z-index: 1;
   position: absolute;
   margin-left: 40px;
@@ -67,6 +66,7 @@
   right: 0;
   justify-content: space-between;
   align-items: flex-end;
+  /*background-color: #c7c3c3; */
 
   /* display: flex; */
 }

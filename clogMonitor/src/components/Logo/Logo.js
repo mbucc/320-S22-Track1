@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 
 function Logo(props) {
     return (
-        <Typography variant="h2">
+        <Typography variant="h4">
             CLOG MONITOR
         </Typography>
     );

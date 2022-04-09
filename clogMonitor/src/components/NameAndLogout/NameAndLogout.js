@@ -23,13 +23,14 @@ function NameAndLogout(props) {
       <Box
         sx={{
           position: "absolute",
-          border: "0.5px solid grey",
-          borderRadius: "8%",
-          top: "2%",
-          right: "5%",
+          /*border: "0.5px solid grey",*/
+          /*borderRadius: "8%",*/
+          top: "0.1%",
+          right: "1%",
           width: "12%",
           height: "6%",
           color: "grey",
+          /*boxShadow: "0px 0px 12px -1px #000000",*/
         }}
         onClick={handleClick}
       >
@@ -78,7 +79,6 @@ function NameAndLogout(props) {
             }}
           >
             <Typography variant="body2">Mark Robison</Typography>
-            <Typography variant="body2">Id: 1235687</Typography>
           </Stack>
 
           <KeyboardArrowDownIcon />
