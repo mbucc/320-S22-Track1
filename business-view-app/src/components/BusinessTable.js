@@ -28,9 +28,10 @@ import { visuallyHidden } from '@mui/utils';
 
 
 function createRow(EAI_TRANSACTION_ID, EAI_DOMAIN, PUBLISHING_BUSINESS_DOMAIN,
-    BUSINESS_PROCESS,EAI_TRANSACTION_CREATE_TIME, KEY1_APP_CONTEXT_NAME,
+    BUSINESS_PROCESS,EAI_TRANSACTION_CREATE_TIME_STRING, KEY1_APP_CONTEXT_NAME,
     KEY1_APP_CONTEXT_VALUE, KEY2_APP_CONTEXT_NAME, KEY2_APP_CONTEXT_VALUE,
     GLOBAL_INSTANCE_ID, BUSINESS_DOMAIN, APPLICATION, ACTIVITY, SEVERITY) {
+  const EAI_TRANSACTION_CREATE_TIME = makeDateTime(EAI_TRANSACTION_CREATE_TIME_STRING)
   const SEVERITY_NAME = severityNamer(SEVERITY)
   return {
     EAI_TRANSACTION_ID,
@@ -51,31 +52,56 @@ function createRow(EAI_TRANSACTION_ID, EAI_DOMAIN, PUBLISHING_BUSINESS_DOMAIN,
   };
 }
 
-const severityNamer = (severity)=> {
-    if(severity < 20){
-        return "Info"
+const makeDateTime = (date) => {
+  const dateTimeTokens = date.split(/[-\s.]+/);
+  const day = dateTimeTokens[0];
+  const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  const m = months.indexOf(dateTimeTokens[1].toLowerCase()) + 1;
+  const month = m < 10 ? '0' + m.toString() : m.toString();
+  const year = '20' + dateTimeTokens[2];
+  const h12 = dateTimeTokens[3];
+  let h24;
+  const ampm = dateTimeTokens[7].toLowerCase();
+  if (ampm === 'am') {
+    h24 = h12;
+  } else if (h12 === '12') {
+    h24 = '00';
+  } else {
+    h24 = (parseInt(h12) + 12).toString();
+  }
+  const hour = h24;
+  const minute = dateTimeTokens[4];
+  const second = dateTimeTokens[5];
+  const millisecond = dateTimeTokens[6].substring(0, 3);
+  const dateTime = year + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second + '.' + millisecond + 'Z'
+  return new Date(dateTime).toUTCString();
+}
+
+const severityNamer = (severity) => {
+    if (severity < 20){
+        return 'Info'
     }
-    else if(severity >= 20 && severity < 30){
-        return "Success"
+    else if (severity >= 20 && severity < 30) {
+        return 'Success'
     }
-    else if(severity >= 30 && severity < 50){
-        return "Warning"
+    else if (severity >= 30 && severity < 50) {
+        return 'Warning'
     }
-    else if(severity >= 50){
-        return "Error"
+    else if (severity >= 50) {
+        return 'Error'
     }
 }
 
 const rows = [
-  createRow('eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'crm_server_000001', 'CRM', 'CRM_Adapter', 'Customer Update Started', 10),
+  createRow('eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '02-APR-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'crm_server_000001', 'CRM', 'CRM_Adapter', 'Customer Update Started', 10),
   createRow('eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'crm_server_000002', 'CRM', 'CRM_Adapter', 'Customer Update Published', 10),
   createRow('eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'accounting_server_000001', 'ACCOUNT', 'ACCOUNT_Adapter', 'Customer Update Received', 10),
   createRow('eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'accounting_server_000002', 'ACCOUNT', 'ACCOUNT_Adapter', 'Customer Update Persisted', 10),
-  createRow('eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'operations_server_000001', 'OPER', 'OPER_Adapter', 'Customer Update Received', 10),
+  createRow('eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-MAY-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'operations_server_000001', 'OPER', 'OPER_Adapter', 'Customer Update Received', 10),
   createRow('eai_crm_server_111111', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.45.03.480000 AM', 'Customer_Id', '123456', 'Effective_Date', '01/01/2022 05:00:00', 'operations_server_000002', 'OPER', 'OPER_Adapter', 'Customer Update Persisted', 10),
 
   createRow('eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'crm_server_000003', 'CRM', 'CRM_Adapter', 'Customer Update Started', 10),
-  createRow('eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'crm_server_000004', 'CRM', 'CRM_Adapter', 'Customer Update Published', 10),
+  createRow('eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-APR-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'crm_server_000004', 'CRM', 'CRM_Adapter', 'Customer Update Published', 10),
   createRow('eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'accounting_server_000003', 'ACCOUNT', 'ACCOUNT_Adapter', 'Customer Update Received', 10),
   createRow('eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'accounting_server_000004', 'ACCOUNT', 'ACCOUNT_Adapter', 'Customer Update Persisted', 30),
   createRow('eai_crm_server_111112', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 12.55.03.480000 AM', 'Customer_Id', '234567', 'Effective_Date', '02/01/2022 05:00:00', 'operations_server_000003', 'OPER', 'OPER_Adapter', 'Customer Update Received', 10),
@@ -89,7 +115,16 @@ const rows = [
   createRow('eai_crm_server_111113', 'EAI_DOMAIN_1', 'CRM', 'Customer_Update', '01-JAN-22 01.55.03.480000 AM', 'Customer_Id', '345678', 'Effective_Date', '03/01/2022 05:00:00', 'operations_server_000006', 'OPER', 'OPER_Adapter', 'Customer Update Persisted', 50),
 ];
 
+function getComparator(order, orderBy) {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
 function descendingComparator(a, b, orderBy) {
+  if (orderBy === 'EAI_TRANSACTION_CREATE_TIME') {
+    return descendingDateComparator(a, b, orderBy);
+  }
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -99,10 +134,14 @@ function descendingComparator(a, b, orderBy) {
   return 0;
 }
 
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+function descendingDateComparator(a, b, orderBy) {
+  if (new Date(b[orderBy]) < new Date(a[orderBy])) {
+    return -1;
+  }
+  if (new Date(b[orderBy]) > new Date(a[orderBy])) {
+    return 1;
+  }
+  return 0;
 }
 
 // This method is created for cross-browser compatibility, if you don't
@@ -128,7 +167,7 @@ const headCells = [
   },
   {
     id: 'EAI_TRANSACTION_CREATE_TIME',
-    numeric: true,
+    dateTime: true,
     disablePadding: false,
     label: 'Log Event Created Date',
   },
