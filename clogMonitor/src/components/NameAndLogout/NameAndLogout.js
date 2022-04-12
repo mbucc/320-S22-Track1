@@ -81,7 +81,6 @@ function NameAndLogout(props) {
             }}
           >
             <Typography variant="body2">Mark Robison</Typography>
-            <Typography variant="body2">Id: 1235687</Typography>
           </Stack>
 
           <KeyboardArrowDownIcon />

@@ -1,6 +1,7 @@
 import React from "react";
 import ErrorLogBox from "../ErrorLogBox/ErrorLogBox";
 import "./ErrorLogPane.css";
+import Box from "@mui/material/Box";
 
 function ErrorLogPane({ logEvents }) {
   // console.log(logEvents);

@@ -68,19 +68,19 @@ function parseFilters(filters) {
             // rawFilter should be of type Set("Info"|"Success"|"Warning"|"Error")
             resultFilters[columnName] = (x) => {
                 if(x < 20) {
-                    return rawFilter.has("Info");
+                    return rawFilter.includes("Info");
                 } else if (x < 30) {
-                    return rawFilter.has("Success");
+                    return rawFilter.includes("Success");
                 } else if (x < 50) {
-                    return rawFilter.has("Warning");
+                    return rawFilter.includes("Warning");
                 } else {
-                    return rawFilter.has("Error");
+                    return rawFilter.includes("Error");
                 }
             }
         } else if (columnName === "CATEGORY_NAME") {
             // rawFilter should be of type Set("Status"|"Start"|"Stop"|"Security"|"Heartbeat")
             resultFilters[columnName] = (x) => {
-                return rawFilter.has(x);
+                return rawFilter.includes(x);
             }
         } else if (columnName === "CREATION_TIME") {
             // rawFilter should be of type [Datetimestring, Datetimestring]

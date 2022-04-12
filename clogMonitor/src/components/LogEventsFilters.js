@@ -1,5 +1,5 @@
 import { Button, FormControl } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { getColumnValues, getTableData, minmaxtime } from "../fakeDatabase";
 import CheckboxGroup from "./CheckboxGroup";
 import Dropdown from "./Dropdown";
@@ -80,15 +80,34 @@ const LogEventsFilters = ({ tableDataSetter }) => {
     const [startTime, setStartTime] = React.useState(getDefaultDateTimeString(0));
     const [endTime, setEndTime] = React.useState(getDefaultDateTimeString(1));
 
+    // On component load, try to find and load cached filters
+    useEffect(() => {
+        const value = sessionStorage.getItem("LogEventsFilters");
+        if(value) {
+            const filters = JSON.parse(value);
+            setSelectedPriorities(new Set(filters["PRIORITY"]));
+            setSelectedSeverities(new Set(filters["SEVERITY"]));
+            setSelectedCategories(new Set(filters["CATEGORY_NAME"]));
+            setEAIDomain(filters["EAI_DOMAIN"]);
+            setBusinessDomain(filters["BUSINESS_DOMAIN"]);
+            setBusinessSubDomain(filters["BUSINESS_SUBDOMAIN"]);
+            setApplication(filters["APPLICATION"]);
+            setProcess_service(filters["EVENT_CONTEXT"]);
+            let times = filters["CREATION_TIME"];
+            setStartTime(times[0]);
+            setEndTime(times[1]);
+        }
+    }, []);
+
     // Handlers
     const handleApplyFilters = (e) => {
         e.preventDefault(); // don't actually submit the form
         console.log("Apply filters was pressed");
         // get the filters by column name
         const filters = {
-            PRIORITY: selectedPriorities,
-            SEVERITY: selectedSeverities,
-            CATEGORY_NAME: selectedCategories,
+            PRIORITY: [...selectedPriorities],
+            SEVERITY: [...selectedSeverities],
+            CATEGORY_NAME: [...selectedCategories],
             EAI_DOMAIN: EAIDomain,
             BUSINESS_DOMAIN: businessDomain,
             BUSINESS_SUBDOMAIN: businessSubDomain,
@@ -102,6 +121,8 @@ const LogEventsFilters = ({ tableDataSetter }) => {
         // We may need to do some conversion afterwards
         // Set the changes
         tableDataSetter(resultData);
+        // Cache the filters in sessionStorage
+        sessionStorage.setItem("LogEventsFilters", JSON.stringify(filters));
     };
 
     // Checkbox group selection handlers
