@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import CheckboxSeverities from '../components/CheckboxSeverities'
 import BusinessDomainDropDown from '../components/BusinessDomainDropDown'
 import DomainDropDownCheck from '../components/DomainDropDownCheck'
-import NavTab from '../components/NavTab';
 import BusinessTree from '../components/BusinessTree';
 import ApplyButton from '../components/ApplyButton';
 import RefreshButton from '../components/RefreshButton';
@@ -29,7 +28,6 @@ export class BusinessView extends React.Component {
           return (
                 
               <div>
-                <NavTab />
                 <Grid container spacing={1} direction="row" alignItems="center" justifyContent="center">
                   <Grid item lg={2} xl={1.25}>
                     <h1>Business Processes</h1>

@@ -9,7 +9,6 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
 import Stack from '@mui/material/Stack';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import Background from './Background.js';
 
 /* Author: @wilsonnexus, isRangeError() from Team Goose
 * Customizable MUI Date Time Range Picker with Error Handling
@@ -52,7 +51,6 @@ export default function CustomDateTimePicker() {
     }
 
   return (
-  <ThemeProvider theme={Background.light ? themeLight : themeDark}>
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Stack spacing={3} sx={{ width: 0.9}} sy={{ height: 2}} >
         
@@ -87,6 +85,5 @@ export default function CustomDateTimePicker() {
         
       </Stack>
     </LocalizationProvider>
-    </ThemeProvider>
   );
 }
