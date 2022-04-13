@@ -1,12 +1,32 @@
 .log-detail-container {
-    /* max-width: 1000px; */
     display: flex;
-    justify-content: space-evenly;
+    flex-direction: column;
+    padding-top: 75px;
+}
+
+.log-detail-item-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     flex-flow: row wrap;
-    
-    padding: 35px;
-    /* height: auto; */
+
     line-height: normal;
+}
+
+.log-detail-item {
+    display: inline-block;
+    margin: 25px;
+}
+
+.log-detail-message-container {
+    display: flex;
+    justify-content: center;
+}
+
+.log-detail-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 div.scroll {
@@ -16,6 +36,7 @@ div.scroll {
     overflow-y: scroll; 
     text-align: left;
     padding: 40px;
+    max-width: 50%;
 }
   
   
