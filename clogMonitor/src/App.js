@@ -1,11 +1,17 @@
 import "./App.css";
-// import LoginScreen from "./screens/LoginScreen.js";
+import LoginScreen from "./screens/LoginScreen.js";
 import DashboardScreen from "./screens/DashboardScreen";
+import { useState } from "react";
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
   return (
     <div className="App">
-      <DashboardScreen />
+      {loggedIn ? (
+        <DashboardScreen />
+      ) : (
+        <LoginScreen setLoggedIn={setLoggedIn} />
+      )}
     </div>
   );
 }

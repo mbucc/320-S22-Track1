@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import DashboardScreen from "./DashboardScreen";
 import "./LoginScreen.css";
 import App from "../App";
 import Home from "../components/Home/Home";
 
-function LoginScreen() {
+function LoginScreen({ setLoggedIn }) {
   // React States
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -14,21 +14,21 @@ function LoginScreen() {
   const database = [
     {
       username: "Mark",
-      password: "12345"
+      password: "12345",
     },
     {
       username: "user1",
-      password: "pass1"
+      password: "pass1",
     },
     {
       username: "user2",
-      password: "pass2"
-    }
+      password: "pass2",
+    },
   ];
   const errors = {
     uname: "invalid username",
     pass: "invalid password",
-    forgot: "Please contact support at xxx-xxx-xxxx or at example@email.com"
+    forgot: "Please contact support at xxx-xxx-xxxx or at example@email.com",
   };
   const handleSubmit = (event) => {
     //Prevent page reload
@@ -42,7 +42,8 @@ function LoginScreen() {
         // Invalid password
         setErrorMessages({ name: "pass", message: errors.pass });
       } else {
-        setIsSubmitted(true);
+        // setIsSubmitted(true);
+        setLoggedIn(true);
       }
     } else {
       // Username not found
@@ -51,11 +52,11 @@ function LoginScreen() {
   };
 
   function help() {
-    alert('Please contact support at xxx-xxx-xxxx or at example@email.com.');
+    alert("Please contact support at xxx-xxx-xxxx or at example@email.com.");
   }
 
-  function success(){
-    alert('Successful Login!');
+  function success() {
+    alert("Successful Login!");
   }
 
   // Generate JSX code for error message
@@ -91,16 +92,18 @@ function LoginScreen() {
     <div className="app">
       <div className="login-form">
         <div className="title"> CLOG Monitor Sign In</div>
-        {isSubmitted ?
+        {isSubmitted ? (
           <div>
             {success()}
             <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Home />} />
-            </Routes>
-          </BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Home />} />
+              </Routes>
+            </BrowserRouter>
           </div>
-        : renderForm}
+        ) : (
+          renderForm
+        )}
       </div>
     </div>
   );
