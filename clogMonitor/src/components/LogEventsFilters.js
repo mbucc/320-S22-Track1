@@ -4,6 +4,7 @@ import { getColumnValues, getTableData, minmaxtime } from "../fakeDatabase";
 import CheckboxGroup from "./CheckboxGroup";
 import Dropdown from "./Dropdown";
 import TimeRange from "./TimeRange";
+import './LogEvents.css'
 
 /**
  * Returns the current datetime as a valid string for datetime-local inputs
@@ -182,8 +183,8 @@ const LogEventsFilters = ({ tableDataSetter }) => {
         }
     }
     const checkBoxGroupProps = [
-        makeCheckboxGroupProps("Priorities", allPriorities, selectedPriorities, setSelectedPriorities),
         makeCheckboxGroupProps("Severities", allSeverities, selectedSeverities, setSelectedSeverities),
+        makeCheckboxGroupProps("Priorities", allPriorities, selectedPriorities, setSelectedPriorities),
         makeCheckboxGroupProps("Categories", allCategories, selectedCategories, setSelectedCategories),
     ];
     // Dropdowns
@@ -221,6 +222,13 @@ const LogEventsFilters = ({ tableDataSetter }) => {
                     })
                 }
 
+                <TimeRange 
+                    startTime={startTime} 
+                    startChangeHandler={getDatetimeHandler(setStartTime)}
+                    endTime={endTime}
+                    endChangeHandler={getDatetimeHandler(setEndTime)}
+                />
+
                 <div className="dropdown-group">
                     {
                         dropdownProps.map(dprops => {
@@ -238,15 +246,8 @@ const LogEventsFilters = ({ tableDataSetter }) => {
                     }
                 </div>
 
-                <TimeRange 
-                    startTime={startTime} 
-                    startChangeHandler={getDatetimeHandler(setStartTime)}
-                    endTime={endTime}
-                    endChangeHandler={getDatetimeHandler(setEndTime)}
-                />
-
                 <FormControl>
-                    <Button className="apply-filters-btn" disabled={hasError()} variant="contained" type="submit">
+                    <Button sx={{marginTop: "16px"}} disabled={hasError()} variant="contained" type="submit">
                         Apply
                     </Button>
                 </FormControl>
