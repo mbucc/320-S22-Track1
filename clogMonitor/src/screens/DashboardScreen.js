@@ -8,6 +8,8 @@ import LogEvents from "../components/LogEvents";
 import LogDetail from "../components/LogDetail";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { getTableData } from '../fakeDatabase';
+import { BusinessView } from '../components/BusinessView';
+
 function DashboardScreen() {
 
   const [logEvents, setLogEvents] = React.useState([]);
@@ -33,11 +35,12 @@ function DashboardScreen() {
                 path="/"
                 element={<Home
                   logEvents={logEvents} />} />
-              {/* <Route path="business-processes" element={{}} /> */}
+              <Route path="business-processes" element={<BusinessView/>} />
               <Route path="/log-events" element={<LogEvents />} />
               {/* <Route
                 path={"/log-details/"}
                 element={<LogEvents />} /> */}
+              
               {logEvents.map((logEvent) => {
                 console.log("/log-details/" + logEvent["GLOBAL_INSTANCE_ID"]);
                 return (<Route
@@ -47,6 +50,7 @@ function DashboardScreen() {
                     data={logEvent} />} />);
 
               })}
+              {/* <Route path="/log-details/:id" element={<LogDetail></LogDetail>}></Route> */}
             </Routes>
           </BrowserRouter>
         </div>
