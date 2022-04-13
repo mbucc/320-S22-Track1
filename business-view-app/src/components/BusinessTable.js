@@ -169,7 +169,7 @@ const headCells = [
     id: 'EAI_TRANSACTION_CREATE_TIME',
     dateTime: true,
     disablePadding: false,
-    label: 'Log Event Created Date',
+    label: 'Created Date',
   },
   {
     id: 'BUSINESS_DOMAIN',
