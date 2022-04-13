@@ -52,11 +52,11 @@ const getDefaultDateTimeString = (i) => {
 const LogEventsFilters = ({ tableDataSetter }) => {
     // Component States
     // Checkbox group states
-    const allPriorities = ["High", "Medium", "Low"];
+    const allPriorities = ["All","High", "Medium", "Low"];
     const [selectedPriorities, setSelectedPriorities] = React.useState(new Set(allPriorities));
-    const allSeverities = ["Error", "Warning", "Success", "Info"];
+    const allSeverities = ["All","Error", "Warning", "Success", "Info"];
     const [selectedSeverities, setSelectedSeverities] = React.useState(new Set(allSeverities));
-    const allCategories = ["Status", "Start", "Stop", "Security", "Heartbeat"];
+    const allCategories = ["All","Status", "Start", "Stop", "Security", "Heartbeat"];
     const [selectedCategories, setSelectedCategories] = React.useState(new Set(allCategories));
 
     //Dropdown id's
@@ -127,15 +127,29 @@ const LogEventsFilters = ({ tableDataSetter }) => {
     };
 
     // Checkbox group selection handlers
-    const getCheckboxHandler = (selections, setter) => {
+    const getCheckboxHandler = (options, selections, setter) => {
         return (event) => {
-            let newSelections = new Set([...selections]);
-            if (event.target.checked) {
-                newSelections.add(event.target.name);
+
+            if(event.target.name === "All"){
+                let newSelections = new Set()
+                if(event.target.checked) {
+                    newSelections = new Set(options)
+                } 
+                setter(newSelections)
             } else {
-                newSelections.delete(event.target.name);
+
+                let newSelections = new Set([...selections]);
+                if (event.target.checked) {
+                    newSelections.add(event.target.name);
+                    if(newSelections.size === options.length - 1){
+                        newSelections.add("All")
+                    }
+                } else {
+                    newSelections.delete(event.target.name);
+                    newSelections.delete("All")
+                }
+                setter(newSelections);
             }
-            setter(newSelections);
         }
     }
 
@@ -179,7 +193,7 @@ const LogEventsFilters = ({ tableDataSetter }) => {
             label: label,
             options: options,
             selected: selected,
-            handler: getCheckboxHandler(selected, setter),
+            handler: getCheckboxHandler(options, selected, setter),
         }
     }
     const checkBoxGroupProps = [
