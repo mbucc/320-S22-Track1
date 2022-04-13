@@ -56,7 +56,7 @@
 .DashboardScreen__Center { 
   z-index: 1;
   position: relative;
-  margin-left: 40px;
+  
   width: -webkit-fill-available;
   /* margin-left: -15%; */
 }
