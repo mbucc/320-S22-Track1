@@ -1,6 +1,12 @@
 import React from "react";
 import {Button, FormControl} from "@mui/material";
-
+import CustomDateTimePicker from "../components/CustomDateTimePicker"
+import { Grid, TextField, Stack } from '@mui/material';
+import DomainDropDownCheck from '../components/DomainDropDownCheck'
+import BusinessTree from '../components/BusinessTree';
+import ApplyButton from '../components/ApplyButton';
+import RefreshButton from '../components/RefreshButton';
+import BusinessDomainDropDown from '../components/BusinessDomainDropDown'
 /**
  * Note: for this to work the way we want it to, we use a  "form"
  * Components that should be put here (as of 3/31 understanding):
@@ -27,87 +33,37 @@ import {Button, FormControl} from "@mui/material";
  */
 
 const BusinessFilters = () => {
-    //Checkbox group states
-    const sevList = ["Errors", "Warnings", "Success", "Info"];
-    const [selectedSev, setSeverities] = React.useState(new Set(sevList));
-
-    // Handlers
-    const checkedHandler = (selections, set) => {
-        return (event) => {
-            let toSet = new Set([...selections]);
-            if (event.target.checked) {
-                toSet.add(event.target.name);
-            }
-            else {
-                toSet.delete(event.target.name);
-            }
-            set(toSet);
-        }
-    }
-
-    const handleApplyFilters = (e) => {
-        e.preventDefault(); // don't actually submit the form
-        console.log("Apply filters was pressed");
-        // get the filters by column name
-        const filters = {
-            SEVERITY: selectedSev,
-            // EAI_DOMAIN: EAIDomain,
-            // BUSINESS_DOMAIN: businessDomain,
-            // BUSINESS_SUBDOMAIN: businessSubDomain,
-            // APPLICATION: application,
-            // EVENT_CONTEXT: process_service,
-            // CREATION_TIME: [startTime, endTime]
-        };
-
-        // Request table data according to filters (This is where we would do a axios POST)
-        const resultData = getTableData(filters);
-        // We may need to do some conversion afterwards
-        // Set the changes
-        tableDataSetter(resultData);
-    };
-
-    const hasError = () => {
-        // Checkboxes
-        return (selectedSev.size < 1)
-    }
-
-    // Checkboxes
-    const makeCheckboxGroupProps = (label, options, selected, setter) => {
-        return {
-            label: label,
-            options: options,
-            selected: selected,
-            handler: checkedHandler(selected, setter),
-        }
-    }
-    const checkBoxGroupProps = [
-        makeCheckboxGroupProps("Severities", sevList, selectedSev, setSeverities)
-    ];
 
 
     return (
         <div>
-            <form className="business-filters" onSubmit={handleApplyFilters}>
-                {
-                    checkBoxGroupProps.map(cbprops => {
-                        return (
-                            <CheckboxGroup
-                                key={cbprops.label}
-                                label={cbprops.label}
-                                options={cbprops.options}
-                                selectedOptions={cbprops.selected}
-                                handleSelection={cbprops.handler}
-                            />
-                        );
-                    })
-                }
-                <FormControl>
-                    <Button disabled={hasError()} variant="contained" type="submit">
-                        Apply
-                    </Button>
-                </FormControl>
+            <form className="business-filters">
+                <Grid container spacing={1} direction="row" alignItems="center" justifyContent="center">
+                    <Grid item lg={2} xl={1.25}>
+                        <h1>Business Processes</h1>
+                    </Grid>
+                    <Grid item lg={2.75} xl={2}>
+                        <CustomDateTimePicker />
+                    </Grid>
+                    <Grid item lg={2.75} xl={2}>
+                        <Stack spacing={1}>
+                            <BusinessDomainDropDown />
+                            <DomainDropDownCheck />
+                        </Stack>
+                    </Grid>
+                    <Grid item lg={1} xl={1.5}>
+                        <RefreshButton />
+                    </Grid>
+                    <Grid item lg={9} xl={6.75}>
+                        <BusinessTree />
+                    </Grid>
+                    <Grid item lg={8} xl={8} />
+                    <Grid item lg={1} xl={4}>
+                        <ApplyButton />
+                    </Grid>
+                </Grid>
             </form>
         </div>
     );
 }
-//export default BusinessFilters;
+export default BusinessFilters;

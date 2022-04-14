@@ -2,13 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import CheckboxSeverities from '../components/CheckboxSeverities'
 import BusinessDomainDropDown from '../components/BusinessDomainDropDown'
-import DomainDropDownCheck from '../components/DomainDropDownCheck'
-import BusinessTree from '../components/BusinessTree';
-import ApplyButton from '../components/ApplyButton';
-import RefreshButton from '../components/RefreshButton';
 import { Grid, TextField, Stack } from '@mui/material';
-import CustomDateTimePicker from '../components/CustomDateTimePicker.js';
 import EnhancedTable from '../components/BusinessTable.js';
+import BusinessFilters from '../components/BusinessFilters'
 
 
 /**
@@ -34,28 +30,7 @@ export class BusinessView extends React.Component {
           alignItems="center"
           justifyContent="center"
         >
-          <Grid item lg={2} xl={1.25}>
-            <h1>Business Processes</h1>
-          </Grid>
-          <Grid item lg={2.75} xl={2}>
-            <CustomDateTimePicker />
-          </Grid>
-          <Grid item lg={2.75} xl={2}>
-            <Stack spacing={1}>
-              <BusinessDomainDropDown />
-              <DomainDropDownCheck />
-            </Stack>
-          </Grid>
-          <Grid item lg={1} xl={1.5}>
-            <RefreshButton />
-          </Grid>
-          <Grid item lg={9} xl={6.75}>
-            <BusinessTree />
-          </Grid>
-          <Grid item lg={8} xl={8} />
-          <Grid item lg={1} xl={4}>
-            <ApplyButton />
-          </Grid>
+          <BusinessFilters />
           <Grid item lg={3.5} xl={3}>
             <h2>Business Process Activities</h2>
           </Grid>
