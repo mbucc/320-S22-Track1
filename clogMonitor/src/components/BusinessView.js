@@ -23,13 +23,6 @@ export class BusinessView extends React.Component {
   render() {
     return (
       <div>
-        <Grid
-          container
-          spacing={1}
-          direction="row"
-          alignItems="center"
-          justifyContent="center"
-        >
           <BusinessFilters />
           <Grid item lg={3.5} xl={3}>
             <h2>Business Process Activities</h2>
@@ -54,7 +47,6 @@ export class BusinessView extends React.Component {
           <Grid item lg={9} xl={10}>
             <EnhancedTable />
           </Grid>
-        </Grid>
       </div>
     );
   }

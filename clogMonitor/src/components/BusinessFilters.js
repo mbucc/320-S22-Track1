@@ -2,11 +2,14 @@ import React from "react";
 import {Button, FormControl} from "@mui/material";
 import CustomDateTimePicker from "../components/CustomDateTimePicker"
 import { Grid, TextField, Stack } from '@mui/material';
-import DomainDropDownCheck from '../components/DomainDropDownCheck'
+import Dropdown from "./Dropdown";
+//import DomainDropDownCheck from '../components/DomainDropDownCheck'
 import BusinessTree from '../components/BusinessTree';
-import ApplyButton from '../components/ApplyButton';
+//import ApplyButton from '../components/ApplyButton';
 import RefreshButton from '../components/RefreshButton';
-import BusinessDomainDropDown from '../components/BusinessDomainDropDown'
+//import BusinessDomainDropDown from '../components/BusinessDomainDropDown'
+
+
 /**
  * Note: for this to work the way we want it to, we use a  "form"
  * Components that should be put here (as of 3/31 understanding):
@@ -34,7 +37,31 @@ import BusinessDomainDropDown from '../components/BusinessDomainDropDown'
 
 const BusinessFilters = () => {
 
+    const EAI_DOMAIN_ID = "EAI_DOMAIN_ID"
+    const BUSINESS_DOMAIN_ID = "BUSINESS_DOMAIN_ID"
 
+    // Dropdown states
+    const EAIDomains = ["EAI_DOMAIN_1", "EAI_DOMAIN_2"];
+    const [EAIDomain, setEAIDomain] = React.useState("All");
+    const businessDomains = ["BUSINESS_DOMAIN_1", "BUSINESS_DOMAIN_2"];
+    const [businessDomain, setBusinessDomain] = React.useState("All");
+
+    const getDropdownHandler = (setter) => {
+        return (event) => setter(event.target.value);
+    }
+    const makeDropdownProps = (label, id, options, value, setter) => {
+        return {
+            label: label,
+            id: id,
+            options: options,
+            value: value,
+            handler: getDropdownHandler(setter),
+        }
+    }
+    const dropdownProps = [
+        makeDropdownProps("EAI Domain", EAI_DOMAIN_ID, EAIDomains, EAIDomain, setEAIDomain),
+        makeDropdownProps("Business Domain", BUSINESS_DOMAIN_ID, businessDomains, businessDomain, setBusinessDomain)
+    ]
     return (
         <div>
             <form className="business-filters">
@@ -46,10 +73,20 @@ const BusinessFilters = () => {
                         <CustomDateTimePicker />
                     </Grid>
                     <Grid item lg={2.75} xl={2}>
-                        <Stack spacing={1}>
-                            <BusinessDomainDropDown />
-                            <DomainDropDownCheck />
-                        </Stack>
+                        {
+                            dropdownProps.map(dprops => {
+                                return (
+                                    <Dropdown
+                                    key={dprops.label}
+                                    label={dprops.label}
+                                    id={dprops.id}
+                                    options={dprops.options}
+                                    value={dprops.value}
+                                    handleSelection={dprops.handler}
+                                    />
+                            );
+                        })
+                    }
                     </Grid>
                     <Grid item lg={1} xl={1.5}>
                         <RefreshButton />
@@ -59,7 +96,11 @@ const BusinessFilters = () => {
                     </Grid>
                     <Grid item lg={8} xl={8} />
                     <Grid item lg={1} xl={4}>
-                        <ApplyButton />
+                        <FormControl>
+                            <Button sx={{marginTop: "16px"}} variant="contained" type="submit">
+                                Apply
+                            </Button>
+                        </FormControl>
                     </Grid>
                 </Grid>
             </form>
