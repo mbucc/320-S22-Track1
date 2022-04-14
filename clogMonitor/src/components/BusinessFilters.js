@@ -86,7 +86,6 @@ const BusinessFilters = () => {
                     }
                     </Grid>
                     <Grid item lg={1} xl={1.5}>
-                        <RefreshButton />
                     </Grid>
                     <Grid item lg={9} xl={6.75}>
                         <BusinessTree />
