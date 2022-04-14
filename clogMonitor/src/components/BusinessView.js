@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import CheckboxSeverities from '../components/CheckboxSeverities'
-import BusinessDomainDropDown from '../components/BusinessDomainDropDown'
 import { Grid, TextField, Stack } from '@mui/material';
 import EnhancedTable from '../components/BusinessTable.js';
 import BusinessFilters from '../components/BusinessFilters'
@@ -19,20 +18,21 @@ import BusinessFilters from '../components/BusinessFilters'
  *
  */
 
+
 export class BusinessView extends React.Component {
   render() {
     return (
       <div>
           <BusinessFilters />
+          <Grid container spacing={1} direction="row" alignItems="center" justifyContent="center">
           <Grid item lg={3.5} xl={3}>
             <h2>Business Process Activities</h2>
           </Grid>
           <Grid item lg={9} xl={10} />
-          <Grid item lg={4} xl={3.5}>
+          <Grid item lg={5} xl={3.5}>
             <CheckboxSeverities />
           </Grid>
           <Grid item lg={2} xl={2}>
-            <BusinessDomainDropDown />
           </Grid>
           <Grid item lg={8} xl={8}>
             <TextField
@@ -46,6 +46,7 @@ export class BusinessView extends React.Component {
           </Grid>
           <Grid item lg={9} xl={10}>
             <EnhancedTable />
+          </Grid>
           </Grid>
       </div>
     );
