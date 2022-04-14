@@ -11,6 +11,7 @@
 	<groupId>org.track1</groupId>
 	<artifactId>clog</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>clog</name>
 	<description>CLOG monitor API</description>
 	<properties>
