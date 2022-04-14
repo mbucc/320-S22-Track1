@@ -1,23 +1,31 @@
 import React from "react";
 import "./ErrorLogBox.css";
+import Link from "@mui/material/Link";
 
-function ErrorLogBox() {
+function ErrorLogBox({ logEvent }) {
+  // console.log(logEvent["CREATION_TIME"]);
   return (
-    <div>
-      <div className="ErrorLogBox">
+    <Link
+      href={"/log-details/" + logEvent["GLOBAL_INSTANCE_ID"]}
+      underline="none"
+      className="NavigationPane__link">
+      <div
+        className="ErrorLogBox">
         <div className="ErrorLogBox__header">
           <div className="ErrorLogBox__processId">
-            <b>Process ID:</b> 576969
+            <div>Application: {logEvent['APPLICATION']}</div>
+            <div>Log Event ID: {logEvent['GLOBAL_INSTANCE_ID']} </div>
           </div>
-          <div className="ErrorLogBox__date">
-            <b>Wed, 6:00 PM</b>
-          </div>
+          {/* <div className="ErrorLogBox__date">
+            <div>{logEvent['CREATION_TIME']}</div>
+          </div> */}
         </div>
         <div className="ErrorLogBox__logMessage">
-          <b>Log Message:</b> Lorem Ipsum bc
+          <div>Severity:{logEvent['SEVERITY']}</div>
         </div>
       </div>
-    </div>
+    </Link>
+
   );
 }
 

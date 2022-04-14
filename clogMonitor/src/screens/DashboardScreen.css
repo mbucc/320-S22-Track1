@@ -65,6 +65,7 @@
   /* position: absolute; */
   /* left: 0; */
   right: 0;
+  top: 40;
   justify-content: space-between;
   align-items: flex-end;
   /*background-color: #c7c3c3; */
