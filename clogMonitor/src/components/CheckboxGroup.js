@@ -35,7 +35,7 @@ const CheckboxGroup = ({label, options, selectedOptions, handleSelection}) => {
                     />
                 )}
             </FormGroup>
-            <FormHelperText sx={{marginRight: 0, marginLeft: 0}}>{isError() ? "Choose at least one" : " "}</FormHelperText>
+            <FormHelperText sx={{marginRight: 0, marginLeft: 0, marginTop: 0}}>{isError() ? "Choose at least one" : " "}</FormHelperText>
         </FormControl>
     );
 }

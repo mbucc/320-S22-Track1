@@ -14,7 +14,9 @@ import { getRowByID } from '../fakeDatabase';
  * 
  * @returns {React.ElementType}
  */
-// "GLOBAL_INSTANCE_ID": "crm_server_000001",
+
+// Test data
+// const test_data = {"GLOBAL_INSTANCE_ID": "crm_server_000001",
 // "BUSINESS_DOMAIN": "CRM",
 // "BUSINESS_SUBDOMAIN": "Customer",
 // "VERSION": "1.0",
@@ -32,7 +34,7 @@ import { getRowByID } from '../fakeDatabase';
 // "PROCESS_ID": "1212",
 // "CATEGORY_NAME": "Status",
 // "ACTIVITY": "Customer Update Started",
-// "MSG": "Recieved a customer update start event",
+// "MSG": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum", }
 const group1 = ["BUSINESS_DOMAIN", "BUSINESS_SUBDOMAIN", "VERSION", "SEVERITY", "PRIORITY", "CREATION_TIME"];
 
 const group2 = ["GLOBAL_INSTANCE_ID", "LOCAL_INSTANCE_ID", "EAI_TRANSACTION_ID"];
@@ -67,7 +69,9 @@ const LogDetail = () => {
     const data = getRowByID(id);
   
     const makeDetailBox = (key, label, value, isFull) => {
-        return <TextField
+        return (
+        <span className='log-detail-item'> 
+            <TextField
                 key={key}
                 id="outlined-read-only-input"
                 label={label}
@@ -75,8 +79,10 @@ const LogDetail = () => {
                 inputProps={{
                     readOnly: true,
                 }}
-
-            />
+                
+                />
+        </span>
+        )
     }
     const makeLongBox = (key, label, value) => {
         return <TextField
@@ -102,8 +108,8 @@ const LogDetail = () => {
 
     const writeMsg = (msg) => {
         return (
-            <Typography> 
-                Log Message
+            <Typography className='log-detail-message' > 
+                <h4>Log Message</h4>
                 <div class="scroll"> {msg} </div>
             </Typography> 
             )
@@ -111,31 +117,26 @@ const LogDetail = () => {
     
     return (
         <div className='log-detail-container'>
-            {drawGroup(group1, makeDetailBox)}   
+            {/* {drawGroup(group1, makeDetailBox)}   
             
             {drawGroup(group2, makeLongBox)}
             
             {drawGroup(group3, makeDetailBox)}
             
-            {writeMsg(data["MSG"])}
-            {/* 
-            Object.keys(data).map(k => {
+            {writeMsg(data["MSG"])} */}
+            <div className='log-detail-items-container'>
+            {Object.keys(data).map(k => { // change test_data back to data
                 let v = data[k];
                 let ks = displayNames.get(k)
-                if (k === 'MSG') {
-                    return (
-                        <Typography> 
-                            Log Message
-                            <div class="scroll"> {v} </div>
-                        </Typography> 
-                    )
-                } else {    
+                if (k !== 'MSG') {
                     return makeDetailBox(k, ks, v)
                 }
-            })
-                
-            */} 
-        </div>
+            })}  
+            </div>
+            <div className='log-detail-message-container'>
+                {writeMsg(data["MSG"])}
+            </div>
+    </div>
     );
 }
 

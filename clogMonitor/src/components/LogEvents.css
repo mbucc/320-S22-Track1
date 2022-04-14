@@ -2,12 +2,16 @@
   display: grid;
   grid-template-rows: 7fr 13fr;
   padding: 10px;
-  height: calc(100% - 20px);
+  height: calc(100vh - 45px - 20px);
 }
 
 .log-events-filters {
   display: flex;
   justify-content: space-between;
+}
+
+.apply-filters-btn {
+  margin-top: 16px;
 }
 
 .dropdown-group {

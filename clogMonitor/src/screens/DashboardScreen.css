@@ -42,11 +42,11 @@
   justify-content: space-between;
   /* flex-direction: column; */
   /* max-height: 100vh; */
-  max-width: 200vh;
+  max-width: 100vw;
 }
 
 .DashboardScreen__NameAndLogout {
-  margin: 20px;
+  margin: 0px;
 }
 
 .DashboardScreen_Logo { 
@@ -56,7 +56,7 @@
 .DashboardScreen__Center { 
   z-index: 1;
   position: relative;
-  margin-left: 40px;
+  
   width: -webkit-fill-available;
   /* margin-left: -15%; */
 }
