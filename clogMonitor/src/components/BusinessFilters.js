@@ -3,11 +3,8 @@ import {Button, FormControl} from "@mui/material";
 import CustomDateTimePicker from "../components/CustomDateTimePicker"
 import { Grid, TextField, Stack } from '@mui/material';
 import Dropdown from "./Dropdown";
-//import DomainDropDownCheck from '../components/DomainDropDownCheck'
 import BusinessTree from '../components/BusinessTree';
-//import ApplyButton from '../components/ApplyButton';
 import RefreshButton from '../components/RefreshButton';
-//import BusinessDomainDropDown from '../components/BusinessDomainDropDown'
 
 
 /**
@@ -43,7 +40,7 @@ const BusinessFilters = () => {
     // Dropdown states
     const EAIDomains = ["EAI_DOMAIN_1", "EAI_DOMAIN_2"];
     const [EAIDomain, setEAIDomain] = React.useState("All");
-    const businessDomains = ["BUSINESS_DOMAIN_1", "BUSINESS_DOMAIN_2"];
+    const businessDomains = ["OPER", "CRM", "ACCOUNT"];
     const [businessDomain, setBusinessDomain] = React.useState("All");
 
     const getDropdownHandler = (setter) => {
