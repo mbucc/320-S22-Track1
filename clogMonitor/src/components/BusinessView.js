@@ -1,25 +1,9 @@
-<<<<<<< HEAD
-import React from "react";
-import ReactDOM from "react-dom";
-import CheckboxSeverities from "../components/CheckboxSeverities";
-import BusinessDomainDropDown from "../components/BusinessDomainDropDown";
-import DomainDropDownCheck from "../components/DomainDropDownCheck";
-// import NavTab from '../components/NavTab';
-import BusinessTree from "../components/BusinessTree";
-import ApplyButton from "../components/ApplyButton";
-import RefreshButton from "../components/RefreshButton";
-import { Grid, TextField, Stack } from "@mui/material";
-import CustomDateTimePicker from "../components/CustomDateTimePicker.js";
-import EnhancedTable from "../components/BusinessTable.js";
-=======
 import React from 'react';
 import ReactDOM from 'react-dom';
 import CheckboxSeverities from '../components/CheckboxSeverities'
 import { Grid, TextField, Stack } from '@mui/material';
 import EnhancedTable from '../components/BusinessTable.js';
 import BusinessFilters from '../components/BusinessFilters'
-
->>>>>>> 0e01dffe70e63ae37e2d41c060a5216aa96a8147
 
 /**
  * To see visually (for now), each individual component can be placed here
