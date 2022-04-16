@@ -24,7 +24,8 @@ function NameAndLogout(props) {
         sx={{
           position: "absolute",
           border: "1px solid grey",
-          borderRadius: "8%",
+          borderRadius: "15px",
+          boxShadow: "0px 0px 12px -1px #000000",
           top: "2%",
           right: "5%",
           color: "grey",
@@ -38,7 +39,7 @@ function NameAndLogout(props) {
       >
         <Stack
           direction="row"
-          spacing={1}
+          spacing={2}
           sx={{
             position: "relative",
             borderRadius: "50%",

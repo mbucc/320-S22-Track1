@@ -9,6 +9,3 @@
 .ErrorLogPane__heading {
   color: #224957;
 }
-.ErrorLogPane__body {
-  overflow-y: scroll;
-}
