@@ -4,15 +4,28 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import Stack from "@mui/material/Stack";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Button from '@mui/material/Button';
 
 /* Author: @wilsonnexus, isRangeError() from Team Goose
  * Customizable MUI Date Time Range Picker with Error Handling
  * Still needs some more work, but I think the time values could be
- * sent across files now. Military Time To Do
+ * sent across files now. Added Refresh Button
  */
+
+ const theme = createTheme({
+  palette: {
+    neutral: {
+      main: '#20303B',
+      contrastText: '#ffffff',
+    },
+  },
+});
 export default function CustomDateTimePicker() {
   const [clearedDate, setClearedDate] = React.useState(null);
-  const [startTime, setStartTime] = React.useState(new Date());
+  var d = new Date(); // get current date
+  d.setHours(d.getHours(),d.getMinutes()-30,0,0);
+  const [startTime, setStartTime] = React.useState(d);
   const [endTime, setEndTime] = React.useState(new Date());
 
   const isRangeError = () => {
@@ -24,6 +37,7 @@ export default function CustomDateTimePicker() {
   };
 
   return (
+  <ThemeProvider theme={theme}>
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Stack spacing={3} sx={{ width: 0.9}} sy={{ height: 2}} >
         
@@ -55,8 +69,20 @@ export default function CustomDateTimePicker() {
           mask="___/__/__ __:__"
           renderInput={(params) => <TextField {...params} />}
         />
+
+         <Button 
+            color="neutral" variant="contained" size="small"
+            
+            onClick={() => {
+            var d = new Date(); // get current date
+            d.setHours(d.getHours(),d.getMinutes()-30,0,0);
+            setStartTime(d);
+            setEndTime(new Date());}}>
+            Refresh
+            </Button>
         
       </Stack>
     </LocalizationProvider>
+    </ThemeProvider>
   );
 }
