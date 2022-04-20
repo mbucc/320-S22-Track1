@@ -104,9 +104,9 @@ function NameAndLogout({ setLoggedIn }) {
         <MenuItem
           onClick={() => {
             handleClose();
-            setLoggedIn(false);
+            setLoggedIn("false");
             console.log("here");
-            localStorage.setItem("loginCheck", false);
+            localStorage.setItem("loginCheck", "false");
           }}
         >
           <Stack

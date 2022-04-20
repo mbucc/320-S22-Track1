@@ -8,7 +8,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(
     localStorage.getItem("loginCheck") !== null
       ? localStorage.getItem("loginCheck")
-      : false
+      : "false"
   );
 
   // const loginCheck = useRef(false);
@@ -19,12 +19,26 @@ function App() {
   //   }
   // }, [loggedIn]);
 
+  // useEffect(() => {
+  //   setLoggedIn(
+  //     localStorage.getItem("loginCheck") !== null
+  //       ? localStorage.getItem("loginCheck")
+  //       : false
+  //   );
+  // }, []);
+
+  // useEffect(() => {
+  //   console.log(loggedIn);
+  // }, []);
+
   useEffect(() => {
-    setLoggedIn(
-      localStorage.getItem("loginCheck") !== null
-        ? localStorage.getItem("loginCheck")
-        : false
-    );
+    const delayDebounceFn = setTimeout(() => {
+      // console.log(searchTerm)
+      // Send Axios request here
+    }, 3000);
+
+    // Cleanup fn
+    return () => clearTimeout(delayDebounceFn);
   }, []);
 
   return (
@@ -35,8 +49,9 @@ function App() {
         <LoginScreen setLoggedIn={setLoggedIn} /> 
       )} */}
       {/* <LoginScreen /> */}
-      {console.log(loggedIn)}
-      {loggedIn ? (
+      {console.log(loggedIn, loggedIn === "true", loggedIn === false)}
+
+      {loggedIn === "true" ? (
         <DashboardScreen setLoggedIn={setLoggedIn} />
       ) : (
         <LoginScreen setLoggedIn={setLoggedIn} />

@@ -110,3 +110,4 @@ export default function BusinessTree() {
 
 //PLEASE DO NOT CHANGE ANY OF THE STRUCTURE ABOVE.
 //final thing todo: selection from this tree is used to filter
+//additional- figureout how to pull from table to make filter? I feel like hardcoding is actually better but i don't know
