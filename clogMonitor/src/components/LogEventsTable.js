@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Button, Link } from "@mui/material";
+import { Button } from "@mui/material";
 // Defines the columns for mui DataGrid
 // See https://mui.com/components/data-grid/columns/ for possible keys and more details
 // Used keys:
@@ -12,7 +12,7 @@ import { Button, Link } from "@mui/material";
  */
 const columns = [
     { 
-        field: 'SEVERITY', 
+        field: 'severity', 
         headerName: 'Severity', 
         type: 'number',
         align: 'left',
@@ -34,7 +34,7 @@ const columns = [
         },
     },
     { 
-        field: 'PRIORITY', 
+        field: 'priority', 
         headerName: 'Priority', 
         type: 'number',
         flex: 2,
@@ -52,9 +52,9 @@ const columns = [
             return "High"
         },
     },
-    { field: 'CATEGORY_NAME', headerName: 'Category', flex: 2 },
+    { field: 'categoryName', headerName: 'Category', flex: 2 },
     { 
-        field: 'CREATION_TIME', 
+        field: 'creationTime', 
         type: 'dateTime',
         headerName: 'Create Date', 
         flex: 5,
@@ -63,10 +63,10 @@ const columns = [
             return val.toLocaleString();
         },
     },
-    { field: 'APPLICATION', headerName: 'Application', flex: 4 },
+    { field: 'application', headerName: 'Application', flex: 4 },
     // EVENT_CONTEXT is the key for PROCESS, COMPONENT is the key for SERVICE
-    { field: 'EVENT_CONTEXT', headerName: 'Process/Service', flex: 5 },
-    { field: 'ACTIVITY', headerName: 'Activity', flex: 6 },
+    { field: 'eventContext', headerName: 'Process/Service', flex: 5 },
+    { field: 'activity', headerName: 'Activity', flex: 6 },
     {
         field: 'actions',
         headerName: 'Log Event',
@@ -97,7 +97,7 @@ const LogEventsTable = ({data}) => {
                 pageSize={pageSize}
                 rowsPerPageOptions={[5, 10, 25, 50, 100]}
                 onPageSizeChange={(newSize) => setPageSize(newSize)}
-                getRowId={(row) => row["GLOBAL_INSTANCE_ID"]}
+                getRowId={(row) => row["globalInstanceId"]}
             />
       </div>
     );

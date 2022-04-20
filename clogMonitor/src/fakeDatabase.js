@@ -1,49 +1,65 @@
-// NOTE: This file defines the API that we want the database to have
-// Eventually, this file will not be needed as we transition to using the actual database
+import qs from "qs";
+import axios from "axios";
 
 // use the dummy data which is in the json
 import data from './sample_log_details.json';
 
 // The types of certain columns. All other columns will be assumed to be strings
-const dateColumns = ['CREATION_TIME'];
-const numberColumns = ['SEVERITY', 'PRIORITY'];
+const dateColumns = ['CREATION_TIME', 'creationTime'];
+const numberColumns = ['SEVERITY', 'PRIORITY', 'severity', 'priority'];
+const catCols = ['CATEGORY_NAME', 'categoryName'];
 
 // datetime
 const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
-// Convert data into correct types
-for(let row of data) {
-    for(let colName in row) {
-        if (numberColumns.includes(colName)) {
-            row[colName] = Number(row[colName]);
-        } else if (dateColumns.includes(colName)) {
-            // needs processing. NOTE: this conversion will not be necessary in the real database
-            // These times are in GMT
-            // Format is: 01-JAN-22 12.55.03.680000 AM
-            // we want 2020-04-13T00:00:00.000+00:00 for Date init
-            let [date, time, am_pm] = row[colName].split(" ");
-            let [day, mnth, yr] = date.split("-");
-            let [hour, minute, second, ms] = time.split(".")
-            let year = "20" + yr; // assume 2000+
-            let month = String(months.indexOf(mnth.toUpperCase()) + 1).padStart(2, "0");
-            let milliseconds = ms.substring(0, 3); // only 3 digits of precision
-            let hour24 = String((Number(hour) % 12) + (am_pm === "PM" ? 12 : 0)).padStart(2, "0");
-            let datestring = year + "-" + month + "-" + day;
-            let timestring = hour24 + ":" + minute + ":" + second + "." + milliseconds;
-            let d = new Date(datestring + "T" + timestring + "+00:00");
-            row[colName] = d;
-            console.log(d.toUTCString());
+function dataCleaning(data, needConvert=true) {
+    // Convert data into correct types
+    for(let row of data) {
+        for(let colName in row) {
+            if (numberColumns.includes(colName)) {
+                row[colName] = Number(row[colName]);
+            } else if (dateColumns.includes(colName)) {
+                // needs processing. NOTE: this conversion will not be necessary in the real database
+                // These times are in GMT
+                // Format is: 01-JAN-22 12.55.03.680000 AM
+                // we want 2020-04-13T00:00:00.000+00:00 for Date init
+                let datetimestring = row[colName];
+                if(needConvert) {
+                    let [date, time, am_pm] = row[colName].split(" ");
+                    let [day, mnth, yr] = date.split("-");
+                    let [hour, minute, second, ms] = time.split(".")
+                    let year = "20" + yr; // assume 2000+
+                    let month = String(months.indexOf(mnth.toUpperCase()) + 1).padStart(2, "0");
+                    let milliseconds = ms.substring(0, 3); // only 3 digits of precision
+                    let hour24 = String((Number(hour) % 12) + (am_pm === "PM" ? 12 : 0)).padStart(2, "0");
+                    let datestring = year + "-" + month + "-" + day;
+                    let timestring = hour24 + ":" + minute + ":" + second + "." + milliseconds;
+                    datetimestring = datestring + "T" + timestring + "+00:00";
+                }
+                let d = new Date(datetimestring);
+                row[colName] = d;
+            } else if (catCols.includes(colName)) {
+                // ReportSituation is an error in the data provided, should be Status
+                if (row[colName].toLowerCase() === "reportsituation") {
+                    row[colName] = "Status";
+                }
+            }
         }
     }
 }
+dataCleaning(data);
+
 
 // Helper data for filter parsing (see below)
-const dropdownFilters = ["EAI_DOMAIN", "BUSINESS_DOMAIN", "BUSINESS_SUBDOMAIN", "APPLICATION", "EVENT_CONTEXT"];
+const dropdownFilters = [
+    "EAI_DOMAIN", "BUSINESS_DOMAIN", "BUSINESS_SUBDOMAIN", "APPLICATION", "EVENT_CONTEXT",
+    "eaiDomain", "businessDomain", "businessSubdomain", "application", "eventContext",
+];
 const prioritiesMapping = {"High": 70, "Medium": 50, "Low": 10};
 
 
 /**
- * Transforms the raw filters into a list of filter functions
+ * Transforms the raw Log Events filters into a list of filter functions
  * 
  * @param {{[columnName: string]: Set<String> | String | [String, String];}} filters A map from column names to raw filter values
  * @returns {{[columnName: string]: (value: any) => boolean}} A list of filter functions
@@ -58,12 +74,12 @@ function parseFilters(filters) {
             resultFilters[columnName] = (x) => {
                 return rawFilter === "All" || x === rawFilter;
             };
-        } else if (columnName === "PRIORITY") {
+        } else if (columnName === "PRIORITY" || columnName === "priority") {
             // rawFilter should be of type Set("High"|"Medium"|"Low")
             resultFilters[columnName] = (x) => {
                 return [...rawFilter].map(p => prioritiesMapping[p]).includes(x);
             }
-        } else if (columnName === "SEVERITY") {
+        } else if (columnName === "SEVERITY" || columnName === "severity") {
             // because severity uses ranges instead of strict values
             // rawFilter should be of type Set("Info"|"Success"|"Warning"|"Error")
             resultFilters[columnName] = (x) => {
@@ -77,12 +93,12 @@ function parseFilters(filters) {
                     return rawFilter.includes("Error");
                 }
             }
-        } else if (columnName === "CATEGORY_NAME") {
+        } else if (columnName === "CATEGORY_NAME" || columnName === "categoryName") {
             // rawFilter should be of type Set("Status"|"Start"|"Stop"|"Security"|"Heartbeat")
             resultFilters[columnName] = (x) => {
                 return rawFilter.includes(x);
             }
-        } else if (columnName === "CREATION_TIME") {
+        } else if (columnName === "CREATION_TIME" || columnName === "creationTime") {
             // rawFilter should be of type [Datetimestring, Datetimestring]
             resultFilters[columnName] = (x) => {
                 const startDateObj = new Date(rawFilter[0]);
@@ -98,17 +114,18 @@ function parseFilters(filters) {
 }
 
 /**
- * Returns the table data that matches the given filters
+ * Returns tData filtered with the given filters
  * 
  * @param {{[columnName: string]: Set<String> | String | [String, String];}} filters A map from column names to raw filter values
- * @returns {{[columnName: string]: String;}[]} The row data that passes the filters
+ * @param {{[columnName: string]: String;}[]} tData The table data to filter
+ * @returns {{[columnName: string]: String;}[]} The table data that passes the filters
  */
-export function getTableData(filters) {
+export function filterTableData(filters, tData) {
     if(!filters) {
-        return data;
+        return tData;
     }
     const filterfuncs = parseFilters(filters);
-    let dataCopy = [...data];
+    let dataCopy = [...tData];
     let resultData = [];
     // Go through each row
     for (let row of dataCopy) {
@@ -129,6 +146,18 @@ export function getTableData(filters) {
         }
     }
     return resultData;
+}
+
+/**
+ * Returns the fake table data that matches the given filters
+ * 
+ * @deprecated Please create and use an API querying function rather than using this
+ * 
+ * @param {{[columnName: string]: Set<String> | String | [String, String];}} filters A map from column names to raw filter values
+ * @returns {{[columnName: string]: String;}[]} The row data that passes the filters
+ */
+export function getTableData(filters) {
+    return filterTableData(filters, data);
 }
 
 /**
@@ -154,15 +183,14 @@ export function getColumnValues(columnName) {
  * 
  * @returns {[Date, Date] | undefined} The minimum and maximum Date objects in the data
  */
-export function minmaxtime() {
+function minmaxtime(data, column) {
     if(!data) {
         return undefined;
     }
-
     let mintime = new Date();   // current time
     let maxtime = new Date(0);  // epoch time
     for (let row of data) {
-        const d = row["CREATION_TIME"];
+        const d = row[column];
         if(d < mintime) {
             mintime = d;
         }
@@ -173,78 +201,90 @@ export function minmaxtime() {
     return [mintime, maxtime];
 }
 
-// The names of the columns in order of usefulness to show in the table
-// Used in function produceRows() below
-// KEEP GLOBAL_INSTANCE_ID FIRST!
-const colNames = [
-    'GLOBAL_INSTANCE_ID',
-    'SEVERITY', 
-    'PRIORITY', 
-    'CATEGORY_NAME', 
-    'CREATION_TIME', 
-    'APPLICATION', 
-    'EVENT_CONTEXT', 
-    'ACTIVITY', 
-    'EAI_DOMAIN', 
-    'BUSINESS_DOMAIN', 
-    'BUSINESS_SUBDOMAIN', 
-    'PROCESS_ID', 
-    'REASONING_SCOPE', 
-    'VERSION', 
-    'LOCAL_INSTANCE_ID', 
-    'EAI_TRANSACTION_ID', 
-    'HOSTNAME', 
-    'COMPONENT', 
-    'MSG'
-]
 
-// Generates n rows by rotating through the possible values of each column
-// possible values are from the column values in data
+// Actual database connection stuff
 
-/**
- * Returns n rows of data by rotating through possible values of each column
- * 
- * @param {Number} n The number of rows to produce
- * @returns {{[columnName: string]: String;}[]} A list of data rows
- */
-export function produceRows(n) {
-    let columnsMap = {};
-    let indices = {};
-    if (data.length < 0) {
-        console.warn("There is no data");
-        return [];
-    }
-    for (let columnName of Object.keys(data[0])) {
-        // global id will be generated below
-        if(["", "GLOBAL_INSTANCE_ID", "Insert script"].includes(columnName)) {
-            continue;
-        }
-        columnsMap[columnName] = getColumnValues(columnName);
-        indices[columnName] = 0;
-    }
-    const rows = [];
-    const adjustedColNames = colNames.slice(1, colNames.length);
-    for (let k = 0; k < n; k++) {
-        // Create and insert next row
-        const id = "crm_server_" + String(k).padStart(6, "0");
-        const nextRow = {}
-        adjustedColNames.forEach(c => nextRow[c] = columnsMap[c][indices[c]]);
-        nextRow["GLOBAL_INSTANCE_ID"] = id;
-        rows.push(nextRow);
+// Sample data from the API
+/*
+activity: "Customer Update Persisted"
+application: "OPER_Adapter"
+businessDomain: "OPER"
+businessSubdomain: "Customer"
+categoryName: "ReportSituation"
+component: "Customer_Update"
+creationTime: "2022-01-01T06:55:03.788+00:00"
+eaiDomain: "EAI_DOMAIN_1"
+eaiTransactionId: "eai_crm_server_111113"
+eventContext: "Customer_Update"
+globalInstanceId: "operations_server_000006"
+hostname: "oper_server"
+localInstanceId: "OPER-Customer-OPER_Adapter-Customer_Update-2325"
+msg: "Successfully persisted customer update"
+priority: 10
+processId: 2325
+reasoningScope: "INTERNAL"
+severity: 10
+version: "1.0"
+*/
 
-        // Go to next indices
-        let curColIndex = 0
-        while(true) {
-            const curCol = adjustedColNames[curColIndex];
-            indices[curCol] += 1;
-            if (indices[curCol] !== columnsMap[curCol].length) {
-                break;
-            } else {
-                indices[curCol] = 0;
-                curColIndex += 1;
+export const apiBaseURL = "http://localhost:8080/api";
+
+export function getToken() {
+    var data = qs.stringify({
+        'user': 'root',
+        'password': 'teamkick' 
+    });
+    var config = {
+        method: 'post',
+        url: 'http://localhost:8080/user',
+        headers: { 
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data : data
+    };
+
+    return new Promise(function(resolve, reject) {
+        // some async operation here
+        axios(config)
+        .then(function (response) {
+            if(response.status === 200) {
+                const token = response.data.token;
+                // console.log(JSON.stringify(response.data));
+                resolve(token);
             }
-        }
+        })
+    });
+}
+
+let logDetails = [];
+
+export function getLogDetails(params) {
+    const base = apiBaseURL + "/log_detail";
+    return new Promise(function(resolve, reject) {
+        getToken().then((token) => {
+            const headers = {
+                Authorization: token
+            }
+            axios.get(base, {params: params, headers: headers})
+            .then(function (response) {
+                const resultData = response.data;
+                dataCleaning(resultData, false);
+                logDetails = resultData;
+                resolve(resultData);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        });
+    });
+}
+
+export function getActualMinMaxTime() {
+    if(logDetails.length > 0) {
+        return minmaxtime(logDetails, "creationTime");
+    } else {
+        const start = new Date("2021-12-31T00:00:00Z");
+        const end = new Date("2022-01-02T00:00:00Z");
+        return [start, end];
     }
-    // console.log(rows);
-    return rows;
 }

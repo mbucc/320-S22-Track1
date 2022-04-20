@@ -1,7 +1,7 @@
 import React from 'react';
 import LogEventsFilters from './LogEventsFilters';
 import LogEventsTable from './LogEventsTable';
-import { getTableData } from '../fakeDatabase';
+import { getLogDetails } from '../fakeDatabase';
 import './LogEvents.css'
 
 /**
@@ -14,7 +14,7 @@ const LogEvents = () => {
     const [tableData, setTableData] = React.useState([]);
 
     React.useEffect(() => {
-        setTableData(getTableData(undefined));
+        getLogDetails(undefined).then((resultData) => setTableData(resultData));
     }, [])
 
     return (

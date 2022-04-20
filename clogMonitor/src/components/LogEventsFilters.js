@@ -1,6 +1,6 @@
 import { Button, FormControl } from "@mui/material";
 import React, { useEffect } from "react";
-import { getColumnValues, getTableData, minmaxtime } from "../fakeDatabase";
+import { filterTableData, getActualMinMaxTime, getColumnValues, getLogDetails } from "../fakeDatabase";
 import CheckboxGroup from "./CheckboxGroup";
 import Dropdown from "./Dropdown";
 import TimeRange from "./TimeRange";
@@ -30,10 +30,10 @@ const getCurrentDateTimeString = () => {
 const getDefaultDateTimeString = (i) => {
     // Uses min time for start and max time for end
     // unless there is no data, in which we use current datetime
-    const mmtime = minmaxtime();
+    const mmtime = getActualMinMaxTime();
     if(mmtime) {
         // mmtime is in utc, we need offset;
-        let adjustedDates = mmtime.map((d) => new Date(d.getTime() - (60000 * d.getTimezoneOffset())));
+        let adjustedDates = mmtime.map((d) => new Date(d.getTime() + (60000 * d.getTimezoneOffset())));
         // use 23 instead of 19 for ms precision
         return adjustedDates[i].toISOString().substring(0, 19);
     } else {
@@ -52,11 +52,11 @@ const getDefaultDateTimeString = (i) => {
 const LogEventsFilters = ({ tableDataSetter }) => {
     // Component States
     // Checkbox group states
-    const allPriorities = ["All","High", "Medium", "Low"];
+    const allPriorities = ["All", "High", "Medium", "Low"];
     const [selectedPriorities, setSelectedPriorities] = React.useState(new Set(allPriorities));
-    const allSeverities = ["All","Error", "Warning", "Success", "Info"];
+    const allSeverities = ["All", "Error", "Warning", "Success", "Info"];
     const [selectedSeverities, setSelectedSeverities] = React.useState(new Set(allSeverities));
-    const allCategories = ["All","Status", "Start", "Stop", "Security", "Heartbeat"];
+    const allCategories = ["All", "Status", "Start", "Stop", "Security", "Heartbeat"];
     const [selectedCategories, setSelectedCategories] = React.useState(new Set(allCategories));
 
     //Dropdown id's
@@ -85,18 +85,25 @@ const LogEventsFilters = ({ tableDataSetter }) => {
     useEffect(() => {
         const value = sessionStorage.getItem("LogEventsFilters");
         if(value) {
+            console.log("Restoring cached log events filters");
+            const namesAndSetters = {
+                priority: (x) => setSelectedPriorities(new Set(x)),
+                severity: (x) => setSelectedSeverities(new Set(x)),
+                categoryName: (x) => setSelectedCategories(new Set(x)),
+                eaiDomain: setEAIDomain,
+                businessDomain: setBusinessDomain,
+                businessSubDomain: setBusinessSubDomain,
+                application: setApplication,
+                eventContext: setProcess_service,
+                creationTime: (x) => { setStartTime(x[0]); setEndTime(x[1]); },
+            }
             const filters = JSON.parse(value);
-            setSelectedPriorities(new Set(filters["PRIORITY"]));
-            setSelectedSeverities(new Set(filters["SEVERITY"]));
-            setSelectedCategories(new Set(filters["CATEGORY_NAME"]));
-            setEAIDomain(filters["EAI_DOMAIN"]);
-            setBusinessDomain(filters["BUSINESS_DOMAIN"]);
-            setBusinessSubDomain(filters["BUSINESS_SUBDOMAIN"]);
-            setApplication(filters["APPLICATION"]);
-            setProcess_service(filters["EVENT_CONTEXT"]);
-            let times = filters["CREATION_TIME"];
-            setStartTime(times[0]);
-            setEndTime(times[1]);
+            for(let key in filters) {
+                let func = namesAndSetters[key];
+                if (func) {
+                    func(filters[key]);
+                }
+            }
         }
     }, []);
 
@@ -104,26 +111,62 @@ const LogEventsFilters = ({ tableDataSetter }) => {
     const handleApplyFilters = (e) => {
         e.preventDefault(); // don't actually submit the form
         console.log("Apply filters was pressed");
-        // get the filters by column name
-        const filters = {
-            PRIORITY: [...selectedPriorities],
-            SEVERITY: [...selectedSeverities],
-            CATEGORY_NAME: [...selectedCategories],
-            EAI_DOMAIN: EAIDomain,
-            BUSINESS_DOMAIN: businessDomain,
-            BUSINESS_SUBDOMAIN: businessSubDomain,
-            APPLICATION: application,
-            EVENT_CONTEXT: process_service,
-            CREATION_TIME: [startTime, endTime],
+        
+        // Bundle the filter values for caching
+        const allFilters = {
+            priority: [...selectedPriorities],
+            severity: [...selectedSeverities],
+            categoryName: [...selectedCategories],
+            eaiDomain: EAIDomain,
+            businessDomain: businessDomain,
+            businessSubdomain: businessSubDomain,
+            application: application,
+            eventContext: process_service,
+            creationTime: [startTime, endTime],
         };
 
-        // Request table data according to filters (This is where we would do a axios POST)
-        const resultData = getTableData(filters);
-        // We may need to do some conversion afterwards
-        // Set the changes
-        tableDataSetter(resultData);
+        // Filters for filtering on our side
+        const todoFilters = {
+            priority: [...selectedPriorities],
+            severity: [...selectedSeverities],
+            categoryName: [...selectedCategories],
+            creationTime: [startTime, endTime],
+        }
+        
+        // set the API parameters based on filter values
+        const params = {
+            // global_instance_id: String
+            business_domain: businessDomain === "All" ? undefined : businessDomain, // String
+            business_subdomain: businessSubDomain === "All" ? undefined : businessSubDomain, // String
+            // version: String
+            // local_instance_id: String
+            // eai_transaction_id: String
+            eai_domain: EAIDomain === "All" ? undefined : EAIDomain, // String
+            // hostname: String
+            application: application === "All" ? undefined : application, // String
+            event_context: process_service === "All" ? undefined : process_service, // String
+            // component: String
+            // severity_low: Integer
+            // severity_high: Integer
+            // priority_low: Integer
+            // priority_high: Integer
+            // creation_time_start: startTime.replace("T", " "), // Timestamp
+            // creation_time_end: endTime.replace("T", " "), // Timestamp
+            // reasoning_scope: String
+            // process_id: Integer
+            // category_name: String
+            // activity: String
+            // msg: String
+        }
+        getLogDetails(params).then((resultData) => {
+            // Since we still need to manually filter some things
+            const fullyFilteredData = filterTableData(todoFilters, resultData);
+            // Actually update the table
+            tableDataSetter(fullyFilteredData);
+        })
+
         // Cache the filters in sessionStorage
-        sessionStorage.setItem("LogEventsFilters", JSON.stringify(filters));
+        sessionStorage.setItem("LogEventsFilters", JSON.stringify(allFilters));
     };
 
     // Checkbox group selection handlers

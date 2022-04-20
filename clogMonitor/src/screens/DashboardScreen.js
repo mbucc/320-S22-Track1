@@ -37,20 +37,7 @@ function DashboardScreen() {
                   logEvents={logEvents} />} />
               <Route path="business-processes" element={<BusinessView/>} />
               <Route path="/log-events" element={<LogEvents />} />
-              {/* <Route
-                path={"/log-details/"}
-                element={<LogEvents />} /> */}
-              
-              {logEvents.map((logEvent) => {
-                console.log("/log-details/" + logEvent["GLOBAL_INSTANCE_ID"]);
-                return (<Route
-                  key={logEvent["GLOBAL_INSTANCE_ID"]}
-                  path={"/log-details/" + logEvent["GLOBAL_INSTANCE_ID"]}
-                  element={<LogDetail
-                    data={logEvent} />} />);
-
-              })}
-              {/* <Route path="/log-details/:id" element={<LogDetail></LogDetail>}></Route> */}
+              <Route path="/log-details/:id" element={<LogDetail/>}></Route>
             </Routes>
           </BrowserRouter>
         </div>

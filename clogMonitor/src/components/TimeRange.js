@@ -49,6 +49,7 @@ const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, d
                         type="datetime-local"
                         id="startimeinput"
                         notched
+                        inputProps={{step: 1}}
                     />
                     <FormHelperText sx={{marginRight: 0, marginLeft: 0}}>{getErrorMess(startTime)}</FormHelperText>
                 </FormControl>
@@ -62,6 +63,7 @@ const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, d
                         type="datetime-local"
                         id="endtimeinput"
                         notched
+                        inputProps={{step: 1}}
                     />
                     <FormHelperText sx={{marginRight: 0, marginLeft: 0}}>{getErrorMess(endTime)}</FormHelperText>
                 </FormControl>

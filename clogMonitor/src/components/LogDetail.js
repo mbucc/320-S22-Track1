@@ -1,39 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, TextField } from '@mui/material';
 import './LogDetail.css'
 import { useParams } from 'react-router-dom';
-/**
- * A group of checkboxes for selecting any or all of some options
- * 
- * @author Eugene Mak
- * 
- * @param {Object} props
- * @param {string} props.data - All data from Log Event row
- * 
- * 
- * @returns {React.ElementType}
- */
+import { getLogDetails } from '../fakeDatabase';
 
-// Test data
-// const test_data = {"GLOBAL_INSTANCE_ID": "crm_server_000001",
-// "BUSINESS_DOMAIN": "CRM",
-// "BUSINESS_SUBDOMAIN": "Customer",
-// "VERSION": "1.0",
-// "LOCAL_INSTANCE_ID": "CRM-Customer-CRM_Adapter-Publish_Customer_Update-1212",
-// "EAI_TRANSACTION_ID": "eai_crm_server_111111",
-// "EAI_DOMAIN": "EAI_DOMAIN_1",
-// "HOSTNAME": "crm_server",
-// "APPLICATION": "CRM_Adapter",
-// "EVENT_CONTEXT": "Publish_Customer_Update",
-// "COMPONENT": "Publish_Customer_Update",
-// "SEVERITY": "10",
-// "PRIORITY": "10",
-// "CREATION_TIME": "01-JAN-22 12.45.03.480000 AM",
-// "REASONING_SCOPE": "INTERNAL",
-// "PROCESS_ID": "1212",
-// "CATEGORY_NAME": "Status",
-// "ACTIVITY": "Customer Update Started",
-// "MSG": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum", }
+/*
+activity: "Customer Update Persisted"
+application: "OPER_Adapter"
+businessDomain: "OPER"
+businessSubdomain: "Customer"
+categoryName: "ReportSituation"
+component: "Customer_Update"
+creationTime: "2022-01-01T06:55:03.788+00:00"
+eaiDomain: "EAI_DOMAIN_1"
+eaiTransactionId: "eai_crm_server_111113"
+eventContext: "Customer_Update"
+globalInstanceId: "operations_server_000006"
+hostname: "oper_server"
+localInstanceId: "OPER-Customer-OPER_Adapter-Customer_Update-2325"
+msg: "Successfully persisted customer update"
+priority: 10
+processId: 2325
+reasoningScope: "INTERNAL"
+severity: 10
+version: "1.0"
+*/
+
+// TODO: update group definitions to use the above names instead of original column names
 const group1 = ["BUSINESS_DOMAIN", "BUSINESS_SUBDOMAIN", "VERSION", "SEVERITY", "PRIORITY", "CREATION_TIME"];
 
 const group2 = ["GLOBAL_INSTANCE_ID", "LOCAL_INSTANCE_ID", "EAI_TRANSACTION_ID"];
@@ -41,30 +34,51 @@ const group2 = ["GLOBAL_INSTANCE_ID", "LOCAL_INSTANCE_ID", "EAI_TRANSACTION_ID"]
 const group3 = ["EAI_DOMAIN", "HOSTNAME", "APPLICATION", "EVENT_CONTEXT", "COMPONENT", "REASONING_SCOPE", "PROCESS_ID", "CATEGORY_NAME", "ACTIVITY"];
 
 const displayNames = new Map();
-displayNames.set('GLOBAL_INSTANCE_ID', 'Global Instance ID')
-displayNames.set('BUSINESS_DOMAIN', 'Business Domain')
-displayNames.set('BUSINESS_SUBDOMAIN', 'Business SubDomain')
-displayNames.set('VERSION', 'Version')
-displayNames.set('LOCAL_INSTANCE_ID', 'Local Instance ID')
-displayNames.set('EAI_TRANSACTION_ID', 'EAI Transaction ID')
-displayNames.set('EAI_DOMAIN', 'EAI Domain')
-displayNames.set('HOSTNAME', 'Host Name')
-displayNames.set('APPLICATION', 'Application')
-displayNames.set('EVENT_CONTEXT', 'Event Context')
-displayNames.set('COMPONENT', 'Component')
-displayNames.set('SEVERITY', 'Severity')
-displayNames.set('PRIORITY', 'Priority')
-displayNames.set('CREATION_TIME', 'Creation Time')
-displayNames.set('REASONING_SCOPE', 'Reasoning Scope')
-displayNames.set('PROCESS_ID', 'Process ID')
-displayNames.set('CATEGORY_NAME', 'Category Name')
-displayNames.set('ACTIVITY', 'Activity')
-displayNames.set('MSG', 'Message')
+displayNames.set('globalInstanceId', 'Global Instance ID')
+displayNames.set('businessDomain', 'Business Domain')
+displayNames.set('businessSubdomain', 'Business SubDomain')
+displayNames.set('version', 'Version')
+displayNames.set('localInstanceId', 'Local Instance ID')
+displayNames.set('eaiTransactionId', 'EAI Transaction ID')
+displayNames.set('eaiDomain', 'EAI Domain')
+displayNames.set('hostname', 'Host Name')
+displayNames.set('application', 'Application')
+displayNames.set('eventContext', 'Event Context')
+displayNames.set('component', 'Component')
+displayNames.set('severity', 'Severity')
+displayNames.set('priority', 'Priority')
+displayNames.set('creationTime', 'Creation Time')
+displayNames.set('reasoningScope', 'Reasoning Scope')
+displayNames.set('processId', 'Process ID')
+displayNames.set('categoryName', 'Category Name')
+displayNames.set('activity', 'Activity')
+displayNames.set('msg', 'Message')
 
+/**
+ * A display for log details. This should be routed to with an 'id' parameter.
+ * 
+ * @author Eugene Mak
+ * 
+ * @returns {React.ElementType}
+ */
+const LogDetail = () => {
+    const {id} = useParams();
+    const [data, setData] = useState([]);
+    const [badID, setBadID] = useState(false);
 
+    useEffect(() => {
+        getLogDetails({ global_instance_id: id })
+        .then((resultData) => {
+            if(resultData.length !== 1) {
+                console.error(`There is/are ${resultData.length} row(s) with id: ${id}`);
+                setBadID(true);
+            } else {
+                setData(resultData[0]);
+                setBadID(false);
+            }
+        })
+    }, [id]);
 
-
-const LogDetail = ({data}) => {
     const makeDetailBox = (key, label, value, isFull) => {
         return (
         <span className='log-detail-item'> 
@@ -107,7 +121,7 @@ const LogDetail = ({data}) => {
         return (
             <Typography className='log-detail-message' > 
                 <h4>Log Message</h4>
-                <div class="scroll"> {msg} </div>
+                <div className="scroll"> {msg} </div>
             </Typography> 
             )
     }
@@ -125,13 +139,13 @@ const LogDetail = ({data}) => {
             {Object.keys(data).map(k => { // change test_data back to data
                 let v = data[k];
                 let ks = displayNames.get(k)
-                if (k !== 'MSG') {
+                if (k !== 'msg') {
                     return makeDetailBox(k, ks, v)
                 }
             })}  
             </div>
             <div className='log-detail-message-container'>
-                {writeMsg(data["MSG"])}
+                {writeMsg(data["msg"])}
             </div>
     </div>
     );
