@@ -1,0 +1,15 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ClogApplication<clog>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "org.track1.clog.ClogApplication",
+            "projectName": "clog",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

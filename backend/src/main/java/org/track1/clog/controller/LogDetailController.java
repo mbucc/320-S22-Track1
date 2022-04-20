@@ -33,16 +33,16 @@ public class LogDetailController {
                                                            @RequestParam(required = false) String version, @RequestParam(required = false) String local_instance_id, @RequestParam(required = false) String eai_transaction_id,
                                                            @RequestParam(required = false) String eai_domain, @RequestParam(required = false) String hostname, @RequestParam(required = false) String application,
                                                            @RequestParam(required = false) String event_context, @RequestParam(required = false) String component, @RequestParam(required = false) Integer severity_low,
-                                                           @RequestParam(required = false) Integer severity_high, @RequestParam(required = false) Integer priority_low, @RequestParam(required = false) Integer priority_high, 
-                                                           @RequestParam(required = false) Timestamp creation_time_start, @RequestParam(required = false) Timestamp creation_time_end,
-                                                           @RequestParam(required = false) String reasoning_scope, @RequestParam(required = false) Integer process_id, @RequestParam(required = false) String category_name,
-                                                           @RequestParam(required = false) String activity, @RequestParam(required = false) String msg) {
+                                                           @RequestParam(required = false) Integer severity_med, @RequestParam(required = false) Integer severity_high, @RequestParam(required = false) Integer priority_low,
+                                                           @RequestParam(required = false) Integer priority_med, @RequestParam(required = false) Integer priority_high, @RequestParam(required = false) Timestamp creation_time_start,
+                                                           @RequestParam(required = false) Timestamp creation_time_end, @RequestParam(required = false) String reasoning_scope, @RequestParam(required = false) Integer process_id,
+                                                           @RequestParam(required = false) String category_name, @RequestParam(required = false) String activity, @RequestParam(required = false) String msg) {
         
         LogDetail logExample = new LogDetail(global_instance_id,business_domain,business_subdomain,version,local_instance_id,eai_transaction_id,eai_domain,hostname,application,event_context,component,null,null,null,reasoning_scope,process_id,category_name,activity,msg); 
         ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues();
         Example<LogDetail> logQuery = Example.of(logExample,matcher); 
         try {
-            List<LogDetail> logs = logDetailRepository.findAll(getByDatesPrioritySeverity(severity_low,severity_high,priority_low,priority_high,creation_time_start,creation_time_end,logQuery));
+            List<LogDetail> logs = logDetailRepository.findAll(getByDatesPrioritySeverity(severity_low,severity_med,severity_high,priority_low,priority_med,priority_high,creation_time_start,creation_time_end,logQuery));
             // no data
             if (logs.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -53,20 +53,28 @@ public class LogDetailController {
         }
     }
 
-    public Specification<LogDetail> getByDatesPrioritySeverity(Integer severity_low, Integer severity_high, Integer priority_low, Integer priority_high, Timestamp start, Timestamp end, Example<LogDetail> example){
+    public Specification<LogDetail> getByDatesPrioritySeverity(Integer severity_low, Integer severity_med, Integer severity_high, Integer priority_low, Integer priority_med, Integer priority_high, Timestamp start, Timestamp end, Example<LogDetail> example){
         return  (root,query,builder) -> {
             final List<Predicate> predicates = new ArrayList<Predicate>();
             if (severity_low != null){
-                predicates.add(builder.greaterThanOrEqualTo(root.get("severity"), severity_low));
+                predicates.add(builder.greaterThanOrEqualTo(root.get("severity"), 10));
+                predicates.add(builder.lessThan(root.get("severity"), 30));
+            }
+            if (severity_med != null){
+                predicates.add(builder.greaterThanOrEqualTo(root.get("severity"), 30));
+                predicates.add(builder.lessThan(root.get("severity"), 50));
             }
             if (severity_high != null){
-                predicates.add(builder.lessThanOrEqualTo(root.get("severity"), severity_high));
+                predicates.add(builder.greaterThanOrEqualTo(root.get("severity"), 50));
             }
             if (priority_low != null){
-                predicates.add(builder.greaterThanOrEqualTo(root.get("priority"), priority_low));
+                predicates.add(builder.equal(root.get("priority"), 10));
+            }
+            if (priority_med != null){
+                predicates.add(builder.equal(root.get("priority"), 50));
             }
             if (priority_high != null){
-                predicates.add(builder.lessThanOrEqualTo(root.get("priority"), priority_high));
+                predicates.add(builder.equal(root.get("priority"), 70));
             }
             if (start != null){
                 predicates.add(builder.greaterThanOrEqualTo(root.get("creationTime"), start));
