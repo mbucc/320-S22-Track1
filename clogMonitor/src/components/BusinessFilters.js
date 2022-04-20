@@ -78,8 +78,10 @@ const BusinessFilters = () => {
     const [EAIDomain, setEAIDomain] = React.useState("All");
     const pubBusinessDomains = ["OPER", "CRM", "ACCOUNT"];
     const [pubBusinessDomain, setPubBusinessDomain] = React.useState("All");
-    const [startTime, setStartTime] = React.useState(getDefaultDateTimeString(0));
-    const [endTime, setEndTime] = React.useState(getDefaultDateTimeString(1));
+    var d = new Date(); // get current date
+  d.setHours(d.getHours(),d.getMinutes()-30,0,0);
+    const [startTime, setStartTime] = React.useState(d);
+    const [endTime, setEndTime] = React.useState(new Date());
 
     // Handlers
     const handleApplyFilters = (e) => {
@@ -139,6 +141,12 @@ const BusinessFilters = () => {
         makeDropdownProps("EAI Domain", EAI_DOMAIN_ID, EAIDomains, EAIDomain, setEAIDomain),
         makeDropdownProps("Publishing Business Domain", PUBLISHING_BUSINESS_DOMAIN_ID, pubBusinessDomains, pubBusinessDomain, setPubBusinessDomain)
     ]
+
+    
+    const getDatetimeHandler = (setter) => {
+        return (event) => setter(event.target.value);
+    }
+
     return (
         <div>
             <form className="business-filters" onSubmit={handleApplyFilters}>
@@ -147,7 +155,12 @@ const BusinessFilters = () => {
                         <h1>Business Processes</h1>
                     </Grid>
                     <Grid item lg={2.75} xl={2}>
-                        <CustomDateTimePicker />
+                        <CustomDateTimePicker 
+                        startTime={startTime} 
+                        setStartTime={setStartTime}
+                        endTime={endTime}
+                        setEndTime={setEndTime}
+                        />
                     </Grid>
                     <Grid item lg={2.75} xl={2}>
                         {
@@ -164,6 +177,7 @@ const BusinessFilters = () => {
                             );
                         })
                     }
+
                     </Grid>
                     <Grid item lg={1} xl={1.5}>
                     </Grid>
@@ -183,4 +197,8 @@ const BusinessFilters = () => {
         </div>
     );
 }
+
+
+
+
 export default BusinessFilters;

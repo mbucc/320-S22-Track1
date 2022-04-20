@@ -2,7 +2,7 @@ import React from 'react';
 import CheckboxGroup from './CheckboxGroup.js';
 import Dropdown from './Dropdown.js';
 import { Grid, TextField } from '@mui/material';
-// import BusinessTable from '../components/BusinessTable'
+import BusinessTable from '../components/BusinessTable'
 import BusinessFilters from '../components/BusinessFilters'
 
 //keeping consistent with other views, similar code is here for handling checkboxes
@@ -71,7 +71,7 @@ export const BusinessView = () => {
           />
         </Grid>
         <Grid item lg={9} xl={10}>
-          {/* <BusinessTable /> */}
+          {/*<BusinessTable /> */}
         </Grid>
       </Grid>
     </div>
