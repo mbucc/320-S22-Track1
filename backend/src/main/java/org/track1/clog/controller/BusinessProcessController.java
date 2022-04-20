@@ -43,4 +43,22 @@ public class BusinessProcessController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/business_process_unique")
+    public ResponseEntity<List<String>> getByDistinct(){
+        
+        try{
+            List<String> list = bpRepository.getDistinctBusinessProcessByBusinessProcess();
+            list.addAll(bpRepository.getDistinctBusinessProcessByPublishingBusinessDomain());
+            list.addAll(bpRepository.getDistinctBusinessProcessByKey1AppContextName());
+            list.addAll(bpRepository.getDistinctBusinessProcessByKey2AppContextName());
+
+            if (list.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(list,HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
