@@ -28,18 +28,19 @@ public class ClogApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*");
+                registry.addMapping("/**").allowedOrigins("http://localhost:3000");
 			}
 		};
 	}
 
-	/*@EnableWebSecurity
+	@EnableWebSecurity
 	@Configuration
 	class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			http.csrf().disable()
+			http.cors().and()
+				.csrf().disable()
 				.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/user").permitAll()
@@ -62,6 +63,6 @@ public class ClogApplication {
 			return new BCryptPasswordEncoder();
 		}		
 
-	}*/
+	}
 
 }
