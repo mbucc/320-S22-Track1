@@ -1,6 +1,6 @@
 import { Button, FormControl } from "@mui/material";
 import React, { useEffect } from "react";
-import { filterTableData, getActualMinMaxTime, getColumnValues, getLogDetails } from "../fakeDatabase";
+import { getActualMinMaxTime, getColumnValues } from "../fakeDatabase";
 import CheckboxGroup from "./CheckboxGroup";
 import Dropdown from "./Dropdown";
 import TimeRange from "./TimeRange";
@@ -45,11 +45,12 @@ const getDefaultDateTimeString = (i) => {
  * The filters for the Log Events Table.
  * 
  * @param {Object} props
- * @param {(event: Event) => any} props.tableDataSetter - Setter for table that these filters control
+ * @param {(params: {[key: string]: string | number}, 
+ *  todoFilters?: {[key: string]: any}) => void} props.dataSetHandler - Setter for table that these filters control
  * 
  * @returns {React.ElementType}
  */
-const LogEventsFilters = ({ tableDataSetter }) => {
+const LogEventsFilters = ({ dataSetHandler }) => {
     // Component States
     // Checkbox group states
     const allPriorities = ["High", "Medium", "Low"];
@@ -158,12 +159,9 @@ const LogEventsFilters = ({ tableDataSetter }) => {
             // activity: String
             // msg: String
         }
-        getLogDetails(params).then((resultData) => {
-            // Since we still need to manually filter some things
-            const fullyFilteredData = filterTableData(todoFilters, resultData);
-            // Actually update the table
-            tableDataSetter(fullyFilteredData);
-        })
+
+        // Set the data based on params
+        dataSetHandler(params, todoFilters);
 
         // Cache the filters in sessionStorage
         sessionStorage.setItem("LogEventsFilters", JSON.stringify(allFilters));
@@ -173,7 +171,7 @@ const LogEventsFilters = ({ tableDataSetter }) => {
     const getCheckboxHandler = (options, selections, setter) => {
 
         return (event) => {
-            if(event.target.name == 'All'){
+            if(event.target.name === 'All'){
                 let newSelections = new Set()
                 if(event.target.checked){
                     newSelections = new Set(options)

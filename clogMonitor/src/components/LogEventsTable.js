@@ -83,16 +83,18 @@ const columns = [
  * @param {Object} props
  * @param {{ GLOBAL_INSTANCE_ID: Number; [key: string]: any;}[]} props.data 
  * - A list of maps from strings to any, each map represents one row
+ * @param {boolean} props.loading - Whether the grid is loading data
  * 
  * @returns {React.ElementType}
  */
-const LogEventsTable = ({data}) => {
+const LogEventsTable = ({data, loading}) => {
     const [pageSize, setPageSize] = useState(5)
 
     return (
         <div className='log-events-table-container'>
             <DataGrid
                 rows={data}
+                loading={loading}
                 columns={columns}
                 pageSize={pageSize}
                 rowsPerPageOptions={[5, 10, 25, 50, 100]}
