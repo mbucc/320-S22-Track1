@@ -23,7 +23,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 
 //api controller for business process logs
-@CrossOrigin(origins = "http://localhost:8080")
+// @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/api")
 public class BusinessProcessLogController {
