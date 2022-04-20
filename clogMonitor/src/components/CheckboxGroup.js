@@ -5,6 +5,7 @@ import { Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, For
  * A group of checkboxes for selecting any or all of some options
  * 
  * @author Kevin Lin
+ * @author Ameya Jain
  * 
  * @param {Object} props
  * @param {string} props.label - A label for the group
@@ -32,7 +33,7 @@ const CheckboxGroup = ({label, options, selectedOptions, handleSelection, direct
                         <Checkbox
                             size='small'
                             checked={selectedOptions.size === options.length}
-                            indeterminate={selectedOptions.size != options.length && selectedOptions.size > 0}
+                            indeterminate={selectedOptions.size !== options.length && selectedOptions.size > 0}
                             onChange={handleSelection}
                         />
                     }

@@ -229,7 +229,12 @@ version: "1.0"
 
 export const apiBaseURL = "http://localhost:8080/api";
 
+/**
+ * 
+ * @returns {Promise<string>} A promise for the current api token
+ */
 export function getToken() {
+    // TODO: hide credentials (possibly in .env?)
     var data = qs.stringify({
         'user': 'root',
         'password': 'teamkick' 
@@ -257,7 +262,12 @@ export function getToken() {
 }
 
 let logDetails = [];
-
+/**
+ * 
+ * @param {{[key: string]: string | number}} params The params for the query
+ * 
+ * @returns {Promise<{[columnName: string]: String;}[]>} A promise for row data returned by the query
+ */
 export function getLogDetails(params) {
     const base = apiBaseURL + "/log_detail";
     return new Promise(function(resolve, reject) {
@@ -279,6 +289,10 @@ export function getLogDetails(params) {
     });
 }
 
+/**
+ * 
+ * @returns {[Date, Date]} The start and end times in the data, hardcoded values if no data loaded
+ */
 export function getActualMinMaxTime() {
     if(logDetails.length > 0) {
         return minmaxtime(logDetails, "creationTime");
@@ -288,3 +302,5 @@ export function getActualMinMaxTime() {
         return [start, end];
     }
 }
+
+// export function get
