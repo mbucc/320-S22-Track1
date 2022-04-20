@@ -4,7 +4,6 @@ import CustomDateTimePicker from "../components/CustomDateTimePicker"
 import { Grid, TextField, Stack } from '@mui/material';
 import Dropdown from "./Dropdown";
 import BusinessTree from '../components/BusinessTree';
-import RefreshButton from '../components/RefreshButton';
 
 
 /**
@@ -35,13 +34,13 @@ import RefreshButton from '../components/RefreshButton';
 const BusinessFilters = () => {
 
     const EAI_DOMAIN_ID = "EAI_DOMAIN_ID"
-    const BUSINESS_DOMAIN_ID = "BUSINESS_DOMAIN_ID"
+    const PUBLISHING_BUSINESS_DOMAIN_ID = "PUBLISHING_BUSINESS_DOMAIN_ID"
 
     // Dropdown states
     const EAIDomains = ["EAI_DOMAIN_1", "EAI_DOMAIN_2"];
     const [EAIDomain, setEAIDomain] = React.useState("All");
-    const businessDomains = ["OPER", "CRM", "ACCOUNT"];
-    const [businessDomain, setBusinessDomain] = React.useState("All");
+    const pubBusinessDomains = ["OPER", "CRM", "ACCOUNT"];
+    const [pubBusinessDomain, setPubBusinessDomain] = React.useState("All");
 
     const getDropdownHandler = (setter) => {
         return (event) => setter(event.target.value);
@@ -57,7 +56,7 @@ const BusinessFilters = () => {
     }
     const dropdownProps = [
         makeDropdownProps("EAI Domain", EAI_DOMAIN_ID, EAIDomains, EAIDomain, setEAIDomain),
-        makeDropdownProps("Business Domain", BUSINESS_DOMAIN_ID, businessDomains, businessDomain, setBusinessDomain)
+        makeDropdownProps("Publishing Business Domain", PUBLISHING_BUSINESS_DOMAIN_ID, pubBusinessDomains, pubBusinessDomain, setPubBusinessDomain)
     ]
     return (
         <div>

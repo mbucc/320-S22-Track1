@@ -13,14 +13,6 @@ import Button from '@mui/material/Button';
  * sent across files now. Added Refresh Button
  */
 
- const theme = createTheme({
-  palette: {
-    neutral: {
-      main: '#20303B',
-      contrastText: '#ffffff',
-    },
-  },
-});
 export default function CustomDateTimePicker() {
   const [clearedDate, setClearedDate] = React.useState(null);
   var d = new Date(); // get current date
@@ -37,10 +29,8 @@ export default function CustomDateTimePicker() {
   };
 
   return (
-  <ThemeProvider theme={theme}>
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Stack spacing={3} sx={{ width: 0.9}} sy={{ height: 2}} >
-        
         <DateTimePicker 
           showTodayButton
           value={startTime}
@@ -70,9 +60,7 @@ export default function CustomDateTimePicker() {
           renderInput={(params) => <TextField {...params} />}
         />
 
-         <Button 
-            color="neutral" variant="contained" size="small"
-            
+         <Button
             onClick={() => {
             var d = new Date(); // get current date
             d.setHours(d.getHours(),d.getMinutes()-30,0,0);
@@ -83,6 +71,5 @@ export default function CustomDateTimePicker() {
         
       </Stack>
     </LocalizationProvider>
-    </ThemeProvider>
   );
 }

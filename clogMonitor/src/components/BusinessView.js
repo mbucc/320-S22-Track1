@@ -1,53 +1,76 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import CheckboxSeverities from '../components/CheckboxSeverities'
-import { Grid, TextField, Stack } from '@mui/material';
+import CheckboxGroup from './CheckboxGroup.js';
+import Dropdown from './Dropdown.js';
+import { Grid, TextField } from '@mui/material';
 import EnhancedTable from '../components/BusinessTable.js';
 import BusinessFilters from '../components/BusinessFilters'
 
-/**
- * To see visually (for now), each individual component can be placed here
- * however, filters should be actually be put in their designated group (BusinessFilters)
- * for easier control of layout (stage: functionality)
- *
- * Grid is used for organizing the elements; it works on the idea that each screen has 12 columns to work with.
- * lg and xl are for large and x-large screens, respectively. They help adjust how many columns the item takes
- * depending on screen size. For our purposes, we assume they only use computer screens and thus only have
- * lg and xl to be specified. - @hiimlo note (feel free to add your own notes)
- *
- */
+//keeping consistent with other views, similar code is here for handling checkbixes
 
+ 
 
-export class BusinessView extends React.Component {
-  render() {
-    return (
-      <div>
-          <BusinessFilters />
-          <Grid container spacing={1} direction="row" alignItems="center" justifyContent="center">
-          <Grid item lg={3.5} xl={3}>
-            <h2>Business Process Activities</h2>
-          </Grid>
-          <Grid item lg={9} xl={10} />
-          <Grid item lg={5} xl={3.5}>
-            <CheckboxSeverities />
-          </Grid>
-          <Grid item lg={2} xl={2}>
-          </Grid>
-          <Grid item lg={8} xl={8}>
-            <TextField
-              fullWidth
-              id="outlined-read-only-input"
-              defaultValue="TODO: Functionality! EAI and Publishing domains, Business Process, and BP Create Date would show up here."
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-          </Grid>
-          <Grid item lg={9} xl={10}>
-            <EnhancedTable />
-          </Grid>
-          </Grid>
+export const BusinessView = () => {
+  const allSeverities = ["All","Error", "Warning", "Success", "Info"];
+  const [selectedSeverities, setSelectedSeverities] = React.useState(new Set(allSeverities));
+
+  const getCheckboxHandler = (opts, select, set) => {
+    return (e) => {
+
+      if(e.target.name === "All"){
+        let newSelections = new Set()
+        if(e.target.checked) {
+            newSelections = new Set(opts)
+        } 
+        set(newSelections)
+      } else {
+
+        let newSelections = new Set([...select]);
+        if (e.target.checked) {
+          newSelections.add(e.target.name);
+          if(newSelections.size === opts.length - 1){
+            newSelections.add("All")
+          }
+          } else {
+              newSelections.delete(e.target.name);
+              newSelections.delete("All")
+          }
+          set(newSelections);
+      }
+    }
+  }
+  return (
+    <div>
+        <BusinessFilters />
+        <Grid container spacing={1} direction="row" alignItems="center" justifyContent="center">
+        <Grid item lg={3.5} xl={3}>
+          <h2>Business Process Activities</h2>
+        </Grid>
+        <Grid item lg={9} xl={10} />
+        <Grid item lg={5} xl={3.5}>
+          <CheckboxGroup 
+            key={"Severities"}
+            label={"Severities"}
+            options={allSeverities}
+            selectedOptions={selectedSeverities}
+            handleSelection={getCheckboxHandler(allSeverities, selectedSeverities, setSelectedSeverities)}
+          />
+        </Grid>
+        <Grid item lg={2} xl={2}>
+        </Grid>
+        <Grid item lg={8} xl={8}>
+          <TextField
+            fullWidth
+            id="outlined-read-only-input"
+            defaultValue="TODO: Functionality! EAI and Publishing domains, Business Process, and BP Create Date would show up here."
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </Grid>
+        <Grid item lg={9} xl={10}>
+          <EnhancedTable />
+        </Grid>
+        </Grid>
       </div>
     );
   }
-}
