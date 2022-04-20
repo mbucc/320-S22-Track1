@@ -16,7 +16,7 @@ import "./AppBarChart.css";
 import { CSS_COLOR_NAMES } from './colors.js'
 
 export default function AppBarChart({ logEvents }) {
-  const [chart, setChart] = useState("Last Week");
+  const [chart, setChart] = useState("Last week");
   let dateToLogsCount = new Map();
   let applicationSet = new Set();
   logEvents.forEach(event => {
@@ -135,7 +135,7 @@ export default function AppBarChart({ logEvents }) {
           <InputLabel id="demo-simple-select-label">Time span</InputLabel>
           <Select label="Time">
             <MenuItem value="Last week" onClick={() => setChart("Last week")}> Last week </MenuItem>
-            <MenuItem value="Last Month" onClick={() => setChart("Last Month")}> Last Month </MenuItem>
+            <MenuItem value="Last month" onClick={() => setChart("Last month")}> Last Month </MenuItem>
           </Select>
         </FormControl>
 
