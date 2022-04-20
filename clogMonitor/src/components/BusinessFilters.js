@@ -31,6 +31,42 @@ import BusinessTree from '../components/BusinessTree';
  * @returns {React.ElementType}
  */
 
+/**
+ * Returns the current datetime as a valid string for datetime-local inputs
+ * 
+ * @returns {string} 
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Date_and_time_formats#local_date_and_time_strings}
+ */
+ const getCurrentDateTimeString = () => {
+    let now = new Date();
+    let offset = now.getTimezoneOffset() * 60000;
+    let adjustedDate = new Date(now.getTime() - offset);
+    let formattedDate = adjustedDate.toISOString().substring(0, 19);
+    return formattedDate;
+};
+
+/**
+ * Returns the default start datetime or end datetime depending on if i is 0 or 1, in local time
+ * 
+ * @param {0 | 1} i 0 if requesting default start, 1 if requesting default end
+ * @returns {string} The default local datetime string formatted for datetime-local inputs
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Date_and_time_formats#local_date_and_time_strings}
+ */
+ const getDefaultDateTimeString = (i) => {
+    // Uses min time for start and max time for end
+    // unless there is no data, in which we use current datetime
+    // const mmtime = minmaxtime();
+    // if(mmtime) {
+    //     // mmtime is in utc, we need offset;
+    //     let adjustedDates = mmtime.map((d) => new Date(d.getTime() - (60000 * d.getTimezoneOffset())));
+    //     // use 23 instead of 19 for ms precision
+    //     return adjustedDates[i].toISOString().substring(0, 19);
+    // } else {
+    //     return getCurrentDateTimeString();
+    // }
+    return getCurrentDateTimeString();
+}
+
 const BusinessFilters = () => {
 
     const EAI_DOMAIN_ID = "EAI_DOMAIN_ID"
@@ -41,6 +77,50 @@ const BusinessFilters = () => {
     const [EAIDomain, setEAIDomain] = React.useState("All");
     const pubBusinessDomains = ["OPER", "CRM", "ACCOUNT"];
     const [pubBusinessDomain, setPubBusinessDomain] = React.useState("All");
+    const [startTime, setStartTime] = React.useState(getDefaultDateTimeString(0));
+    const [endTime, setEndTime] = React.useState(getDefaultDateTimeString(1));
+
+    // Handlers
+    const handleApplyFilters = (e) => {
+        e.preventDefault(); // don't actually submit the form
+        console.log("Apply filters was pressed");
+        // get the filters by column name
+        const filters = {
+            EAI_DOMAIN: EAIDomain,
+            PUBLISHING_BUSINESS_DOMAIN: pubBusinessDomain,
+            CREATION_TIME: [startTime, endTime],
+        };
+
+        var axios = require('axios');
+        var qs = require('qs');
+        var data = qs.stringify({
+            'user': 'root',
+            'password': 'teamkick' 
+        });
+        var config = {
+            method: 'post',
+            url: 'http://localhost:8080/user',
+            headers: { 
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data : data
+        };
+        axios(config)
+        .then(function (response) {
+            console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
+        // Request table data according to filters (This is where we would do a axios POST)
+        //const resultData = getTableData(filters);
+        // We may need to do some conversion afterwards
+        // Set the changes
+        //tableDataSetter(resultData);
+        // Cache the filters in sessionStorage
+        //sessionStorage.setItem("LogEventsFilters", JSON.stringify(filters));
+    };
 
     const getDropdownHandler = (setter) => {
         return (event) => setter(event.target.value);
@@ -60,7 +140,7 @@ const BusinessFilters = () => {
     ]
     return (
         <div>
-            <form className="business-filters">
+            <form className="business-filters" onSubmit={handleApplyFilters}>
                 <Grid container spacing={1} direction="row" alignItems="center" justifyContent="center">
                     <Grid item lg={2} xl={1.25}>
                         <h1>Business Processes</h1>
