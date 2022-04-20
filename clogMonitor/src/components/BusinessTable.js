@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Button, Link } from "@mui/material";
+import { Button } from "@mui/material";
 // Defines the columns for mui DataGrid
 // See https://mui.com/components/data-grid/columns/ for possible keys and more details
 // Used keys:
@@ -9,6 +9,11 @@ import { Button, Link } from "@mui/material";
  * headerName: string - The string to display in the header for this column
  * flex: number - The flex value for this column's width (search css flexbox for more on flex)
  * valueFormatter: (params) => any - transforms the stored value in data into a new value before any operations
+ */
+
+/**
+ * reworked code to work for business 
+ * original author: @klin17 , edited for business purpose by @hiimlo
  */
 const columns = [
     { 
@@ -34,26 +39,6 @@ const columns = [
         },
     },
     { 
-        field: 'PRIORITY', 
-        headerName: 'Priority', 
-        type: 'number',
-        flex: 2,
-        align: 'left',
-        headerAlign: 'left',
-        valueFormatter: (params) => {
-            //  Low = 10, Medium = 50, High = 70
-            const val = params.value;
-            if (val <= 10) {
-                return "Low";
-            }
-            if (val <= 50) {
-                return "Medium";
-            }
-            return "High"
-        },
-    },
-    { field: 'CATEGORY_NAME', headerName: 'Category', flex: 2 },
-    { 
         field: 'CREATION_TIME', 
         type: 'dateTime',
         headerName: 'Create Date', 
@@ -64,8 +49,6 @@ const columns = [
         },
     },
     { field: 'APPLICATION', headerName: 'Application', flex: 4 },
-    // EVENT_CONTEXT is the key for PROCESS, COMPONENT is the key for SERVICE
-    { field: 'EVENT_CONTEXT', headerName: 'Process/Service', flex: 5 },
     { field: 'ACTIVITY', headerName: 'Activity', flex: 6 },
     {
         field: 'actions',
@@ -78,27 +61,24 @@ const columns = [
 ];
 
 /**
- * A table that displays Log Events
  * 
- * @param {Object} props
- * @param {{ GLOBAL_INSTANCE_ID: Number; [key: string]: any;}[]} props.data 
- * - A list of maps from strings to any, each map represents one row
- * 
- * @returns {React.ElementType}
+ * table displays business events
  */
-export const BusinessTable = ({data}) => {
+const BusinessTable = ({data}) => {
     const [pageSize, setPageSize] = useState(5)
 
     return (
-        <div className='log-events-table-container'>
-            <DataGrid
-                rows={data}
-                columns={columns}
-                pageSize={pageSize}
-                rowsPerPageOptions={[5, 10, 25, 50, 100]}
-                onPageSizeChange={(newSize) => setPageSize(newSize)}
-                getRowId={(row) => row["GLOBAL_INSTANCE_ID"]}
-            />
+      <div>
+        <DataGrid
+          rows={data}
+          columns={columns}
+          pageSize={pageSize}
+          rowsPerPageOptions={[5, 10, 25, 50, 100]}
+          onPageSizeChange={(newSize) => setPageSize(newSize)}
+          getRowId={(row) => row["GLOBAL_INSTANCE_ID"]}
+        />
       </div>
     );
 }
+ 
+export default BusinessTable;
