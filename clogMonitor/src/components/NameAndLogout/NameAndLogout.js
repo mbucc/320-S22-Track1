@@ -9,7 +9,7 @@ import ListItemText from "@mui/material/ListItemText";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Typography from "@mui/material/Typography";
 
-function NameAndLogout(props) {
+function NameAndLogout({ setLoggedIn }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -33,7 +33,6 @@ function NameAndLogout(props) {
           paddingRight: 1,
           paddingBottom: 1,
           paddingTop: 1,
-
         }}
         onClick={handleClick}
       >
@@ -102,7 +101,14 @@ function NameAndLogout(props) {
           horizontal: "center",
         }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            setLoggedIn(false);
+            console.log("here");
+            localStorage.setItem("loginCheck", false);
+          }}
+        >
           <Stack
             direction="row"
             spacing={3}

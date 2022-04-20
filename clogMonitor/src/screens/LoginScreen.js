@@ -44,6 +44,7 @@ function LoginScreen({ setLoggedIn }) {
       } else {
         // setIsSubmitted(true);
         setLoggedIn(true);
+        localStorage.setItem("loginCheck", true);
       }
     } else {
       // Username not found

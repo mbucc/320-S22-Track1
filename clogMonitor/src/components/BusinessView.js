@@ -1,25 +1,9 @@
-<<<<<<< HEAD
 import React from "react";
 import ReactDOM from "react-dom";
 import CheckboxSeverities from "../components/CheckboxSeverities";
-import BusinessDomainDropDown from "../components/BusinessDomainDropDown";
-import DomainDropDownCheck from "../components/DomainDropDownCheck";
-// import NavTab from '../components/NavTab';
-import BusinessTree from "../components/BusinessTree";
-import ApplyButton from "../components/ApplyButton";
-import RefreshButton from "../components/RefreshButton";
 import { Grid, TextField, Stack } from "@mui/material";
-import CustomDateTimePicker from "../components/CustomDateTimePicker.js";
 import EnhancedTable from "../components/BusinessTable.js";
-=======
-import React from 'react';
-import ReactDOM from 'react-dom';
-import CheckboxSeverities from '../components/CheckboxSeverities'
-import { Grid, TextField, Stack } from '@mui/material';
-import EnhancedTable from '../components/BusinessTable.js';
-import BusinessFilters from '../components/BusinessFilters'
-
->>>>>>> 0e01dffe70e63ae37e2d41c060a5216aa96a8147
+import BusinessFilters from "../components/BusinessFilters";
 
 /**
  * To see visually (for now), each individual component can be placed here
@@ -33,13 +17,18 @@ import BusinessFilters from '../components/BusinessFilters'
  *
  */
 
-
 export class BusinessView extends React.Component {
   render() {
     return (
       <div>
-          <BusinessFilters />
-          <Grid container spacing={1} direction="row" alignItems="center" justifyContent="center">
+        <BusinessFilters />
+        <Grid
+          container
+          spacing={1}
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+        >
           <Grid item lg={3.5} xl={3}>
             <h2>Business Process Activities</h2>
           </Grid>
@@ -47,8 +36,7 @@ export class BusinessView extends React.Component {
           <Grid item lg={5} xl={3.5}>
             <CheckboxSeverities />
           </Grid>
-          <Grid item lg={2} xl={2}>
-          </Grid>
+          <Grid item lg={2} xl={2}></Grid>
           <Grid item lg={8} xl={8}>
             <TextField
               fullWidth
@@ -62,7 +50,7 @@ export class BusinessView extends React.Component {
           <Grid item lg={9} xl={10}>
             <EnhancedTable />
           </Grid>
-          </Grid>
+        </Grid>
       </div>
     );
   }

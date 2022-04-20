@@ -10,7 +10,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { getTableData } from '../fakeDatabase';
 import { BusinessView } from '../components/BusinessView';
 
-function DashboardScreen() {
+function DashboardScreen({ setLoggedIn }) {
 
   const [logEvents, setLogEvents] = React.useState([]);
 
@@ -55,7 +55,7 @@ function DashboardScreen() {
           </BrowserRouter>
         </div>
         <div className="DashboardScreen__NameAndLogout">
-          <NameAndLogout />
+          <NameAndLogout setLoggedIn={setLoggedIn} />
         </div>
       </div>
     </div>
