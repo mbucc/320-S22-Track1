@@ -3,152 +3,144 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import {
-  BarChart,
-  Bar,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
-  ResponsiveContainer,
+  Legend
 } from "recharts";
-import { Select, MenuItem } from "@mui/material";
+import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
+import "./AppBarChart.css";
+import { CSS_COLOR_NAMES } from './colors.js'
 
-const errorData = [
-  {
-    name: "1/1-1/7",
-    application_1: 40,
-    application_2: 24,
-    application_3: 24,
-  },
-  {
-    name: "1/8-1/15",
-    application_1: 30,
-    application_2: 13,
-    application_3: 22,
-  },
-  {
-    name: "1/16-1/23",
-    application_1: 20,
-    application_2: 98,
-    application_3: 22,
-  },
-  {
-    name: "1/24-Today",
-    application_1: 27,
-    application_2: 39,
-    application_3: 20,
-  },
-];
-const warningData = [
-  {
-    name: "1/1-1/7",
-    application_1: 68,
-    application_2: 18,
-    application_3: 65,
-  },
-  {
-    name: "1/8-1/15",
-    application_1: 98,
-    application_2: 11,
-    application_3: 31,
-  },
-  {
-    name: "1/16-1/23",
-    application_1: 75,
-    application_2: 25,
-    application_3: 38,
-  },
-  {
-    name: "1/24-Today",
-    application_1: 48,
-    application_2: 44,
-    application_3: 55,
-  },
-];
+export default function AppBarChart({ logEvents }) {
+  const [chart, setChart] = useState("Last week");
+  let dateToLogsCount = new Map();
+  let applicationSet = new Set();
+  logEvents.forEach(event => {
+    let date = event['CREATION_TIME'].toDateString();
+    let application = event['APPLICATION'];
+    applicationSet.add(application);
+    if (dateToLogsCount.get(date) === undefined) {
+      dateToLogsCount.set(date, new Map());
+      dateToLogsCount.get(date).set(application, 1);
+    } else {
+      let applicationsToCount = dateToLogsCount.get(date);
+      if (applicationsToCount.get(application) === undefined) {
+        applicationsToCount.set(application, 1);
+      } else {
+        applicationsToCount.set(application, applicationsToCount.get(application) + 1);
+      }
+    }
+  });
 
-export default function AppBarChart() {
-  const [chart, setChart] = useState("Warning");
+
+  let dates = Array.from(dateToLogsCount.keys());
+  let sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  let lastWeek = dates.filter(date => {
+    let dateObject = new Date(date);
+    return dateObject.getTime() > sevenDaysAgo.getTime()
+  });
+  let thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  let lastMonth = dates.filter(date => {
+    let dateObject = new Date(date);
+    return dateObject.getTime() > thirtyDaysAgo.getTime()
+  });
+  const sortDates = (dates) => dates.sort(function (a, b) {
+    let dateA = new Date(a);
+    let dateB = new Date(b);
+    return dateA.getTime() - dateB.getTime();
+  });
+  const processDate = (dates, data) => {
+    dates.forEach(date => {
+      let value = dateToLogsCount.get(date);
+      let applicationsCount = { name: date };
+      applicationSet.forEach(application => {
+        if (value.get(application) === undefined) {
+          applicationsCount[application] = 0;
+        } else {
+          applicationsCount[application] = value.get(application);
+        }
+      })
+      data.push(applicationsCount);
+    })
+  }
+
+  sortDates(lastWeek);
+  sortDates(lastMonth);
+  let lastWeekData = [];
+  let lastMonthData = [];
+  processDate(lastWeek, lastWeekData);
+  processDate(lastMonth, lastMonthData);
+  let data = chart === "Last week" ? lastWeekData : lastMonthData;
+  let ticks = chart === "Last week" ? [lastWeek[0], lastWeek[lastWeek.length - 1]] : [lastMonth[0], lastMonth[lastMonth.length - 1]];
   return (
-    <div>
-      <Typography component="div">
-        <Box
-          sx={{
-            textAlign: "left",
-            m: 3,
-            fontWeight: "bold",
-            fontFamily: "Monospace",
-            fontSize: "h4.fontSize",
-          }}
-        >
-          {" "}
-          Bar Chart
-          <Select>
-            <MenuItem value="Error Log" onClick={() => setChart("Error Log")}>
-              {" "}
-              Error Log Events{" "}
-            </MenuItem>
-            <MenuItem value="Warning Log" onClick={() => setChart("Warning")}>
-              {" "}
-              Warning Log Events{" "}
-            </MenuItem>
-          </Select>
+    <div className='rows'>
+      <div className='row'><Typography component='div'>
+        <Box sx={{
+          textAlign: 'left',
+          m: 3,
+          fontWeight: 'bold',
+          fontFamily: 'Monospace',
+          fontSize: 'h4.fontSize',
+        }}
+        > Error Log Chart
         </Box>
       </Typography>
-      <Stack
-        direction="row"
-        spacing={1}
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          bgcolor: "background.paper",
-          position: "relative",
-          top: "10%",
-          left: "2%",
-          border: "1",
-          borderRadius: "15px",
-          boxShadow: "0px 0px 12px -1px #000000",
-        }}
-      >
-        {chart === "Error Log" ? (
-          <div>
-            <BarChart width={470} height={470} data={errorData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="application_2" stackId="a" fill="#8884D8" />
-              <Bar dataKey="application_3" stackId="a" fill="#82CA9D" />
-              <Bar dataKey="application_1" stackId="a" fill="#FFC658" />
-            </BarChart>
-            <Typography variant="heading1">
-              The number of error log events per application
-            </Typography>
-          </div>
-        ) : (
-          <></>
-        )}
-        {chart === "Warning" ? (
-          <div>
-            <BarChart width={470} height={470} data={warningData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="application_2" stackId="a" fill="#60F542" />
-              <Bar dataKey="application_3" stackId="a" fill="#82CA9D" />
-              <Bar dataKey="application_1" stackId="a" fill="#F5425D" />
-            </BarChart>
-            <Typography variant="heading1">
-              The number of warning log events per application
-            </Typography>
-          </div>
-        ) : (
-          <></>
-        )}
-      </Stack>
-    </div>
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            bgcolor: 'background.paper',
+            position: "relative",
+            top: "10%",
+            left: "2%",
+            border: '1',
+            borderRadius: '15px',
+            boxShadow: "0px 0px 12px -1px #000000"
+          }}
+        >
+
+          {<LineChart
+            width={800}
+            height={500}
+            data={data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" ticks={ticks} />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            {Array.from(applicationSet).map((application, index) => {
+              return <Line type="monotone" dataKey={application} stroke={CSS_COLOR_NAMES[index]} />;
+            })}
+          </LineChart>}
+
+        </Stack>
+      </div>
+      <div className='row' style={{
+        margin: 40, width: "50%", position: "relative", top: 250
+      }} >
+        < FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Time span</InputLabel>
+          <Select label="Time">
+            <MenuItem value="Last week" onClick={() => setChart("Last week")}> Last week </MenuItem>
+            <MenuItem value="Last month" onClick={() => setChart("Last month")}> Last Month </MenuItem>
+          </Select>
+        </FormControl>
+
+      </div >
+    </div >
+
   );
 }

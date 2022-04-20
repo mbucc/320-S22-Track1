@@ -25,6 +25,18 @@ const CheckboxGroup = ({label, options, selectedOptions, handleSelection, direct
         <FormControl className={`checkbox-group ${label}`} error={isError()} style={{minWidth: "115px"}}>
             <FormLabel className='checkbox-label'>{label}</FormLabel>
             <FormGroup row={direction === 'row' ? true : false}>
+                <FormControlLabel 
+                    label = 'All'
+                    name='All'
+                    control={
+                        <Checkbox
+                            size='small'
+                            checked={selectedOptions.size === options.length}
+                            indeterminate={selectedOptions.size != options.length && selectedOptions.size > 0}
+                            onChange={handleSelection}
+                        />
+                    }
+                />
                 {options.map(option => 
                     <FormControlLabel
                         className='checkbox'

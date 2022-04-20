@@ -43,7 +43,8 @@ function LoginScreen({ setLoggedIn }) {
         setErrorMessages({ name: "pass", message: errors.pass });
       } else {
         // setIsSubmitted(true);
-        setLoggedIn(true);
+        setLoggedIn("true");
+        localStorage.setItem("loginCheck", "true");
       }
     } else {
       // Username not found

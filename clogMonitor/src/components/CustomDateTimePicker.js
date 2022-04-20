@@ -7,26 +7,19 @@ import Stack from "@mui/material/Stack";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 
-/* Author: @wilsonnexus, isRangeError() from Team Goose
+/* Author: @wilsonnexus
  * Customizable MUI Date Time Range Picker with Error Handling
  * Still needs some more work, but I think the time values could be
  * sent across files now. Added Refresh Button
  */
 
-export default function CustomDateTimePicker() {
+export default function CustomDateTimePicker({ startTime, setStartTime, endTime, setEndTime, direction="column" }) {
   const [clearedDate, setClearedDate] = React.useState(null);
   var d = new Date(); // get current date
   d.setHours(d.getHours(),d.getMinutes()-30,0,0);
-  const [startTime, setStartTime] = React.useState(d);
-  const [endTime, setEndTime] = React.useState(new Date());
+  //const [startTime, setStartTime] = React.useState(d);
+  //const [endTime, setEndTime] = React.useState(new Date());
 
-  const isRangeError = () => {
-    // Convert times to actual Date objects to compare
-    // Note: we only care about the relative difference, so time zone should not matter
-    const dt_start = new Date(startTime);
-    const dt_end = new Date(endTime);
-    return dt_end < dt_start;
-  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>

@@ -5,7 +5,7 @@ import FeaturedInfo from "../featuredInfo/FeaturedInfo";
 import ErrorLogPane from "../ErrorLogPane/ErrorLogPane";
 import "./Home.css";
 
-function Home({ logEvents, setChosenLogEvent }) {
+function Home({ logEvents }) {
   return (
     <div className="Home">
       <div className="Home__WelcomeTynography">
