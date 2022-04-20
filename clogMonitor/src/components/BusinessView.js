@@ -2,10 +2,11 @@ import React from 'react';
 import CheckboxGroup from './CheckboxGroup.js';
 import Dropdown from './Dropdown.js';
 import { Grid, TextField } from '@mui/material';
-import EnhancedTable from '../components/BusinessTable.js';
+import BusinessTable from '../components/BusinessTable'
 import BusinessFilters from '../components/BusinessFilters'
 
-//keeping consistent with other views, similar code is here for handling checkbixes
+//keeping consistent with other views, similar code is here for handling checkboxes
+//checkbox and dropdown both need to be here since they're post selection filtering
 
  
 
@@ -38,6 +39,7 @@ export const BusinessView = () => {
       }
     }
   }
+
   return (
     <div>
         <BusinessFilters />
@@ -53,6 +55,7 @@ export const BusinessView = () => {
             options={allSeverities}
             selectedOptions={selectedSeverities}
             handleSelection={getCheckboxHandler(allSeverities, selectedSeverities, setSelectedSeverities)}
+            direction={'row'}
           />
         </Grid>
         <Grid item lg={2} xl={2}>
@@ -68,7 +71,7 @@ export const BusinessView = () => {
           />
         </Grid>
         <Grid item lg={9} xl={10}>
-          <EnhancedTable />
+          <BusinessTable />
         </Grid>
         </Grid>
       </div>
