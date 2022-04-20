@@ -1,46 +1,23 @@
 import * as React from "react";
-import AlarmIcon from "@mui/icons-material/Alarm";
-import SnoozeIcon from "@mui/icons-material/Snooze";
 import TextField from "@mui/material/TextField";
-import ClockIcon from "@mui/icons-material/AccessTime";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DateTimePicker from "@mui/lab/DateTimePicker";
-import MobileDateTimePicker from "@mui/lab/MobileDateTimePicker";
 import Stack from "@mui/material/Stack";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-// import Background from './Background.js';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Button from '@mui/material/Button';
 
 /* Author: @wilsonnexus, isRangeError() from Team Goose
  * Customizable MUI Date Time Range Picker with Error Handling
  * Still needs some more work, but I think the time values could be
- * sent across files now. Military Time To Do
+ * sent across files now. Added Refresh Button
  */
-const themeLight = createTheme({
-  palette: {
-    background: {
-      default: "#000000",
-    },
-    text: {
-      primary: "#FFFFFF",
-    },
-  },
-});
-
-const themeDark = createTheme({
-  palette: {
-    background: {
-      default: "#FFFFFF",
-    },
-    text: {
-      primary: "#000000",
-    },
-  },
-});
 
 export default function CustomDateTimePicker() {
   const [clearedDate, setClearedDate] = React.useState(null);
-  const [startTime, setStartTime] = React.useState(new Date());
+  var d = new Date(); // get current date
+  d.setHours(d.getHours(),d.getMinutes()-30,0,0);
+  const [startTime, setStartTime] = React.useState(d);
   const [endTime, setEndTime] = React.useState(new Date());
 
   const isRangeError = () => {
@@ -52,39 +29,47 @@ export default function CustomDateTimePicker() {
   };
 
   return (
-    <ThemeProvider theme={themeLight}>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Stack spacing={3} sx={{ width: 0.9 }} sy={{ height: 2 }}>
-          <DateTimePicker
-            showTodayButton
-            value={startTime}
-            onChange={(newValue) => {
-              setStartTime(newValue);
-            }}
-            ampm={false}
-            label="Start Time"
-            onError={console.log}
-            maxDate={endTime}
-            inputFormat="dd/MM/yyyy HH:mm"
-            mask="___/__/__ __:__"
-            renderInput={(params) => <TextField {...params} />}
-          />
-          <DateTimePicker
-            showTodayButton
-            value={endTime}
-            onChange={(newValue) => {
-              setEndTime(newValue);
-            }}
-            ampm={false}
-            label="End Time"
-            onError={console.log}
-            minDate={startTime}
-            inputFormat="dd/MM/yyyy HH:mm"
-            mask="___/__/__ __:__"
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </Stack>
-      </LocalizationProvider>
-    </ThemeProvider>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <Stack spacing={3} sx={{ width: 0.9}} sy={{ height: 2}} >
+        <DateTimePicker 
+          showTodayButton
+          value={startTime}
+          onChange={(newValue) => {
+            setStartTime(newValue);
+          }}
+          ampm={false}
+          label="Start Time"
+          onError={console.log}
+          maxDate={endTime}
+          inputFormat="dd/MM/yyyy HH:mm"
+          mask="___/__/__ __:__"
+          renderInput={(params) => <TextField {...params} />}
+        />
+        <DateTimePicker
+        showTodayButton
+          value={endTime}
+          onChange={(newValue) => {
+            setEndTime(newValue);
+          }}
+          ampm={false}
+          label="End Time"
+          onError={console.log}
+          minDate={startTime}
+          inputFormat="dd/MM/yyyy HH:mm"
+          mask="___/__/__ __:__"
+          renderInput={(params) => <TextField {...params} />}
+        />
+
+         <Button
+            onClick={() => {
+            var d = new Date(); // get current date
+            d.setHours(d.getHours(),d.getMinutes()-30,0,0);
+            setStartTime(d);
+            setEndTime(new Date());}}>
+            Refresh
+            </Button>
+        
+      </Stack>
+    </LocalizationProvider>
   );
 }

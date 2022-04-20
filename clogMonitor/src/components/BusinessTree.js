@@ -5,6 +5,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { FormControl } from '@mui/material'
 
 /**
  * Tree view for selecting precise business process withing a eai domain/publishing domain
@@ -36,7 +37,7 @@ export default function BusinessTree() {
   };
 
   return (
-    <Box sx={{ height: 300, flexGrow: 1, maxWidth: 950, overflowX: 'hidden', overflowY: 'auto', border: 1, borderColor: 'grey.500', borderRadius: 1}}>
+    <FormControl sx={{ height: 300, flexGrow: 1, minWidth: 900, overflowX: 'hidden', overflowY: 'auto', border: 1, borderColor: 'grey.500', borderRadius: 1}}>
       <Box sx={{ mb: 1 }}>
         <Button onClick={handleExpanded}>
           {expanded.length === 0 ? 'Expand all' : 'Collapse all'}
@@ -102,10 +103,11 @@ export default function BusinessTree() {
           </TreeItem>
         </TreeItem>
       </TreeView>
-    </Box>
+    </FormControl>
   );
 }
 
 
 //PLEASE DO NOT CHANGE ANY OF THE STRUCTURE ABOVE.
 //final thing todo: selection from this tree is used to filter
+//additional- figureout how to pull from table to make filter? I feel like hardcoding is actually better but i don't know

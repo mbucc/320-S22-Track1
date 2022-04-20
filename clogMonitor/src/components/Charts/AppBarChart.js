@@ -95,7 +95,7 @@ export default function AppBarChart({ logEvents }) {
           justifyContent: 'center',
           bgcolor: 'background.paper',
           position: "relative",
-          top: "15%",
+          top: "10%",
           left: "2%",
           border: '1',
           borderRadius: '15px',
