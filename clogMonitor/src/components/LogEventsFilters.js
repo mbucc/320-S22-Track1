@@ -163,52 +163,6 @@ const LogEventsFilters = ({ dataSetHandler }) => {
         // Set the data based on params
         dataSetHandler(params, todoFilters);
 
-        // var axios = require('axios');
-        // var qs = require('qs');
-        // var data = qs.stringify({
-        // 'user': 'root',
-        // 'password': 'teamkick' 
-        // });
-        // var config = {
-        // method: 'post',
-        // url: 'http://localhost:8080/user',
-        // headers: { 
-        //     'Content-Type': 'application/x-www-form-urlencoded'
-        // },
-        // data : data
-        // };
-
-        // axios(config)
-        // .then(function (response) {
-        // console.log(JSON.stringify(response.data));
-        // })
-        // .catch(function (error) {
-        // console.log(error);
-        // });
-
-        // var axios = require('axios');
-        // var qs = require('qs');
-        // var data = qs.stringify({
-        
-        // });
-        // var config = {
-        // method: 'get',
-        // url: 'http://localhost:8080/api/log_detail',
-        // headers: { 
-        //     'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoicm9vdCIsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2NTA0OTQyODIsImV4cCI6MTY1MDQ5NDg4Mn0.gnoi-1QWlhp_989QOGI9cKTMyeYCktw8WQeBzw5t0DvpMSeN-XzPHx32pMKK-ctDPK1U_TApUOB_yAcNcXrK1g', 
-        //     //'Cookie': 'JSESSIONID=6D671368E7FDE516CF5F5654D67FA4F2'
-        // },
-        // data : data
-        // };
-
-        axios(config)
-        .then(function (response) {
-        console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-        console.log(error);
-        });
-
         // Cache the filters in sessionStorage
         sessionStorage.setItem("LogEventsFilters", JSON.stringify(allFilters));
     };
