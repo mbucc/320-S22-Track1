@@ -5,6 +5,7 @@ import { Grid, TextField } from "@mui/material";
 import { filterTableData, getLogDetails, getColumnValues } from '../fakeDatabase';
 import BusinessTable from "../components/BusinessTable";
 import BusinessFilters from "../components/BusinessFilters";
+import EnhancedTable from "./deleteTableLater.js";
 
 //keeping consistent with other views, similar code is here for handling checkboxes
 //checkbox and dropdown both need to be here since they're post selection filtering
@@ -44,7 +45,8 @@ export const BusinessView = () => {
         padding={2}
         justifyContent="center"
       >
-          <BusinessTable data={tableData} loading={loading}/>
+          {/**<BusinessTable data={tableData} loading={loading}/>*/}
+          <EnhancedTable />
       </Grid>
     </div>
   );

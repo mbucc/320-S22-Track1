@@ -273,7 +273,4 @@ const BusinessFilters = ({ dataSetHandler }) => {
     );
 }
 
-
-
-
 export default BusinessFilters;
