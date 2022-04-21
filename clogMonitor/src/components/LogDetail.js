@@ -88,7 +88,7 @@ const LogDetail = () => {
         <span className='log-detail-item'> 
             <TextField
                 key={key}
-                id="outlined-read-only-input"
+                id="filled-read-only-input"
                 label={label}
                 value={value}
                 fullWidth
@@ -103,7 +103,7 @@ const LogDetail = () => {
     const makeLongBox = (key, label, value) => {
         return <TextField
                 key={key}
-                id="outlined-read-only-input"
+                id="filled-read-only-input"
                 label={label}
                 value={value}
                 fullWidth
@@ -124,6 +124,7 @@ const LogDetail = () => {
 
     const writeMsg = (msg) => {
         return (
+            
             <div className='scroll'>
                 <h4>Log Message</h4>
                 <Typography className='log-detail-message' > 
