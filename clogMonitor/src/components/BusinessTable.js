@@ -67,18 +67,21 @@ const columns = [
 const BusinessTable = ({data, loading}) => {
     const [pageSize, setPageSize] = useState(5)
 
+    console.log("business table data:");
+    console.log(data);
+
     return (
-      <div>
+    //   <div>
         <DataGrid
+            style={{height: "100vh"}}
           rows={data}
           loading={loading}
           columns={columns}
           pageSize={pageSize}
-          rowsPerPageOptions={[5, 10, 25, 50, 100]}
-          onPageSizeChange={(newSize) => setPageSize(newSize)}
+        //   rowsPerPageOptions={[5, 10, 25, 50, 100]}
+        //   onPageSizeChange={(newSize) => setPageSize(newSize)}
           getRowId={(row) => row["GLOBAL_INSTANCE_ID"]}
         />
-      </div>
     );
 }
  
