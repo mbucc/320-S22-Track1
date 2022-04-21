@@ -76,6 +76,8 @@ const LogDetail = () => {
                 setData(resultData[0]);
                 setBadID(false);
             }
+        }).catch(err => {
+            console.log(err);
         })
     }, [id]);
 
