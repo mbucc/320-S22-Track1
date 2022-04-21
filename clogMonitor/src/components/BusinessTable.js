@@ -61,15 +61,17 @@ const columns = [
 ];
 
 /**
+
  * table displays business events
  */
-const BusinessTable = ({data}) => {
+const BusinessTable = ({data, loading}) => {
     const [pageSize, setPageSize] = useState(5)
 
     return (
       <div>
         <DataGrid
           rows={data}
+          loading={loading}
           columns={columns}
           pageSize={pageSize}
           rowsPerPageOptions={[5, 10, 25, 50, 100]}

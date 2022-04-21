@@ -5,6 +5,8 @@ import { Grid} from '@mui/material';
 import { getColumnValues } from "../fakeDatabase";
 import Dropdown from "./Dropdown";
 import BusinessTree from '../components/BusinessTree';
+import CheckboxGroup from "./CheckboxGroup";
+import { TextField } from "@mui/material";
 
 
 /**
@@ -69,6 +71,10 @@ import BusinessTree from '../components/BusinessTree';
 
 const BusinessFilters = ({ dataSetHandler }) => {
 
+    //textfield state
+    const [text, setText] = React.useState("");
+
+    //ids for dropdowns
     const EAI_DOMAIN_ID = "EAI_DOMAIN_ID"
     const PUBLISHING_BUSINESS_DOMAIN_ID = "PUBLISHING_BUSINESS_DOMAIN_ID"
 
@@ -77,11 +83,63 @@ const BusinessFilters = ({ dataSetHandler }) => {
     const [EAIDomain, setEAIDomain] = React.useState("All");
     const pubBusinessDomains = getColumnValues("BUSINESS_DOMAIN");
     const [pubBusinessDomain, setPubBusinessDomain] = React.useState("All");
+
     var d = new Date(); // get current date
     d.setHours(d.getHours(),d.getMinutes()-30,0,0);
     const [startTime, setStartTime] = React.useState(d);
     const [endTime, setEndTime] = React.useState(new Date());
 
+    //for dropdowns, handling and setting them up to be called in a map function
+    const getDropdownHandler = (setter) => {
+        return (event) => setter(event.target.value);
+    }
+    const makeDropdownProps = (label, id, options, value, setter) => {
+        return {
+            label: label,
+            id: id,
+            options: options,
+            value: value,
+            handler: getDropdownHandler(setter),
+        }
+    }
+    const dropdownProps = [
+        makeDropdownProps("EAI Domain", EAI_DOMAIN_ID, EAIDomains, EAIDomain, setEAIDomain),
+        makeDropdownProps("Publishing Business Domain", PUBLISHING_BUSINESS_DOMAIN_ID, pubBusinessDomains, pubBusinessDomain, setPubBusinessDomain)
+    ]
+
+    const allSeverities = ["Error", "Warning", "Success", "Info"];
+    const [selectedSeverities, setSelectedSeverities] = React.useState(new Set(allSeverities));
+  
+    const getCheckboxHandler = (opts, select, set) => {
+      return (e) => {
+        if (e.target.name === "All") {
+          let newSelections = new Set();
+          if (e.target.checked) {
+            newSelections = new Set(opts);
+          }
+          set(newSelections);
+        } else {
+          let newSelections = new Set([...select]);
+          if (e.target.checked) {
+            newSelections.add(e.target.name);
+            if (newSelections.size === opts.length - 1) {
+              newSelections.add("All");
+            }
+          } else {
+            newSelections.delete(e.target.name);
+            newSelections.delete("All");
+          }
+          set(newSelections);
+        }
+      };
+    };
+  
+    const BUSINESS_SUBDOMAIN_ID = "BUSINESS_SUBDOMAIN_ID"
+    const businessSubDomains = getColumnValues("BUSINESS_SUBDOMAIN")
+    const [businessSubDomain, setBusinessSubDomain] = React.useState("All");
+
+
+    //used to load the cached filters if there are any- for business we need to add tree view as well
     useEffect(() => {
         const value = sessionStorage.getItem("BusinessFilters");
         if(value) {
@@ -101,6 +159,7 @@ const BusinessFilters = ({ dataSetHandler }) => {
         }
     }, []);
 
+
     const handleApplyFilters = (e) => {
         e.preventDefault(); // prevent submitting the form and turning the screen white
         console.log("Apply filters was pressed");
@@ -112,7 +171,7 @@ const BusinessFilters = ({ dataSetHandler }) => {
             creationTime: [startTime, endTime],
         };
 
-        // Filters for filtering on our side
+        // filters that we control
         const todoFilters = {
             creationTime: [startTime, endTime],
         }
@@ -127,27 +186,9 @@ const BusinessFilters = ({ dataSetHandler }) => {
         dataSetHandler(params, todoFilters);
 
         // Cache the filters in sessionStorage
-        sessionStorage.setItem("LogEventsFilters", JSON.stringify(allFilters));
+        sessionStorage.setItem("BusinessFilters", JSON.stringify(allFilters));
+        setText(JSON.stringify(allFilters))
     };
-
-
-    const getDropdownHandler = (setter) => {
-        return (event) => setter(event.target.value);
-    }
-    const makeDropdownProps = (label, id, options, value, setter) => {
-        return {
-            label: label,
-            id: id,
-            options: options,
-            value: value,
-            handler: getDropdownHandler(setter),
-        }
-    }
-    const dropdownProps = [
-        makeDropdownProps("EAI Domain", EAI_DOMAIN_ID, EAIDomains, EAIDomain, setEAIDomain),
-        makeDropdownProps("Publishing Business Domain", PUBLISHING_BUSINESS_DOMAIN_ID, pubBusinessDomains, pubBusinessDomain, setPubBusinessDomain)
-    ]
-
     
     const getDatetimeHandler = (setter) => {
         return (event) => setter(event.target.value);
@@ -155,11 +196,8 @@ const BusinessFilters = ({ dataSetHandler }) => {
 
     return (
         <div>
-            <form className="business-filters" onSubmit={handleApplyFilters}>
+            <form onSubmit={handleApplyFilters}>
                 <Grid container spacing={1} direction="row" alignItems="center" justifyContent="center">
-                    <Grid item lg={12} xl={12} align="center">
-                        <h1>Business Processes</h1>
-                    </Grid>
                     <Grid item lg={2} xl={2.65}>
                         {
                             dropdownProps.map(dprops => {
@@ -176,16 +214,17 @@ const BusinessFilters = ({ dataSetHandler }) => {
                             })
                         }
                          <CustomDateTimePicker 
-                        startTime={startTime} 
-                        setStartTime={setStartTime}
-                        endTime={endTime}
-                        setEndTime={setEndTime}
+                            startTime={startTime} 
+                            setStartTime={setStartTime}
+                            endTime={endTime}
+                            setEndTime={setEndTime}
                         />
                     </Grid>
                     <Grid item lg={8} xl={8}>
                         <BusinessTree />
                     </Grid>
-                    <Grid item lg={1} xl={1}>
+                    <Grid item xl={10} />
+                    <Grid item justify="flex-end">
                         <FormControl>
                             <Button sx={{marginTop: "16px"}} variant="contained" type="submit">
                                 Apply
@@ -194,6 +233,42 @@ const BusinessFilters = ({ dataSetHandler }) => {
                     </Grid>
                 </Grid>
             </form>
+            <Grid container spacing={1} direction="row" alignItems="center" justifyContent="center">
+                <Grid item lg={5} xl={4}>
+                    <CheckboxGroup
+                        key={"Severities"}
+                        label={"Severities"}
+                        options={allSeverities}
+                        selectedOptions={selectedSeverities}
+                        handleSelection={getCheckboxHandler(
+                        allSeverities,
+                        selectedSeverities,
+                        setSelectedSeverities
+                        )}
+                        direction={"row"}
+                    />
+                </Grid>
+                <Grid item lg={2} xl={2}>
+                    <Dropdown 
+                        key={"Business Subdomain"}
+                        label={"Business Subdomain"}
+                        id={BUSINESS_SUBDOMAIN_ID}
+                        options={businessSubDomains}
+                        value={businessSubDomain}
+                        handleSelection={getDropdownHandler(setBusinessSubDomain)}
+                    />
+                </Grid>
+                <Grid item lg={8} xl={8}>
+                    <TextField
+                        fullWidth
+                        id="outlined-read-only-input"
+                        defaultValue={text}
+                        InputProps={{
+                        readOnly: true,
+                        }}
+                    />
+                </Grid>
+            </Grid>
         </div>
     );
 }
