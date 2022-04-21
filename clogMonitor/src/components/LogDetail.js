@@ -91,11 +91,11 @@ const LogDetail = () => {
                 id="filled-read-only-input"
                 label={label}
                 value={value}
-                fullWidth
+                InputLabelProps={{ shrink: true }}  
                 inputProps={{
                     readOnly: true,
                 }}
-                
+               
                 />
         </span>
         )
@@ -107,6 +107,7 @@ const LogDetail = () => {
                 label={label}
                 value={value}
                 fullWidth
+                InputLabelProps={{ shrink: true }}  
                 inputProps={{
                     readOnly: true,
                 }}
