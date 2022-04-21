@@ -258,6 +258,7 @@ export function getToken() {
                 resolve(token);
             }
         })
+        .catch(reject);
     });
 }
 
@@ -282,10 +283,9 @@ export function getLogDetails(params) {
                 logDetails = resultData;
                 resolve(resultData);
             })
-            .catch(function (error) {
-                console.log(error);
-            });
-        });
+            .catch(reject);
+        })
+        .catch(reject);
     });
 }
 

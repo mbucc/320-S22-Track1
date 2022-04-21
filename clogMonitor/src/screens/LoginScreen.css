@@ -9,8 +9,7 @@
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   background-color: #A9A9A9;
 }
-input[type="text"],
-input[type="password"] {
+.outlined-input {
   height: 25px;
   border: 1px solid rgba(0, 0, 0, 0.2);
 }

@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {Button, FormControl} from "@mui/material";
 import CustomDateTimePicker from "../components/CustomDateTimePicker"
 import { Grid} from '@mui/material';
-import { getColumnValues, getTableData, minmaxtime } from "../fakeDatabase";
+import { getColumnValues } from "../fakeDatabase";
 import Dropdown from "./Dropdown";
 import BusinessTree from '../components/BusinessTree';
 
@@ -16,9 +16,6 @@ import BusinessTree from '../components/BusinessTree';
  *   tree view
  *   Apply button
  * 
- * --> Refresh button does not need to be here since it simply updates the times
- * Essentially how this will be built is within some sort of Form tag (<FormControl />)
- * these components should be added
  * All components listed are "inputs", as well as apply button (exception: this "submits" the form)
  * Handlers for each component needs to exist so we can keep track of what has been selected. 
  * Keeping track is important so that when we apply(submit form), filters are known
@@ -26,6 +23,8 @@ import BusinessTree from '../components/BusinessTree';
  * https://www.pluralsight.com/guides/form-submission-in-reactjs <-- resource to understand
  * 
  * - @hiimlo note
+ * 
+ * there is code here from Team Goose- for sake of consistency it was been modified to fit business process
  * 
  * 
  * 
@@ -68,62 +67,69 @@ import BusinessTree from '../components/BusinessTree';
     return getCurrentDateTimeString();
 }
 
-const BusinessFilters = () => {
+const BusinessFilters = ({ dataSetHandler }) => {
 
     const EAI_DOMAIN_ID = "EAI_DOMAIN_ID"
     const PUBLISHING_BUSINESS_DOMAIN_ID = "PUBLISHING_BUSINESS_DOMAIN_ID"
 
     // Dropdown states
-    const EAIDomains = ["EAI_DOMAIN_1", "EAI_DOMAIN_2"];
+    const EAIDomains = getColumnValues("EAI_DOMAIN");
     const [EAIDomain, setEAIDomain] = React.useState("All");
-    const pubBusinessDomains = ["OPER", "CRM", "ACCOUNT"];
+    const pubBusinessDomains = getColumnValues("BUSINESS_DOMAIN");
     const [pubBusinessDomain, setPubBusinessDomain] = React.useState("All");
     var d = new Date(); // get current date
-  d.setHours(d.getHours(),d.getMinutes()-30,0,0);
+    d.setHours(d.getHours(),d.getMinutes()-30,0,0);
     const [startTime, setStartTime] = React.useState(d);
     const [endTime, setEndTime] = React.useState(new Date());
 
-    // Handlers
+    useEffect(() => {
+        const value = sessionStorage.getItem("BusinessFilters");
+        if(value) {
+            console.log("Restoring cached log events filters");
+            const namesAndSetters = {
+                eaiDomain: setEAIDomain,
+                businessDomain: setPubBusinessDomain,
+                creationTime: (x) => { setStartTime(x[0]); setEndTime(x[1]); },
+            }
+            const filters = JSON.parse(value);
+            for(let key in filters) {
+                let func = namesAndSetters[key];
+                if (func) {
+                    func(filters[key]);
+                }
+            }
+        }
+    }, []);
+
     const handleApplyFilters = (e) => {
-        e.preventDefault(); // don't actually submit the form
+        e.preventDefault(); // prevent submitting the form and turning the screen white
         console.log("Apply filters was pressed");
-        // get the filters by column name
-        const filters = {
-            EAI_DOMAIN: EAIDomain,
-            PUBLISHING_BUSINESS_DOMAIN: pubBusinessDomain,
-            CREATION_TIME: [startTime, endTime],
+        
+        // Bundle the filter values for caching
+        const allFilters = {
+            eaiDomain: EAIDomain,
+            businessDomain: pubBusinessDomain,
+            creationTime: [startTime, endTime],
         };
 
-        var axios = require('axios');
-        var qs = require('qs');
-        var data = qs.stringify({
-            'user': 'root',
-            'password': 'teamkick' 
-        });
-        var config = {
-            method: 'post',
-            url: 'http://localhost:8080/user',
-            headers: { 
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            data : data
-        };
-        axios(config)
-        .then(function (response) {
-            console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+        // Filters for filtering on our side
+        const todoFilters = {
+            creationTime: [startTime, endTime],
+        }
+        
+        // set the API parameters based on filter values
+        const params = {
+            pub_business_domain: pubBusinessDomain === "All" ? undefined : pubBusinessDomain, // String
+            eai_domain: EAIDomain === "All" ? undefined : EAIDomain, // String
+        }
 
-        // Request table data according to filters (This is where we would do a axios POST)
-        //const resultData = getTableData(filters);
-        // We may need to do some conversion afterwards
-        // Set the changes
-        //tableDataSetter(resultData);
+        // Set the data based on params
+        dataSetHandler(params, todoFilters);
+
         // Cache the filters in sessionStorage
-        //sessionStorage.setItem("LogEventsFilters", JSON.stringify(filters));
+        sessionStorage.setItem("LogEventsFilters", JSON.stringify(allFilters));
     };
+
 
     const getDropdownHandler = (setter) => {
         return (event) => setter(event.target.value);
@@ -151,18 +157,10 @@ const BusinessFilters = () => {
         <div>
             <form className="business-filters" onSubmit={handleApplyFilters}>
                 <Grid container spacing={1} direction="row" alignItems="center" justifyContent="center">
-                    <Grid item lg={2} xl={1.25}>
+                    <Grid item lg={12} xl={12} align="center">
                         <h1>Business Processes</h1>
                     </Grid>
-                    <Grid item lg={2.75} xl={2}>
-                        <CustomDateTimePicker 
-                        startTime={startTime} 
-                        setStartTime={setStartTime}
-                        endTime={endTime}
-                        setEndTime={setEndTime}
-                        />
-                    </Grid>
-                    <Grid item lg={2.75} xl={2}>
+                    <Grid item lg={2} xl={2.65}>
                         {
                             dropdownProps.map(dprops => {
                                 return (
@@ -174,18 +172,20 @@ const BusinessFilters = () => {
                                     value={dprops.value}
                                     handleSelection={dprops.handler}
                                     />
-                            );
-                        })
-                    }
-
+                                );
+                            })
+                        }
+                         <CustomDateTimePicker 
+                        startTime={startTime} 
+                        setStartTime={setStartTime}
+                        endTime={endTime}
+                        setEndTime={setEndTime}
+                        />
                     </Grid>
-                    <Grid item lg={1} xl={1.5}>
-                    </Grid>
-                    <Grid item lg={9} xl={6.75}>
+                    <Grid item lg={8} xl={8}>
                         <BusinessTree />
                     </Grid>
-                    <Grid item lg={8} xl={8} />
-                    <Grid item lg={1} xl={4}>
+                    <Grid item lg={1} xl={1}>
                         <FormControl>
                             <Button sx={{marginTop: "16px"}} variant="contained" type="submit">
                                 Apply
