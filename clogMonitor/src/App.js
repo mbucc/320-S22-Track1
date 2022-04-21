@@ -1,6 +1,6 @@
 import "./App.css";
-import React, { Suspense, useEffect } from "react";
-import { useState, useRef } from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import LoginScreen from "./screens/LoginScreen.js";
 import DashboardScreen from "./screens/DashboardScreen.js";
 
