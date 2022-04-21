@@ -36,7 +36,7 @@ export const BusinessView = () => {
     })
   }
 
-  const allSeverities = ["All", "Error", "Warning", "Success", "Info"];
+  const allSeverities = ["Error", "Warning", "Success", "Info"];
   const [selectedSeverities, setSelectedSeverities] = React.useState(new Set(allSeverities));
 
   const getCheckboxHandler = (opts, select, set) => {
