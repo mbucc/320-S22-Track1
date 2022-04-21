@@ -10,40 +10,40 @@ import java.sql.Timestamp;
 
 @Repository
 public interface BusinessProcessLogRepository extends ReadOnlyRepository<BusinessProcessLog, String>, JpaSpecificationExecutor<BusinessProcessLog> {
-    @Query(nativeQuery = true, value = "SELECT DISTINCT a.eaiTransactionId FROM BusinessProcessLog a")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT a.EAI_TRANSACTION_ID FROM BusinessProcessLog a")
     List<String>getDistinctBusinessProcessLogByEaiTransactionId();
     
-    @Query(nativeQuery = true, value = "SELECT DISTINCT a.eaiDomain FROM BusinessProcessLog a")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT a.EAI_DOMAIN FROM BUSINESS_PROCESS_LOG_T a")
     List<String>getDistinctBusinessProcessLogByEaiDomain();
 
-    @Query(nativeQuery = true, value = "SELECT DISTINCT a.publishingBusinessDomain FROM BusinessProcessLog a")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT a.PUBLISHING_BUSINESS_DOMAIN FROM BUSINESS_PROCESS_LOG_T a")
     List<String>getDistinctBusinessProcessLogByPublishingBusinessDomain();
     
-    @Query(nativeQuery = true, value = "SELECT DISTINCT a.businessProcess FROM BusinessProcessLog a")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT a.BUSINESS_PROCESS FROM BUSINESS_PROCESS_LOG_T a")
     List<String>getDistinctBusinessProcessLogByBusinessProcess();
     
-    @Query(nativeQuery = true, value = "SELECT DISTINCT a.key1AppContextName FROM BusinessProcessLog a")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT a.KEY1_APP_CONTEXT_NAME FROM BUSINESS_PROCESS_LOG_T a")
     List<String>getDistinctBusinessProcessLogByKey1AppContextName();
     
-    @Query(nativeQuery = true, value = "SELECT DISTINCT a.key1AppContextValue FROM BusinessProcessLog a")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT a.KEY1_APP_CONTEXT_VALUE FROM BUSINESS_PROCESS_LOG_T a")
     List<String>getDistinctBusinessProcessLogByKey1AppContextValue();
    
-    @Query(nativeQuery = true, value = "SELECT DISTINCT a.key2AppContextName FROM BusinessProcessLog a")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT a.KEY2_APP_CONTEXT_NAME FROM BUSINESS_PROCESS_LOG_T a")
     List<String>getDistinctBusinessProcessLogByKey2AppContextName();
     
-    @Query(nativeQuery = true, value = "SELECT DISTINCT a.key2AppContextValue FROM BusinessProcessLog a")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT a.KEY2_APP_CONTEXT_VALUE FROM BUSINESS_PROCESS_LOG_T a")
     List<String>getDistinctBusinessProcessLogByKey2AppContextValue();
     
-    @Query(nativeQuery = true, value = "SELECT DISTINCT a.globalInstanceId FROM BusinessProcessLog a")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT a.GLOBAL_INSTANCE_ID FROM BUSINESS_PROCESS_LOG_T a")
     List<String>getDistinctBusinessProcessLogByGlobalInstanceId();
     
-    @Query(nativeQuery = true, value = "SELECT DISTINCT a.businessDomain FROM BusinessProcessLog a")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT a.BUSINESS_DOMAIN FROM BUSINESS_PROCESS_LOG_T a")
     List<String>getDistinctBusinessProcessLogByBusinessDomain();
     
-    @Query(nativeQuery = true, value = "SELECT DISTINCT a.application FROM BusinessProcessLog a")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT a.APPLICATION FROM BUSINESS_PROCESS_LOG_T a")
     List<String>getDistinctBusinessProcessLogByApplication();
     
-    @Query(nativeQuery = true, value = "SELECT DISTINCT a.activity FROM BusinessProcessLog a")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT a.ACTIVITY FROM BUSINESS_PROCESS_LOG_T a")
     List<String>getDistinctBusinessProcessLogByActivity();
 
 

@@ -44,6 +44,7 @@ public class BusinessProcessController {
         }
     }
 
+    /**
     @GetMapping("/business_process_unique")
     public ResponseEntity<List<String>> getByDistinct(){
         
@@ -61,4 +62,5 @@ public class BusinessProcessController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    **/
 }
