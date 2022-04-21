@@ -103,12 +103,36 @@ public class LogDetailController {
         }
     }
 
-    @GetMapping("/log_detail_nums")
-    public ResponseEntity<List<Integer>> getByDistinctNums(){
+    @GetMapping("/log_detail_severity")
+    public ResponseEntity<List<Integer>> getByDistinctSev(){
         try{
             List<Integer> list = logDetailRepository.getDistinctLogDetailBySeverity();
-            list.addAll(logDetailRepository.getDistinctLogDetailByPriority());
-            list.addAll(logDetailRepository.getDistinctLogDetailByProcessId());
+            if (list.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(list,HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/log_detail_priority")
+    public ResponseEntity<List<Integer>> getByDistinctPrio(){
+        try{
+            List<Integer> list = logDetailRepository.getDistinctLogDetailByPriority();
+            if (list.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(list,HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/log_detail_processs_id")
+    public ResponseEntity<List<Integer>> getByDistinctProId(){
+        try{
+            List<Integer> list = logDetailRepository.getDistinctLogDetailByProcessId();
             if (list.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
