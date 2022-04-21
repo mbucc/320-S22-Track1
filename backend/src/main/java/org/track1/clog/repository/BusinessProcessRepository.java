@@ -11,15 +11,15 @@ import org.track1.clog.model.BusinessProcess;
 
 @Repository
 public interface BusinessProcessRepository extends ReadOnlyRepository<BusinessProcess, String>, JpaSpecificationExecutor<BusinessProcess> {
-    @Query(nativeQuery = true, value = "SELECT DISTINCT a.businessProcess FROM BusinessProcess a")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT a.BUSINESS_PROCESS FROM BUSINESS_PROCESS_T a")
     List<String>getDistinctBusinessProcessByBusinessProcess();
 
-    @Query(nativeQuery = true, value = "SELECT DISTINCT a.publishingBusinessDomain FROM BusinessProcess a")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT a.PUBLISHING_BUSINESS_DOMAIN FROM BUSINESS_PROCESS_T a")
     List<String>getDistinctBusinessProcessByPublishingBusinessDomain();
 
-    @Query(nativeQuery = true, value = "SELECT DISTINCT a.key1AppContextName FROM BusinessProcess a")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT a.KEY1_APP_CONTEXT_NAME FROM BUSINESS_PROCESS_T a")
     List<String>getDistinctBusinessProcessByKey1AppContextName();
 
-    @Query(nativeQuery = true, value = "SELECT DISTINCT a.key2AppContextName FROM BusinessProcess a")
+    @Query(nativeQuery = true, value = "SELECT DISTINCT a.KEY2_APP_CONTEXT_NAME FROM BUSINESS_PROCESS_T a")
     List<String>getDistinctBusinessProcessByKey2AppContextName();
 }
