@@ -10,7 +10,7 @@ import { Button } from "@mui/material";
  * flex: number - The flex value for this column's width (search css flexbox for more on flex)
  * valueFormatter: (params) => any - transforms the stored value in data into a new value before any operations
  */
-
+ 
 /**
  * reworked code to work for business 
  * original author: @klin17 , edited for business purpose by @hiimlo
@@ -61,7 +61,6 @@ const columns = [
 ];
 
 /**
- * 
  * table displays business events
  */
 const BusinessTable = ({data}) => {
