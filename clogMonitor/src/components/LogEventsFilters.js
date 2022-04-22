@@ -131,8 +131,11 @@ const LogEventsFilters = ({ dataSetHandler }) => {
             priority: [...selectedPriorities],
             severity: [...selectedSeverities],
             categoryName: [...selectedCategories],
-            creationTime: [startTime, endTime],
         }
+
+        // Ensure that seconds are included in the time params
+        const actualStart = startTime.length === 16 ? startTime + ":00" : startTime;
+        const actualEnd = endTime.length === 16 ? endTime + ":00" : endTime;
         
         // set the API parameters based on filter values
         const params = {
@@ -151,8 +154,8 @@ const LogEventsFilters = ({ dataSetHandler }) => {
             // severity_high: Integer
             // priority_low: Integer
             // priority_high: Integer
-            // creation_time_start: startTime.replace("T", " "), // Timestamp
-            // creation_time_end: endTime.replace("T", " "), // Timestamp
+            creation_time_start: actualStart.replace("T", " "), // Timestamp
+            creation_time_end: actualEnd.replace("T", " "), // Timestamp
             // reasoning_scope: String
             // process_id: Integer
             // category_name: String

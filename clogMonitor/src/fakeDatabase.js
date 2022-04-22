@@ -7,7 +7,6 @@ import data from './sample_log_details.json';
 // The types of certain columns. All other columns will be assumed to be strings
 const dateColumns = ['CREATION_TIME', 'creationTime'];
 const numberColumns = ['SEVERITY', 'PRIORITY', 'severity', 'priority'];
-const catCols = ['CATEGORY_NAME', 'categoryName'];
 
 // datetime
 const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
@@ -38,11 +37,6 @@ function dataCleaning(data, needConvert=true) {
                 }
                 let d = new Date(datetimestring);
                 row[colName] = d;
-            } else if (catCols.includes(colName)) {
-                // ReportSituation is an error in the data provided, should be Status
-                if (row[colName].toLowerCase() === "reportsituation") {
-                    row[colName] = "Status";
-                }
             }
         }
     }
@@ -297,8 +291,8 @@ export function getActualMinMaxTime() {
     if(logDetails.length > 0) {
         return minmaxtime(logDetails, "creationTime");
     } else {
-        const start = new Date("2021-12-31T00:00:00Z");
-        const end = new Date("2022-01-02T00:00:00Z");
+        const start = new Date("2022-04-19T22:05:29Z");
+        const end = new Date("2022-04-21T22:05:33Z");
         return [start, end];
     }
 }
