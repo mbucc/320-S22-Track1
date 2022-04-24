@@ -62,6 +62,6 @@
     "@cypress/react": "^5.12.4",
     "@cypress/webpack-dev-server": "^1.8.4",
     "@testing-library/cypress": "^8.0.2",
-    "cypress": "^9.5.3"
+    "cypress": "^9.5.4"
   }
 }

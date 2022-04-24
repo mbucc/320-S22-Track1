@@ -6,23 +6,23 @@ import DashboardScreen from "./screens/DashboardScreen.js";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(
-    localStorage.getItem("loginCheck") !== null
-      ? localStorage.getItem("loginCheck")
+    sessionStorage.getItem("loginCheck") !== null
+      ? sessionStorage.getItem("loginCheck")
       : "false"
   );
 
   // const loginCheck = useRef(false);
-  // localStorage.setItem("loginCheck", false);
+  // sessionStorage.setItem("loginCheck", false);
   // useEffect(() => {
-  //   if (localStorage.getItem("loginCheck") === false) {
+  //   if (sessionStorage.getItem("loginCheck") === false) {
 
   //   }
   // }, [loggedIn]);
 
   // useEffect(() => {
   //   setLoggedIn(
-  //     localStorage.getItem("loginCheck") !== null
-  //       ? localStorage.getItem("loginCheck")
+  //     sessionStorage.getItem("loginCheck") !== null
+  //       ? sessionStorage.getItem("loginCheck")
   //       : false
   //   );
   // }, []);

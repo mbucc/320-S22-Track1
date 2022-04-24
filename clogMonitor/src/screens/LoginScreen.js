@@ -5,8 +5,8 @@ import DashboardScreen from "./DashboardScreen";
 import "./LoginScreen.css";
 import App from "../App";
 import Home from "../components/Home/Home";
-import LockIcon from '@mui/icons-material/Lock';
-import {Grid} from "@material-ui/core";
+import LockIcon from "@mui/icons-material/Lock";
+import { Grid } from "@material-ui/core";
 import Beach from "../components/Images/Beach.jpg";
 
 function LoginScreen({ setLoggedIn }) {
@@ -47,7 +47,7 @@ function LoginScreen({ setLoggedIn }) {
       } else {
         // setIsSubmitted(true);
         setLoggedIn("true");
-        localStorage.setItem("loginCheck", "true");
+        sessionStorage.setItem("loginCheck", "true");
       }
     } else {
       // Username not found
@@ -96,8 +96,8 @@ function LoginScreen({ setLoggedIn }) {
   return (
     <div className="app">
       <div className="login-form">
-        <Grid container justify = "center">
-          <LockIcon fontSize="large"/>
+        <Grid container justify="center">
+          <LockIcon fontSize="large" />
         </Grid>
         <div className="title"> CLOG Monitor Sign In</div>
         {isSubmitted ? (
@@ -115,9 +115,14 @@ function LoginScreen({ setLoggedIn }) {
         <div className="highlight" />
       </div>
     </div>
-  )
+  );
 }
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(<div><LoginScreen /></div>, rootElement);
+ReactDOM.render(
+  <div>
+    <LoginScreen />
+  </div>,
+  rootElement
+);
 export default LoginScreen;
