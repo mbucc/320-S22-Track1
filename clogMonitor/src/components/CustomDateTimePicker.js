@@ -34,7 +34,7 @@ export default function CustomDateTimePicker({ startTime, setStartTime, endTime,
           label="Start Time"
           onError={console.log}
           maxDate={endTime}
-          inputFormat="dd/MM/yyyy HH:mm"
+          inputFormat="MM/dd/yyyy HH:mm"
           mask="___/__/__ __:__"
           renderInput={(params) => <TextField {...params} />}
         />
@@ -48,7 +48,7 @@ export default function CustomDateTimePicker({ startTime, setStartTime, endTime,
           label="End Time"
           onError={console.log}
           minDate={startTime}
-          inputFormat="dd/MM/yyyy HH:mm"
+          inputFormat="MM/dd/yyyy HH:mm"
           mask="___/__/__ __:__"
           renderInput={(params) => <TextField {...params} />}
         />
