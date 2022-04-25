@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import { Button } from "@mui/material";
 import './LogEvents.css'
 
@@ -87,6 +87,14 @@ const customErrorOverlay = (error) => {
     )
 }
 
+const gridToolbar = () => {
+    return (
+        <GridToolbarContainer>
+          <GridToolbarExport printOptions={{disableToolbarButton: true}} />
+        </GridToolbarContainer>
+      );
+}
+
 /**
  * A table that displays Log Events
  * 
@@ -113,6 +121,7 @@ const LogEventsTable = ({data, loading, error}) => {
                 getRowId={(row) => row["globalInstanceId"]}
                 components={{
                     ErrorOverlay: () => customErrorOverlay(error),
+                    Toolbar: gridToolbar,
                 }}
             />
       </div>
