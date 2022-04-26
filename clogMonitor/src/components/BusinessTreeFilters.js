@@ -164,18 +164,16 @@ const BusinessFilters = ({dataSetHandler}) => {
         <div>
             <form className="business-filters" onSubmit={handleApplyFilters}>
                 <Grid container spacing={1} direction="row" alignItems="center" justifyContent="center">
-                    <Grid item lg={2} xl={1.25}>
+                    <Grid item lg={12} xl={12} align="center">
                         <h1>Business Processes</h1>
                     </Grid>
-                    <Grid item lg={2.75} xl={2}>
+                    <Grid item lg={2.75} xl={2.5} justifyContent="center" align="center">
                         <CustomDateTimePicker 
                         startTime={startTime} 
                         startChangeHandler={getDatetimeHandler(setStartTime)}
                         endTime={endTime}
                         endChangeHandler={getDatetimeHandler(setEndTime)}
                         />
-                    </Grid>
-                    <Grid item lg={2.75} xl={2}>
                         {
                             dropdownProps.map(dprops => {
                                 return (
@@ -187,17 +185,13 @@ const BusinessFilters = ({dataSetHandler}) => {
                                     value={dprops.value}
                                     handleSelection={dprops.handler}
                                     />
-                            );
-                        })
-                    }
-
+                                );
+                            })
+                        }
                     </Grid>
-                    <Grid item lg={1} xl={1.5}>
-                    </Grid>
-                    <Grid item lg={9} xl={6.75}>
+                    <Grid item lg={9} xl={6} justifyContent="center">
                         <BusinessTree />
                     </Grid>
-                    <Grid item lg={8} xl={8} />
                     <Grid item lg={1} xl={4}>
                         <FormControl>
                             <Button
@@ -207,9 +201,6 @@ const BusinessFilters = ({dataSetHandler}) => {
                                 setStartTime(d);
                                 setEndTime(new Date());}}>
                                 Refresh
-                            </Button>
-                            <Button sx={{marginTop: "16px"}} disabled={hasError()} variant="contained" type="submit">
-                                Apply
                             </Button>
                         </FormControl>
                     </Grid>
