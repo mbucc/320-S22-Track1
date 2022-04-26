@@ -1,6 +1,6 @@
 import { Button, FormControl } from "@mui/material";
 import React, { useEffect } from "react";
-import { getActualMinMaxTime, getColumnValues } from "../fakeDatabase";
+import { getActualMinMaxTime, getColumnValues, getLogEventColumn } from "../fakeDatabase";
 import CheckboxGroup from "./CheckboxGroup";
 import Dropdown from "./Dropdown";
 import TimeRange from "./TimeRange";
@@ -68,17 +68,17 @@ const LogEventsFilters = ({ dataSetHandler }) => {
     const PROCESS_SERVICE_ID = "PROCESS_SERVICE_ID"
 
     // Dropdown states
-    const EAIDomains = getColumnValues("EAI_DOMAIN");
+    const [EAIDomains, setEAIDomains] = React.useState([]);
     const [EAIDomain, setEAIDomain] = React.useState("All");
-    const businessDomains = getColumnValues("BUSINESS_DOMAIN");
+    const [businessDomains, setBusinessDomains] = React.useState([]);
     const [businessDomain, setBusinessDomain] = React.useState("All");
-    const businessSubDomains = getColumnValues("BUSINESS_SUBDOMAIN")
+    const [businessSubDomains, setBusinessSubDomains] = React.useState([]);
     const [businessSubDomain, setBusinessSubDomain] = React.useState("All");
-    const applications = getColumnValues("APPLICATION");
+    const [applications, setApplications] = React.useState([]);
     const [application, setApplication] = React.useState("All");
-    const processIds = getColumnValues("EVENT_CONTEXT");
+    const [processServices, setProcessServices] = React.useState([]);
     const [process_service, setProcess_service] = React.useState("All");
-    // Datetime states (Dates stored are in local time, not UTC)
+    // Datetime states (Dates stored are as local time strings, not UTC time)
     const [startTime, setStartTime] = React.useState(getDefaultDateTimeString(0));
     const [endTime, setEndTime] = React.useState(getDefaultDateTimeString(1));
 
@@ -105,6 +105,25 @@ const LogEventsFilters = ({ dataSetHandler }) => {
                     func(filters[key]);
                 }
             }
+        }
+    }, []);
+
+    // load dropdown values
+    useEffect(() => {
+        const namesToSetters = {
+            "eai_domain": setEAIDomains,
+            "business_domain": setBusinessDomains,
+            "business_subdomain": setBusinessSubDomains,
+            "application": setApplications,
+            "event_context": setProcessServices,
+        }
+        for (let name in namesToSetters) {
+            getLogEventColumn(name).then(values => {
+                namesToSetters[name](values);
+            }).catch(err => {
+                console.error(`Querying for ${name} ran into an error, \nUsing mock database for dropdown values`);
+                namesToSetters[name](getColumnValues(name.toUpperCase()));
+            })
         }
     }, []);
 
@@ -205,13 +224,8 @@ const LogEventsFilters = ({ dataSetHandler }) => {
     // Full form error checking
     const hasError = () => {
         // Checkboxes
-        if (selectedCategories.size < 1) {
-            return true;
-        }
-        if (selectedPriorities.size < 1) {
-            return true;
-        }
-        if (selectedSeverities.size < 1) {
+        const checkboxError = checkBoxGroupProps.some(p => p.selected.size < 1);
+        if(checkboxError) {
             return true;
         }
         // Datetime
@@ -221,6 +235,14 @@ const LogEventsFilters = ({ dataSetHandler }) => {
         if ((new Date(endTime) < (new Date(startTime)))) {
             return true;
         }
+        // Dropdowns
+        const dropdownError = dropdownProps.some(p => {
+            return p.value !== "All" && (p.value === undefined || !p.options.includes(p.value));
+        })
+        if(dropdownError) {
+            return true;
+        }
+        // Default
         return false;
     }
 
@@ -255,7 +277,7 @@ const LogEventsFilters = ({ dataSetHandler }) => {
         makeDropdownProps("Business Domain", BUSINESS_DOMAIN_ID, businessDomains, businessDomain, setBusinessDomain),
         makeDropdownProps("Business SubDomain", BUSINESS_SUBDOMAIN_ID, businessSubDomains, businessSubDomain, setBusinessSubDomain),
         makeDropdownProps("Application", APPLICATION_ID, applications, application, setApplication),
-        makeDropdownProps("Process/Service", PROCESS_SERVICE_ID, processIds, process_service, setProcess_service),
+        makeDropdownProps("Process/Service", PROCESS_SERVICE_ID, processServices, process_service, setProcess_service),
     ]
 
     return (

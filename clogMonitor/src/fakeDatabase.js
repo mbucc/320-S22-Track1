@@ -157,6 +157,8 @@ export function getTableData(filters) {
 /**
  * Returns all the (unique) values that are in data for the given columnName
  * 
+ * @deprecated
+ * 
  * @param {String} columnName The name of the column to get the values for
  * @returns {String[]} The values of the column, [""] if no such column exists
  */
@@ -297,4 +299,26 @@ export function getActualMinMaxTime() {
     }
 }
 
-// export function get
+/**
+ * 
+ * @param {string} columnName The columnName for queries (eg. eai_domain)
+ * 
+ * @returns {Promise<string[]>} A promise for unique values in the database under the given columnName
+ */
+export function getLogEventColumn(columnName) {
+    const base = apiBaseURL + "/log_detail_unique";
+    return new Promise(function(resolve, reject) {
+        getToken().then((token) => {
+            const headers = {
+                Authorization: token
+            }
+            axios.get(base, {params: {columnName: columnName}, headers: headers})
+            .then(function (response) {
+                const resultData = response.data;
+                resolve(resultData);
+            })
+            .catch(reject);
+        })
+        .catch(reject);
+    });
+}
