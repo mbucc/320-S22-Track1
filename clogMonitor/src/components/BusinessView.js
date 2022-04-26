@@ -2,7 +2,7 @@ import React from "react";
 import { Grid } from "@mui/material";
 import { filterTableData, getLogDetails, getColumnValues, getTableData } from '../fakeDatabase';
 import BusinessTable from "../components/BusinessTable";
-import BusinessFilters from "../components/BusinessFilters";
+import BusinessTreeFilters from "../components/BusinessTreeFilters";
 
 //keeping consistent with other views, similar code is here for handling checkboxes
 //checkbox and dropdown both need to be here since they're post selection filtering
@@ -42,7 +42,7 @@ export const BusinessView = () => {
 
   return (
     <div>
-      <BusinessFilters dataSetHandler={handleTableSet} />
+      <BusinessTreeFilters dataSetHandler={handleTableSet} />
       <BusinessTable data={tableData} loading={loading}/>
     </div>
   );
