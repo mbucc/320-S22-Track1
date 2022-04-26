@@ -6,8 +6,8 @@ import DateTimePicker from "@mui/lab/DateTimePicker";
 import Stack from "@mui/material/Stack";
 
 /* Author: @wilsonnexus
- * Customizable MUI Date Time Range Picker with Error Handling
- * Still needs some more work, but I think the time values could be
+ * Customizable MUI Date Time Range Picker 
+ * 
  * 
  */
 
@@ -17,7 +17,6 @@ export default function CustomDateTimePicker({ startTime, startChangeHandler, en
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Stack spacing={3} sx={{ width: 0.9}} sy={{ height: 2}} >
         <DateTimePicker 
-          showTodayButton
           value={startTime}
           onChange={startChangeHandler}
           type="datetime-local"
@@ -30,7 +29,6 @@ export default function CustomDateTimePicker({ startTime, startChangeHandler, en
           renderInput={(params) => <TextField {...params} />}
         />
         <DateTimePicker
-        showTodayButton
           value={endTime}
           onChange={endChangeHandler}
           type="datetime-local"
