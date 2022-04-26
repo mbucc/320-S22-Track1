@@ -48,15 +48,6 @@ export default function CustomDateTimePicker({ startTime, startChangeHandler, en
           mask="___/__/__ __:__"
           renderInput={(params) => <TextField {...params} />}
         />
-
-         <Button
-            onClick={() => {
-            var d = new Date(); // get current date
-            d.setHours(d.getHours(),d.getMinutes()-30,0,0);
-            startChangeHandler=(d);
-            endChangeHandler(new Date());}}>
-            Refresh
-            </Button>
         
       </Stack>
     </LocalizationProvider>

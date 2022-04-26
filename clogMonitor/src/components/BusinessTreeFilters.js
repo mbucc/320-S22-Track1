@@ -199,6 +199,14 @@ const BusinessFilters = ({dataSetHandler}) => {
                     <Grid item lg={8} xl={8} />
                     <Grid item lg={1} xl={4}>
                         <FormControl>
+                            <Button
+                                onClick={() => {
+                                var d = new Date(); // get current date
+                                d.setHours(d.getHours(),d.getMinutes()-30,0,0);
+                                setStartTime(d);
+                                setEndTime(new Date());}}>
+                                Refresh
+                            </Button>
                             <Button sx={{marginTop: "16px"}} disabled={hasError()} variant="contained" type="submit">
                                 Apply
                             </Button>
