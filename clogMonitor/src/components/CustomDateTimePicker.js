@@ -4,20 +4,14 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import Stack from "@mui/material/Stack";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Button from '@mui/material/Button';
 
 /* Author: @wilsonnexus
  * Customizable MUI Date Time Range Picker with Error Handling
  * Still needs some more work, but I think the time values could be
- * sent across files now. Added Refresh Button
+ * 
  */
 
 export default function CustomDateTimePicker({ startTime, startChangeHandler, endTime, endChangeHandler, direction="column" }) {
-  const [clearedDate, setClearedDate] = React.useState(null);
-  var d = new Date(); // get current date
-  d.setHours(d.getHours(),d.getMinutes()-30,0,0);
-
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>

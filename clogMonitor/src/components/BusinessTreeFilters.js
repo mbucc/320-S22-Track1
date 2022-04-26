@@ -10,6 +10,7 @@ import BusinessTree from './BusinessTree';
  * AS OF 4/25
  * Time and dropdowns affect the TREE, not the table
  * APPLY BUTTON DOES NOT NEED TO BE HERE
+ * Added Refresh Button
  * Selection from tree populates the table
  * 
  * - @hiimlo note
