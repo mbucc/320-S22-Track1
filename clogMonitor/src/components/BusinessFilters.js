@@ -31,6 +31,30 @@ import BusinessTree from '../components/BusinessTree';
  * @returns {React.ElementType}
  */
 
+
+ const getCurrentDateTimeString = () => {
+    let now = new Date();
+    let offset = now.getTimezoneOffset() * 60000;
+    let adjustedDate = new Date(now.getTime() - offset);
+    let formattedDate = adjustedDate.toISOString().substring(0, 19);
+    return formattedDate;
+};
+
+// Requires Database
+/*const getDefaultDateTimeString = (i) => {
+    // Uses min time for start and max time for end
+    // unless there is no data, in which we use current datetime
+    const mmtime = getActualMinMaxTime();
+    if(mmtime) {
+        // mmtime is in utc, we need offset;
+        let adjustedDates = mmtime.map((d) => new Date(d.getTime() + (60000 * d.getTimezoneOffset())));
+        // use 23 instead of 19 for ms precision
+        return adjustedDates[i].toISOString().substring(0, 19);
+    } else {
+        return getCurrentDateTimeString();
+    }
+}*/
+
 const BusinessFilters = ({dataSetHandler}) => {
     // Checkbox group states
     const allSeverities = ["Error", "Warning", "Success", "Info"];
@@ -43,7 +67,8 @@ const BusinessFilters = ({dataSetHandler}) => {
     const [EAIDomain, setEAIDomain] = React.useState("All");
     const pubBusinessDomains = ["OPER", "CRM", "ACCOUNT"];
     const [pubBusinessDomain, setPubBusinessDomain] = React.useState("All");
-    var d = new Date(); // get current date
+    // Datetime states (Dates stored are in local time, not UTC)
+    var d = new Date(); // get start time based on documents
     d.setHours(d.getHours(),d.getMinutes()-30,0,0);
     const [startTime, setStartTime] = React.useState(d);
     const [endTime, setEndTime] = React.useState(new Date());
@@ -72,6 +97,10 @@ const BusinessFilters = ({dataSetHandler}) => {
             pub_business_domain: pubBusinessDomain === "All" ? undefined : pubBusinessDomain, // String
             eai_domain: EAIDomain === "All" ? undefined : EAIDomain, // String
         }
+
+        // Ensure that seconds are included in the time params
+        const actualStart = startTime.length === 16 ? startTime + ":00" : startTime;
+        const actualEnd = endTime.length === 16 ? endTime + ":00" : endTime;
 
         // Set the data based on params
         dataSetHandler(params, todoFilters);
@@ -108,7 +137,7 @@ const BusinessFilters = ({dataSetHandler}) => {
 
     // Datetime input handlers
     const getDatetimeHandler = (setter) => {
-        return (event) => setter(event.target.value);
+        return setter
     }
 
     // Full form error checking
@@ -152,9 +181,9 @@ const BusinessFilters = ({dataSetHandler}) => {
                     <Grid item lg={2.75} xl={2}>
                         <CustomDateTimePicker 
                         startTime={startTime} 
-                        setStartTime={setStartTime}
+                        startChangeHandler={getDatetimeHandler(setStartTime)}
                         endTime={endTime}
-                        setEndTime={setEndTime}
+                        endChangeHandler={getDatetimeHandler(setEndTime)}
                         />
                     </Grid>
                     <Grid item lg={2.75} xl={2}>

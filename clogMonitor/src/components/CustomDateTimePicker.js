@@ -13,12 +13,10 @@ import Button from '@mui/material/Button';
  * sent across files now. Added Refresh Button
  */
 
-export default function CustomDateTimePicker({ startTime, setStartTime, endTime, setEndTime, direction="column" }) {
+export default function CustomDateTimePicker({ startTime, startChangeHandler, endTime, endChangeHandler, direction="column" }) {
   const [clearedDate, setClearedDate] = React.useState(null);
   var d = new Date(); // get current date
   d.setHours(d.getHours(),d.getMinutes()-30,0,0);
-  //const [startTime, setStartTime] = React.useState(d);
-  //const [endTime, setEndTime] = React.useState(new Date());
 
 
   return (
@@ -27,9 +25,8 @@ export default function CustomDateTimePicker({ startTime, setStartTime, endTime,
         <DateTimePicker 
           showTodayButton
           value={startTime}
-          onChange={(newValue) => {
-            setStartTime(newValue);
-          }}
+          onChange={startChangeHandler}
+          type="datetime-local"
           ampm={false}
           label="Start Time"
           onError={console.log}
@@ -41,9 +38,8 @@ export default function CustomDateTimePicker({ startTime, setStartTime, endTime,
         <DateTimePicker
         showTodayButton
           value={endTime}
-          onChange={(newValue) => {
-            setEndTime(newValue);
-          }}
+          onChange={endChangeHandler}
+          type="datetime-local"
           ampm={false}
           label="End Time"
           onError={console.log}
@@ -57,8 +53,8 @@ export default function CustomDateTimePicker({ startTime, setStartTime, endTime,
             onClick={() => {
             var d = new Date(); // get current date
             d.setHours(d.getHours(),d.getMinutes()-30,0,0);
-            setStartTime(d);
-            setEndTime(new Date());}}>
+            startChangeHandler=(d);
+            endChangeHandler(new Date());}}>
             Refresh
             </Button>
         
