@@ -10,22 +10,22 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { getLogDetails } from '../fakeDatabase';
 import { BusinessView } from '../components/BusinessView';
 
-function DashboardScreen({ context, setLoggedIn }) {
+function DashboardScreen({ setLoggedIn }) {
 
   const [logEvents, setLogEvents] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const token = sessionStorage.getItem("token");
 
   React.useEffect(() => {
     setLoading(true);
-    if (context.token !== undefined) {
-      getLogDetails(context.token).then((resultData) => {
+    if (token !== undefined) {
+      getLogDetails(token).then((resultData) => {
         setLogEvents(resultData)
         setLoading(false);
       });
-
     }
 
-  }, [])
+  }, [token])
 
   return (
     <div className="DashboardScreen">
@@ -45,9 +45,9 @@ function DashboardScreen({ context, setLoggedIn }) {
                 path="/"
                 element={<Home
                   logEvents={logEvents} loading={loading} />} />
-              <Route path="business-processes" element={<BusinessView context={context} />} />
-              <Route path="/log-events" element={<LogEvents context={context} />} />
-              <Route path="/log-details/:id" element={<LogDetail context={context} />}></Route>
+              <Route path="business-processes" element={<BusinessView/>} />
+              <Route path="/log-events" element={<LogEvents/>} />
+              <Route path="/log-details/:id" element={<LogDetail/>} />
             </Routes>
           </BrowserRouter>
         </div>

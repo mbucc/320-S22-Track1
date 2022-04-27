@@ -227,62 +227,29 @@ severity: 10
 version: "1.0"
 */
 
+// This is the base URL for the api, which is different from login auth
 export const apiBaseURL = "http://localhost:8080/api";
-
-/**
- * 
- * @returns {Promise<string>} A promise for the current api token
- */
-export function getToken(params) {
-    // TODO: hide credentials (possibly in .env?)
-    var data = qs.stringify(params);
-    var config = {
-        method: 'post',
-        url: 'http://localhost:8080/user',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        data: data
-    };
-
-    return new Promise(function (resolve, reject) {
-        // some async operation here
-        axios(config)
-            .then(function (response) {
-                if (response.status === 200) {
-                    const token = response.data.token;
-                    // console.log(JSON.stringify(response.data));
-                    resolve(token);
-                }
-            })
-    });
-}
 
 let logDetails = [];
 /**
- * 
+ * @param {string} token The token for this session
  * @param {{[key: string]: string | number}} params The params for the query
  * 
  * @returns {Promise<{[columnName: string]: String;}[]>} A promise for row data returned by the query
  */
 export function getLogDetails(token, params) {
     const base = apiBaseURL + "/log_detail";
-    console.log("heyyyyyy ", token, params);
+    const headers = { Authorization: token }
     return new Promise(function (resolve, reject) {
-        const headers = {
-            Authorization: token
-        }
         axios.get(base, { params: params, headers: headers })
-            .then(function (response) {
-                console.log(response)
-                const resultData = response.data;
-                dataCleaning(resultData, false);
-                logDetails = resultData;
-                resolve(resultData);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        .then(function (response) {
+            console.log(response)
+            const resultData = response.data;
+            dataCleaning(resultData, false);
+            logDetails = resultData;
+            resolve(resultData);
+        })
+        .catch(reject);
     });
 }
 
@@ -300,15 +267,34 @@ export function getActualMinMaxTime() {
     }
 }
 
-// export function get
+/**
+ * 
+ * @returns {Promise<string>} A promise for the token if username and password are valid
+ */
+export function validateCredential(username, password) {
+    var data = qs.stringify({
+        'user': username,
+        'password': password
+    });
 
-export function validateCredential(params) {
-    const base = apiBaseURL + "/user";
+    var config = {
+        method: 'post',
+        url: 'http://localhost:8080/user',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data: data
+    };
+
     return new Promise(function (resolve, reject) {
-        getToken(params).then((token) => {
-            resolve(token);
-        }).catch(function (error) {
-            reject(error);
-        });;
+        axios(config)
+            .then(function (response) {
+                if (!response.data.error) {
+                    const token = response.data.token;
+                    resolve(token);
+                }
+                reject("Bad login");
+            })
+            .catch(reject);
     });
 }

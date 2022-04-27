@@ -10,37 +10,31 @@ import './LogEvents.css'
  * 
  * @returns {React.ElementType}
  */
-const LogEvents = (context) => {
+const LogEvents = () => {
     const [tableData, setTableData] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
+    const token = sessionStorage.getItem("token");
 
     React.useEffect(() => {
         setLoading(true);
-        console.log(context.context)
-        if (context.context.token !== undefined) {
-            getLogDetails(context.context.token, undefined).then((resultData) => {
-                setTableData(resultData)
-                setLoading(false);
-            });
-        }
-
-    }, [])
+        getLogDetails(token, undefined).then((resultData) => {
+            setTableData(resultData)
+            setLoading(false);
+        });
+    }, [token])
 
     // Handles when table data needs setting
     // Takes in query params and extra filters for filtering the returned data
     function handleTableSet(params, todoFilters = {}) {
         setLoading(true);
-        if (context.context.token !== undefined) {
-            getLogDetails(context.context.token, params).then((resultData) => {
-                // Since we still need to manually filter some things
-                const fullyFilteredData = filterTableData(todoFilters, resultData);
-                // Actually update the table
-                setTableData(fullyFilteredData);
-                setLoading(false);
-                return fullyFilteredData;
-            })
-        }
-
+        getLogDetails(token, params).then((resultData) => {
+            // Since we still need to manually filter some things
+            const fullyFilteredData = filterTableData(todoFilters, resultData);
+            // Actually update the table
+            setTableData(fullyFilteredData);
+            setLoading(false);
+            return fullyFilteredData;
+        })
     }
 
     return (

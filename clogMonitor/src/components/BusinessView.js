@@ -8,10 +8,9 @@ import BusinessFilters from "../components/BusinessFilters";
 //keeping consistent with other views, similar code is here for handling checkboxes
 //checkbox and dropdown both need to be here since they're post selection filtering
 
-export const BusinessView = (context) => {
-  // Context has this shape:
-  // context : {context: {token: ...}}
-  // To get token, use `context.context.token`!
+export const BusinessView = () => {
+  // To get token, use the following line:
+  // const token = sessionStorage.getItem("token");
   const allSeverities = ["All", "Error", "Warning", "Success", "Info"];
   const [selectedSeverities, setSelectedSeverities] = React.useState(
     new Set(allSeverities)
