@@ -39,7 +39,7 @@ const MenuProps = {
 export default function MultipleSelectDropdown({options, selectedOptions, handleSelection}) {
 
   const isError = () => {
-    return selectedOptions.size < 1;
+    return selectedOptions.length < 1;
   }
 
     return (

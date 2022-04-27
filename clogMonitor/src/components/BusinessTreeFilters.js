@@ -48,14 +48,17 @@ const BusinessFilters = ({dataSetHandler}) => {
     // Checkbox group states
     const allSeverities = ["Error", "Warning", "Success", "Info"];
     const [selectedSeverities, setSelectedSeverities] = React.useState(new Set(allSeverities));
+
     // Dropdown ID's
     const EAI_DOMAIN_ID = "EAI_DOMAIN_ID"
     const PUBLISHING_BUSINESS_DOMAIN_ID = "PUBLISHING_BUSINESS_DOMAIN_ID"
+
     // Dropdown states
     const EAIDomains = ["EAI_DOMAIN_1", "EAI_DOMAIN_2"];
     const [EAIDomain, setEAIDomain] = React.useState("All");
     const pubBusinessDomains = ["OPER", "CRM", "ACCOUNT"];
     const [pubBusinessDomain, setPubBusinessDomain] = React.useState("All");
+
     // Datetime states (Dates stored are in local time, not UTC)
     var d = new Date(); // get start time based on documents
     d.setHours(d.getHours(),d.getMinutes()-30,0,0);
@@ -98,26 +101,6 @@ const BusinessFilters = ({dataSetHandler}) => {
         sessionStorage.setItem("BusinessFilters", JSON.stringify(allFilters));
     };
 
-    // Checkbox group selection handlers
-    const getCheckboxHandler = (options, selections, setter) => {
-        return (event) => {
-            if(event.target.name === 'All'){
-                let newSelections = new Set()
-                if(event.target.checked){
-                    newSelections = new Set(options)
-                }
-                setter(newSelections)
-            } else {
-                let newSelections = new Set([...selections]);
-                if (event.target.checked) {
-                    newSelections.add(event.target.name);
-                } else {
-                    newSelections.delete(event.target.name);
-                }
-                setter(newSelections);
-            }
-        }
-    }
 
     // Dropdown selection handlers
     const getDropdownHandler = (setter) => {
@@ -131,10 +114,6 @@ const BusinessFilters = ({dataSetHandler}) => {
 
     // Full form error checking
     const hasError = () => {
-        // Checkboxes
-        if (selectedSeverities.size < 1) {
-            return true;
-        }
         // Datetime
         if (startTime === "" || endTime === "") {
             return true;

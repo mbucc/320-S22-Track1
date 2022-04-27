@@ -107,6 +107,7 @@ const BusinessTableFilters = (dataSetHandler) => {
         <div>
             <form onSubmit={handleApplyFilters}>
             <Grid container spacing={1} direction="row" alignItems="center" justifyContent="center">
+                <Grid item lg={12} xl={12} align="center"> <h2>Business Process Activities</h2> </Grid>
             {
                     <CheckboxGroup
                         key={"Severities"}
