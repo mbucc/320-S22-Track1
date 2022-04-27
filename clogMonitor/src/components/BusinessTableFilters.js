@@ -8,6 +8,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import { getColumnValues } from "../fakeDatabase";
+import MultipleSelectDropdown from "./MultipleSelectDropdown";
 
 const BusinessTableFilters = (dataSetHandler) => {
 
@@ -118,12 +119,17 @@ const BusinessTableFilters = (dataSetHandler) => {
                         label={"Severities"} 
                         options={allSeverities}
                         selectedOptions={selectedSeverities}
-                        handleSelection={getCheckboxHandler(setSelectedSeverities)}
+                        handleSelection={getCheckboxHandler(allSeverities, selectedSeverities, setSelectedSeverities)}
                         direction={'row'}
                     />
 
                 }
-                
+                <MultipleSelectDropdown />
+                <FormControl>
+                    <Button sx={{marginTop: "16px"}} disabled={hasError()} variant="contained" type="submit">
+                        Apply
+                    </Button>
+                </FormControl>
             </form>
         </div>
 
