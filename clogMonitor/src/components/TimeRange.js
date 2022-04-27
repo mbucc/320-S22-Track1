@@ -29,7 +29,7 @@ const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, d
 
     const getErrorMess = (time) => {
         if (isInputError(time)) {
-            return "Input is missing a value";
+            return "Input is missing a necessary value";
         } else if (isRangeError()) {
             return "Start must be before End";
         } else {

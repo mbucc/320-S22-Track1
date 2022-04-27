@@ -49,8 +49,7 @@
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   background-color: #A9A9A9;
 }
-
-.login-field {
+.outlined-input {
   height: 25px;
   border: 1px solid rgba(0, 0, 0, 0.2);
 }

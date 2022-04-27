@@ -10,7 +10,7 @@ import { Button } from "@mui/material";
  * flex: number - The flex value for this column's width (search css flexbox for more on flex)
  * valueFormatter: (params) => any - transforms the stored value in data into a new value before any operations
  */
-
+ 
 /**
  * reworked code to work for business 
  * original author: @klin17 , edited for business purpose by @hiimlo
@@ -61,23 +61,27 @@ const columns = [
 ];
 
 /**
- * 
+
  * table displays business events
  */
-const BusinessTable = ({data}) => {
+const BusinessTable = ({data, loading}) => {
     const [pageSize, setPageSize] = useState(5)
 
+    console.log("business table data:");
+    console.log(data);
+
     return (
-      <div>
+    //   <div>
         <DataGrid
+            style={{height: "100vh"}}
           rows={data}
+          loading={loading}
           columns={columns}
           pageSize={pageSize}
-          rowsPerPageOptions={[5, 10, 25, 50, 100]}
-          onPageSizeChange={(newSize) => setPageSize(newSize)}
+        //   rowsPerPageOptions={[5, 10, 25, 50, 100]}
+        //   onPageSizeChange={(newSize) => setPageSize(newSize)}
           getRowId={(row) => row["GLOBAL_INSTANCE_ID"]}
         />
-      </div>
     );
 }
  

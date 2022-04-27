@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, TextField } from '@mui/material';
+import { Typography, TextField, Stack } from '@mui/material';
 import './LogDetail.css'
 import { useParams } from 'react-router-dom';
 import { getLogDetails } from '../fakeDatabase';
@@ -27,11 +27,13 @@ version: "1.0"
 */
 
 // TODO: update group definitions to use the above names instead of original column names
-const group1 = ["BUSINESS_DOMAIN", "BUSINESS_SUBDOMAIN", "VERSION", "SEVERITY", "PRIORITY", "CREATION_TIME"];
+const group1 = ["businessDomain", "businessSubdomain", "version", "severity", "priority"];
 
-const group2 = ["GLOBAL_INSTANCE_ID", "LOCAL_INSTANCE_ID", "EAI_TRANSACTION_ID"];
+const group2 = ["creationTime","globalInstanceId", "localInstanceId", "eaiTransactionId", "activity"];
 
-const group3 = ["EAI_DOMAIN", "HOSTNAME", "APPLICATION", "EVENT_CONTEXT", "COMPONENT", "REASONING_SCOPE", "PROCESS_ID", "CATEGORY_NAME", "ACTIVITY"];
+const group3 = ["eaiDomain", "hostname", "application", "eventContext"];
+const group4 = ["component", "reasoningScope", "processId", "categoryName"];
+// const group5 = ["component", "reasoningScope", "processId", "categoryName", "activity"];
 
 const displayNames = new Map();
 displayNames.set('globalInstanceId', 'Global Instance ID')
@@ -80,33 +82,35 @@ const LogDetail = () => {
             })
     }, [id]);
 
-    const makeDetailBox = (key, label, value, isFull) => {
+    const makeDetailBox = (key, label, value) => {
         return (
-            <span className='log-detail-item'>
-                <TextField
-                    key={key}
-                    id="outlined-read-only-input"
-                    label={label}
-                    value={value}
-                    inputProps={{
-                        readOnly: true,
-                    }}
-
+        <span className='log-detail-item'> 
+            <TextField
+                key={key}
+                id="filled-read-only-input"
+                label={label}
+                value={value}
+                InputLabelProps={{ shrink: true }}  
+                inputProps={{
+                    readOnly: true,
+                }}
+               
                 />
             </span>
         )
     }
     const makeLongBox = (key, label, value) => {
         return <TextField
-            key={key}
-            id="outlined-read-only-input"
-            label={label}
-            value={value}
-            fullWidth
-            inputProps={{
-                readOnly: true,
-            }}
-        />
+                key={key}
+                id="filled-read-only-input"
+                label={label}
+                value={value}
+                fullWidth
+                InputLabelProps={{ shrink: true }}  
+                inputProps={{
+                    readOnly: true,
+                }}
+            />
     }
     const drawGroup = (group, func) => {
         const boxes = [];
@@ -120,35 +124,60 @@ const LogDetail = () => {
 
     const writeMsg = (msg) => {
         return (
-            <Typography className='log-detail-message' >
+            
+            <div className='scroll'>
                 <h4>Log Message</h4>
-                <div className="scroll"> {msg} </div>
-            </Typography>
-        )
-    }
-
-    return (
-        <div className='log-detail-container'>
-            {/* {drawGroup(group1, makeDetailBox)}   
-            
-            {drawGroup(group2, makeLongBox)}
-            
-            {drawGroup(group3, makeDetailBox)}
-            
-            {writeMsg(data["MSG"])} */}
-            <div className='log-detail-items-container'>
-                {Object.keys(data).map(k => { // change test_data back to data
-                    let v = data[k];
-                    let ks = displayNames.get(k)
-                    if (k !== 'msg') {
-                        return makeDetailBox(k, ks, v)
-                    }
-                })}
+                <Typography className='log-detail-message' > 
+                    {msg}
+                </Typography> 
             </div>
-            <div className='log-detail-message-container'>
+            )
+    }
+    // console.log(data)
+    return (
+        <div>
+            <div className="DetailGroup-Row">
+                {drawGroup(group1, makeDetailBox)}
+            </div>
+            {/* <div className="DetailGroup-Row">
+                {group1.map(columnName => {
+                    const label = displayNames.get(columnName);
+                    const value = data[columnName];
+                    return ( <TextField
+                            key={label + "_key"}
+                            id="outlined-read-only-input"
+                            label={label}
+                            value={value}
+                            inputProps={{ readOnly: true }}
+                    />)
+                    })}
+            </div> */}
+            
+            <Stack ml={5} mr={5} spacing={2}>
+                {drawGroup(group2, makeLongBox)}
+            </Stack>
+            
+            <div className="DetailGroup-Row">
+                {drawGroup(group3, makeDetailBox)}
+            </div>
+
+            <div className="DetailGroup-Row">
+                {drawGroup(group4, makeDetailBox)}
+            </div>
+            {/* <div className='log-detail-items-container'>
+            {Object.keys(data).map(k => { // change test_data back to data
+                let v = data[k];
+                let ks = displayNames.get(k)
+                if (k !== 'msg') {
+                    return makeDetailBox(k, ks, v)
+                }
+            })}  
+            </div> */}
+            <div className="log-detail-message">
                 {writeMsg(data["msg"])}
             </div>
-        </div>
+            
+    </div>
     );
 }
 
