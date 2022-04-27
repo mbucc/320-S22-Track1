@@ -5,6 +5,10 @@ import { Checkbox, FormControl, FormHelperText, InputLabel, ListItemText, MenuIt
  * @author hiimlo
  * Multiselect dropdown for business process, can be used else where wherever needed
  * allows for multiselection of business domains for additional filtering on the table
+ * 
+ * @param {Array<string>} options - list of all options for the dropdown
+ * @param {Array<string>} selectedOptions - list of selected options from the possible set
+ * @param {(event: Event) => any} handleSelection - handler for multiselect dropdown
  *
  * @returns {React.ElementType}
  */

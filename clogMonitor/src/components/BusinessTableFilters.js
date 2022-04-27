@@ -4,6 +4,13 @@ import CheckboxGroup from "./CheckboxGroup";
 import { getColumnValues } from "../fakeDatabase";
 import MultipleSelectDropdown from "./MultipleSelectDropdown";
 
+/**
+ * Contains the filters for the table post selection from the tree
+ * 
+ * @param {*} dataSetHandler 
+ * @returns 
+ */
+
 const BusinessTableFilters = (dataSetHandler) => {
 
     //checkbox set: state, handler
