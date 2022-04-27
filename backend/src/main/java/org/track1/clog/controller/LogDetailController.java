@@ -32,17 +32,17 @@ public class LogDetailController {
     public ResponseEntity<List<LogDetail>> getByGlobalInstanceId(@RequestParam(required = false) String global_instance_id, @RequestParam(required = false) String business_domain, @RequestParam(required = false) String business_subdomain,
                                                            @RequestParam(required = false) String version, @RequestParam(required = false) String local_instance_id, @RequestParam(required = false) String eai_transaction_id,
                                                            @RequestParam(required = false) String eai_domain, @RequestParam(required = false) String hostname, @RequestParam(required = false) String application,
-                                                           @RequestParam(required = false) String event_context, @RequestParam(required = false) String component, @RequestParam(required = false) Integer severity_low,
-                                                           @RequestParam(required = false) Integer severity_high, @RequestParam(required = false) Integer priority_low, @RequestParam(required = false) Integer priority_high, 
+                                                           @RequestParam(required = false) String event_context, @RequestParam(required = false) String component, @RequestParam(required = false) Integer severity, 
+                                                           @RequestParam(required = false) Integer priority_low, @RequestParam(required = false) Integer priority_high, 
                                                            @RequestParam(required = false) Timestamp creation_time_start, @RequestParam(required = false) Timestamp creation_time_end,
                                                            @RequestParam(required = false) String reasoning_scope, @RequestParam(required = false) Integer process_id, @RequestParam(required = false) String category_name,
                                                            @RequestParam(required = false) String activity, @RequestParam(required = false) String msg) {
         
-        LogDetail logExample = new LogDetail(global_instance_id,business_domain,business_subdomain,version,local_instance_id,eai_transaction_id,eai_domain,hostname,application,event_context,component,null,null,null,reasoning_scope,process_id,category_name,activity,msg); 
+        LogDetail logExample = new LogDetail(global_instance_id,business_domain,business_subdomain,version,local_instance_id,eai_transaction_id,eai_domain,hostname,application,event_context,component,severity,null,null,reasoning_scope,process_id,category_name,activity,msg); 
         ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues();
         Example<LogDetail> logQuery = Example.of(logExample,matcher); 
         try {
-            List<LogDetail> logs = logDetailRepository.findAll(getByDatesPrioritySeverity(severity_low,severity_high,priority_low,priority_high,creation_time_start,creation_time_end,logQuery));
+            List<LogDetail> logs = logDetailRepository.findAll(getByDatesPriority(priority_low,priority_high,creation_time_start,creation_time_end,logQuery));
             // no data
             if (logs.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -53,15 +53,10 @@ public class LogDetailController {
         }
     }
 
-    public Specification<LogDetail> getByDatesPrioritySeverity(Integer severity_low, Integer severity_high, Integer priority_low, Integer priority_high, Timestamp start, Timestamp end, Example<LogDetail> example){
+    //no longer accepts ranges for severity
+    public Specification<LogDetail> getByDatesPriority(Integer priority_low, Integer priority_high, Timestamp start, Timestamp end, Example<LogDetail> example){
         return  (root,query,builder) -> {
             final List<Predicate> predicates = new ArrayList<Predicate>();
-            if (severity_low != null){
-                predicates.add(builder.greaterThanOrEqualTo(root.get("severity"), severity_low));
-            }
-            if (severity_high != null){
-                predicates.add(builder.lessThanOrEqualTo(root.get("severity"), severity_high));
-            }
             if (priority_low != null){
                 predicates.add(builder.greaterThanOrEqualTo(root.get("priority"), priority_low));
             }
@@ -79,5 +74,102 @@ public class LogDetailController {
             return builder.and(predArr);
         };
     }
+
+    @GetMapping("/log_detail_unique")
+    public ResponseEntity<List<String>> getByDistinct(@RequestParam(required = false) String columnName){
+        
+        try{
+            List<String> list = new ArrayList<>();
+
+            switch (columnName) {
+
+                case "eai_domain": list = logDetailRepository.getDistinctLogDetailByEaiDomain();
+                break;
+
+                case "business_domain": list = logDetailRepository.getDistinctLogDetailByBusinessDomain();
+                break;
+                
+                case "business_subdomain": list = logDetailRepository.getDistinctLogDetailByBusinessSubDomain();
+                break;
+                
+                case "application": list = logDetailRepository.getDistinctLogDetailByApplication();
+                break;
+
+                case "event_context": list = logDetailRepository.getDistinctLogDetailByEventContext();
+                break;
+
+                case "component": list = logDetailRepository.getDistinctLogDetailByComponent();
+                break;
+            }
+
+            // List<String> list = logDetailRepository.getDistinctLogDetailByGlobalInstanceId();
+            // list.addAll(logDetailRepository.getDistinctLogDetailByBusinessDomain());
+            // list.addAll(logDetailRepository.getDistinctLogDetailByBusinessSubDomain());
+            // list.addAll(logDetailRepository.getDistinctLogDetailByVersion());
+            // list.addAll(logDetailRepository.getDistinctLogDetailByLocalInstanceId());
+            // list.addAll(logDetailRepository.getDistinctLogDetailByEaiTransactionId());
+            // list.addAll(logDetailRepository.getDistinctLogDetailByEaiDomain());
+            // list.addAll(logDetailRepository.getDistinctLogDetailByHostname());
+            // list.addAll(logDetailRepository.getDistinctLogDetailByApplication());
+            // list.addAll(logDetailRepository.getDistinctLogDetailByEventContext());
+            // list.addAll(logDetailRepository.getDistinctLogDetailByComponent());
+            // list.addAll(logDetailRepository.getDistinctLogDetailByReasoningScope());
+            // list.addAll(logDetailRepository.getDistinctLogDetailByCategoryName());
+            // list.addAll(logDetailRepository.getDistinctLogDetailByActivity());
+            // list.addAll(logDetailRepository.getDistinctLogDetailByMsg());
+
+            if (list.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(list,HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+
+    @GetMapping("/log_detail_severity")
+    public ResponseEntity<List<Integer>> getByDistinctSev(){
+        try{
+            List<Integer> list = logDetailRepository.getDistinctLogDetailBySeverity();
+            if (list.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(list,HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    
+    @GetMapping("/log_detail_priority")
+    public ResponseEntity<List<Integer>> getByDistinctPrio(){
+        try{
+            List<Integer> list = logDetailRepository.getDistinctLogDetailByPriority();
+            if (list.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(list,HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+     
+    @GetMapping("/log_detail_processs_id")
+    public ResponseEntity<List<Integer>> getByDistinctProId(){
+        try{
+            List<Integer> list = logDetailRepository.getDistinctLogDetailByProcessId();
+            if (list.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(list,HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    **/
 
 }

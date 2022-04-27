@@ -4,8 +4,9 @@ import WelcomeTynography from "../WelcomeTynography/WelcomeTynography";
 import FeaturedInfo from "../featuredInfo/FeaturedInfo";
 import ErrorLogPane from "../ErrorLogPane/ErrorLogPane";
 import "./Home.css";
+import { CircularProgress } from '@mui/material';
 
-function Home({ logEvents }) {
+function Home({ logEvents, loading }) {
   return (
     <div className="Home">
       <div className="Home__WelcomeTynography">
@@ -20,10 +21,16 @@ function Home({ logEvents }) {
 
       <div className="Home__subscreen">
         <div className="Home__Charts">
-          <AppBarChart logEvents={logEvents} />
+          {(!loading) ? <AppBarChart
+            logEvents={logEvents} /> : <CircularProgress />}
+
         </div>
         <div className="Home___ErrorLogPane">
-          <ErrorLogPane logEvents={logEvents} />
+          {(!loading) ? <ErrorLogPane
+            logEvents={logEvents}
+
+          /> : <div></div>}
+
         </div>
       </div>
     </div>

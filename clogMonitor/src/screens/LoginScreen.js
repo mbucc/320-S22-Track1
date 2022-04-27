@@ -5,6 +5,9 @@ import DashboardScreen from "./DashboardScreen";
 import "./LoginScreen.css";
 import App from "../App";
 import Home from "../components/Home/Home";
+import LockIcon from "@mui/icons-material/Lock";
+import { Grid } from "@material-ui/core";
+import Beach from "../components/Images/Beach.jpg";
 
 function LoginScreen({ setLoggedIn }) {
   // React States
@@ -44,7 +47,7 @@ function LoginScreen({ setLoggedIn }) {
       } else {
         // setIsSubmitted(true);
         setLoggedIn("true");
-        localStorage.setItem("loginCheck", "true");
+        sessionStorage.setItem("loginCheck", "true");
       }
     } else {
       // Username not found
@@ -65,6 +68,7 @@ function LoginScreen({ setLoggedIn }) {
     name === errorMessages.name && (
       <div className="error">{errorMessages.message}</div>
     );
+
   // JSX code for login form
   const renderForm = (
     <div className="form">
@@ -92,6 +96,9 @@ function LoginScreen({ setLoggedIn }) {
   return (
     <div className="app">
       <div className="login-form">
+        <Grid container justify="center">
+          <LockIcon fontSize="large" />
+        </Grid>
         <div className="title"> CLOG Monitor Sign In</div>
         {isSubmitted ? (
           <div>
@@ -105,10 +112,17 @@ function LoginScreen({ setLoggedIn }) {
         ) : (
           renderForm
         )}
+        <div className="highlight" />
       </div>
     </div>
   );
 }
+
 const rootElement = document.getElementById("root");
-ReactDOM.render(<LoginScreen />, rootElement);
+ReactDOM.render(
+  <div>
+    <LoginScreen />
+  </div>,
+  rootElement
+);
 export default LoginScreen;

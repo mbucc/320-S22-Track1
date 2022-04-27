@@ -70,5 +70,45 @@ public class BusinessProcessLogController {
         };
     }
 
+    @GetMapping("/business_process_logs_unique")
+    public ResponseEntity<List<String>> getByDistinct(@RequestParam(required = false) String columnName){
+        
+        try{
+            List<String> list = new ArrayList<>();
+
+            switch (columnName) {
+
+                case "eai_domain": list = bpLogRepository.getDistinctBusinessProcessLogByEaiDomain();
+                break;
+
+                case "publishing_business_domain": list = bpLogRepository.getDistinctBusinessProcessLogByPublishingBusinessDomain();
+                break;
+
+                case "business_domain": list = bpLogRepository.getDistinctBusinessProcessLogByBusinessDomain();
+                break;
+            }
+
+            // List<String> list = bpLogRepository.getDistinctBusinessProcessLogByEaiTransactionId();
+            // list.addAll(bpLogRepository.getDistinctBusinessProcessLogByEaiDomain());
+            // list.addAll(bpLogRepository.getDistinctBusinessProcessLogByPublishingBusinessDomain());
+            // list.addAll(bpLogRepository.getDistinctBusinessProcessLogByBusinessProcess());
+            // list.addAll(bpLogRepository.getDistinctBusinessProcessLogByKey1AppContextName());
+            // list.addAll(bpLogRepository.getDistinctBusinessProcessLogByKey1AppContextValue());
+            // list.addAll(bpLogRepository.getDistinctBusinessProcessLogByKey2AppContextName());
+            // list.addAll(bpLogRepository.getDistinctBusinessProcessLogByKey2AppContextValue());
+            // list.addAll(bpLogRepository.getDistinctBusinessProcessLogByGlobalInstanceId());
+            // list.addAll(bpLogRepository.getDistinctBusinessProcessLogByBusinessDomain());
+            // list.addAll(bpLogRepository.getDistinctBusinessProcessLogByApplication());
+            // list.addAll(bpLogRepository.getDistinctBusinessProcessLogByActivity());
+
+            if (list.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(list,HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
       
 }

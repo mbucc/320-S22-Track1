@@ -106,7 +106,7 @@ function NameAndLogout({ setLoggedIn }) {
             handleClose();
             setLoggedIn("false");
             console.log("here");
-            localStorage.setItem("loginCheck", "false");
+            sessionStorage.setItem("loginCheck", "false");
           }}
         >
           <Stack
