@@ -3,6 +3,8 @@ import React, { Suspense, useEffect } from "react";
 import { useState, useRef } from "react";
 import LoginScreen from "./screens/LoginScreen.js";
 import DashboardScreen from "./screens/DashboardScreen.js";
+import ContextProvider from "./context/ContextProvider.js";
+import Context from "./context/Context.js";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(
@@ -42,21 +44,29 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      {/* {loggedIn ? (
+    <ContextProvider>
+      <div className="App">
+        {/* {loggedIn ? (
         <DashboardScreen />
       ) : (
         <LoginScreen setLoggedIn={setLoggedIn} /> 
       )} */}
-      {/* <LoginScreen /> */}
-      {console.log(loggedIn, loggedIn === "true", loggedIn === false)}
+        {/* <LoginScreen /> */}
+        {console.log(loggedIn, loggedIn === "true", loggedIn === false)}
 
-      {loggedIn === "true" ? (
-        <DashboardScreen setLoggedIn={setLoggedIn} />
-      ) : (
-        <LoginScreen setLoggedIn={setLoggedIn} />
-      )}
-    </div>
+        {loggedIn === "true" ? (
+          <Context.Consumer>{context => <DashboardScreen
+            context={context}
+            setLoggedIn={setLoggedIn} />}</Context.Consumer>
+
+        ) : (
+          <Context.Consumer>{context => (<div>
+            <LoginScreen context={context} setLoggedIn={setLoggedIn} />
+          </div>)}</Context.Consumer>
+        )}
+      </div>
+    </ContextProvider>
+
   );
 }
 

@@ -61,51 +61,51 @@ displayNames.set('msg', 'Message')
  * 
  * @returns {React.ElementType}
  */
-const LogDetail = () => {
-    const {id} = useParams();
+const LogDetail = (context) => {
+    const { id } = useParams();
     const [data, setData] = useState([]);
     const [badID, setBadID] = useState(false);
 
     useEffect(() => {
-        getLogDetails({ global_instance_id: id })
-        .then((resultData) => {
-            if(resultData.length !== 1) {
-                console.error(`There is/are ${resultData.length} row(s) with id: ${id}`);
-                setBadID(true);
-            } else {
-                setData(resultData[0]);
-                setBadID(false);
-            }
-        })
+        getLogDetails(context.context.token, { global_instance_id: id })
+            .then((resultData) => {
+                if (resultData.length !== 1) {
+                    console.error(`There is/are ${resultData.length} row(s) with id: ${id}`);
+                    setBadID(true);
+                } else {
+                    setData(resultData[0]);
+                    setBadID(false);
+                }
+            })
     }, [id]);
 
     const makeDetailBox = (key, label, value, isFull) => {
         return (
-        <span className='log-detail-item'> 
-            <TextField
-                key={key}
-                id="outlined-read-only-input"
-                label={label}
-                value={value}
-                inputProps={{
-                    readOnly: true,
-                }}
-                
+            <span className='log-detail-item'>
+                <TextField
+                    key={key}
+                    id="outlined-read-only-input"
+                    label={label}
+                    value={value}
+                    inputProps={{
+                        readOnly: true,
+                    }}
+
                 />
-        </span>
+            </span>
         )
     }
     const makeLongBox = (key, label, value) => {
         return <TextField
-                key={key}
-                id="outlined-read-only-input"
-                label={label}
-                value={value}
-                fullWidth
-                inputProps={{
-                    readOnly: true,
-                }}
-            />
+            key={key}
+            id="outlined-read-only-input"
+            label={label}
+            value={value}
+            fullWidth
+            inputProps={{
+                readOnly: true,
+            }}
+        />
     }
     const drawGroup = (group, func) => {
         const boxes = [];
@@ -119,13 +119,13 @@ const LogDetail = () => {
 
     const writeMsg = (msg) => {
         return (
-            <Typography className='log-detail-message' > 
+            <Typography className='log-detail-message' >
                 <h4>Log Message</h4>
                 <div className="scroll"> {msg} </div>
-            </Typography> 
-            )
+            </Typography>
+        )
     }
-    
+
     return (
         <div className='log-detail-container'>
             {/* {drawGroup(group1, makeDetailBox)}   
@@ -136,18 +136,18 @@ const LogDetail = () => {
             
             {writeMsg(data["MSG"])} */}
             <div className='log-detail-items-container'>
-            {Object.keys(data).map(k => { // change test_data back to data
-                let v = data[k];
-                let ks = displayNames.get(k)
-                if (k !== 'msg') {
-                    return makeDetailBox(k, ks, v)
-                }
-            })}  
+                {Object.keys(data).map(k => { // change test_data back to data
+                    let v = data[k];
+                    let ks = displayNames.get(k)
+                    if (k !== 'msg') {
+                        return makeDetailBox(k, ks, v)
+                    }
+                })}
             </div>
             <div className='log-detail-message-container'>
                 {writeMsg(data["msg"])}
             </div>
-    </div>
+        </div>
     );
 }
 

@@ -8,8 +8,10 @@ import Home from "../components/Home/Home";
 import LockIcon from "@mui/icons-material/Lock";
 import { Grid } from "@material-ui/core";
 import Beach from "../components/Images/Beach.jpg";
+import { validateCredential } from '../fakeDatabase';
+import Context from "../context/Context";
 
-function LoginScreen({ setLoggedIn }) {
+function LoginScreen({ context, setLoggedIn }) {
   // React States
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -38,21 +40,35 @@ function LoginScreen({ setLoggedIn }) {
     event.preventDefault();
     var { uname, pass } = document.forms[0];
     // Find user login info
-    const userData = database.find((user) => user.username === uname.value);
-    // Compare user info
-    if (userData) {
-      if (userData.password !== pass.value) {
-        // Invalid password
-        setErrorMessages({ name: "pass", message: errors.pass });
-      } else {
-        // setIsSubmitted(true);
-        setLoggedIn("true");
-        sessionStorage.setItem("loginCheck", "true");
-      }
-    } else {
-      // Username not found
+    // const userData = database.find((user) => user.username === uname.value);
+    // // Compare user info
+    // if (userData) {
+    //   if (userData.password !== pass.value) {
+    //     // Invalid password
+    //     setErrorMessages({ name: "pass", message: errors.pass });
+    //   } else {
+    //     // setIsSubmitted(true);
+    //     setLoggedIn("true");
+    //     sessionStorage.setItem("loginCheck", "true");
+    //   }
+    // } else {
+    //   // Username not found
+    //   setErrorMessages({ name: "uname", message: errors.uname });
+    // }
+    validateCredential({
+      'user': 'root',
+      'password': 'teamkick'
+    }).then(respone => {
+      console.log(respone);
+      context.setToken(respone);
+      setLoggedIn("true");
+      sessionStorage.setItem("loginCheck", "true");
+      sessionStorage.setItem("token", respone)
+
+    }).catch(function (error) {
       setErrorMessages({ name: "uname", message: errors.uname });
-    }
+      setErrorMessages({ name: "pass", message: errors.pass });
+    });;;
   };
 
   function help() {
@@ -94,6 +110,7 @@ function LoginScreen({ setLoggedIn }) {
     </div>
   );
   return (
+
     <div className="app">
       <div className="login-form">
         <Grid container justify="center">
@@ -118,11 +135,4 @@ function LoginScreen({ setLoggedIn }) {
   );
 }
 
-const rootElement = document.getElementById("root");
-ReactDOM.render(
-  <div>
-    <LoginScreen />
-  </div>,
-  rootElement
-);
 export default LoginScreen;

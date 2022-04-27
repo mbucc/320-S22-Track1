@@ -12,10 +12,10 @@ const catCols = ['CATEGORY_NAME', 'categoryName'];
 // datetime
 const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
-function dataCleaning(data, needConvert=true) {
+function dataCleaning(data, needConvert = true) {
     // Convert data into correct types
-    for(let row of data) {
-        for(let colName in row) {
+    for (let row of data) {
+        for (let colName in row) {
             if (numberColumns.includes(colName)) {
                 row[colName] = Number(row[colName]);
             } else if (dateColumns.includes(colName)) {
@@ -24,7 +24,7 @@ function dataCleaning(data, needConvert=true) {
                 // Format is: 01-JAN-22 12.55.03.680000 AM
                 // we want 2020-04-13T00:00:00.000+00:00 for Date init
                 let datetimestring = row[colName];
-                if(needConvert) {
+                if (needConvert) {
                     let [date, time, am_pm] = row[colName].split(" ");
                     let [day, mnth, yr] = date.split("-");
                     let [hour, minute, second, ms] = time.split(".")
@@ -55,7 +55,7 @@ const dropdownFilters = [
     "EAI_DOMAIN", "BUSINESS_DOMAIN", "BUSINESS_SUBDOMAIN", "APPLICATION", "EVENT_CONTEXT",
     "eaiDomain", "businessDomain", "businessSubdomain", "application", "eventContext",
 ];
-const prioritiesMapping = {"High": 70, "Medium": 50, "Low": 10};
+const prioritiesMapping = { "High": 70, "Medium": 50, "Low": 10 };
 
 
 /**
@@ -66,10 +66,10 @@ const prioritiesMapping = {"High": 70, "Medium": 50, "Low": 10};
  */
 function parseFilters(filters) {
     const resultFilters = {}
-    for(let columnName in filters) {
+    for (let columnName in filters) {
         const rawFilter = filters[columnName];
         // Check the columnName
-        if(dropdownFilters.includes(columnName)) {
+        if (dropdownFilters.includes(columnName)) {
             // rawFilter should be a string
             resultFilters[columnName] = (x) => {
                 return rawFilter === "All" || x === rawFilter;
@@ -83,7 +83,7 @@ function parseFilters(filters) {
             // because severity uses ranges instead of strict values
             // rawFilter should be of type Set("Info"|"Success"|"Warning"|"Error")
             resultFilters[columnName] = (x) => {
-                if(x < 20) {
+                if (x < 20) {
                     return rawFilter.includes("Info");
                 } else if (x < 30) {
                     return rawFilter.includes("Success");
@@ -121,7 +121,7 @@ function parseFilters(filters) {
  * @returns {{[columnName: string]: String;}[]} The table data that passes the filters
  */
 export function filterTableData(filters, tData) {
-    if(!filters) {
+    if (!filters) {
         return tData;
     }
     const filterfuncs = parseFilters(filters);
@@ -131,10 +131,10 @@ export function filterTableData(filters, tData) {
     for (let row of dataCopy) {
         // Find if any cols violate the filters
         let includeRow = true;
-        for(let col of Object.keys(row)) {
-            if(filterfuncs[col]) {
+        for (let col of Object.keys(row)) {
+            if (filterfuncs[col]) {
                 const filterfunc = filterfuncs[col];
-                if(!(filterfunc(row[col]))) {
+                if (!(filterfunc(row[col]))) {
                     includeRow = false;
                     break;
                 }
@@ -167,10 +167,10 @@ export function getTableData(filters) {
  * @returns {String[]} The values of the column, [""] if no such column exists
  */
 export function getColumnValues(columnName) {
-    if(!columnName) {
+    if (!columnName) {
         return [""];
     }
-    if(!data[0][columnName]) {
+    if (!data[0][columnName]) {
         console.error("There is no column in the table with name: ", columnName);
     }
     let deDup = new Set();
@@ -184,17 +184,17 @@ export function getColumnValues(columnName) {
  * @returns {[Date, Date] | undefined} The minimum and maximum Date objects in the data
  */
 function minmaxtime(data, column) {
-    if(!data) {
+    if (!data) {
         return undefined;
     }
     let mintime = new Date();   // current time
     let maxtime = new Date(0);  // epoch time
     for (let row of data) {
         const d = row[column];
-        if(d < mintime) {
+        if (d < mintime) {
             mintime = d;
         }
-        if(d > maxtime) {
+        if (d > maxtime) {
             maxtime = d;
         }
     }
@@ -233,31 +233,28 @@ export const apiBaseURL = "http://localhost:8080/api";
  * 
  * @returns {Promise<string>} A promise for the current api token
  */
-export function getToken() {
+export function getToken(params) {
     // TODO: hide credentials (possibly in .env?)
-    var data = qs.stringify({
-        'user': 'root',
-        'password': 'teamkick' 
-    });
+    var data = qs.stringify(params);
     var config = {
         method: 'post',
         url: 'http://localhost:8080/user',
-        headers: { 
+        headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        data : data
+        data: data
     };
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         // some async operation here
         axios(config)
-        .then(function (response) {
-            if(response.status === 200) {
-                const token = response.data.token;
-                // console.log(JSON.stringify(response.data));
-                resolve(token);
-            }
-        })
+            .then(function (response) {
+                if (response.status === 200) {
+                    const token = response.data.token;
+                    // console.log(JSON.stringify(response.data));
+                    resolve(token);
+                }
+            })
     });
 }
 
@@ -268,15 +265,16 @@ let logDetails = [];
  * 
  * @returns {Promise<{[columnName: string]: String;}[]>} A promise for row data returned by the query
  */
-export function getLogDetails(params) {
+export function getLogDetails(token, params) {
     const base = apiBaseURL + "/log_detail";
-    return new Promise(function(resolve, reject) {
-        getToken().then((token) => {
-            const headers = {
-                Authorization: token
-            }
-            axios.get(base, {params: params, headers: headers})
+    console.log("heyyyyyy ", token, params);
+    return new Promise(function (resolve, reject) {
+        const headers = {
+            Authorization: token
+        }
+        axios.get(base, { params: params, headers: headers })
             .then(function (response) {
+                console.log(response)
                 const resultData = response.data;
                 dataCleaning(resultData, false);
                 logDetails = resultData;
@@ -285,7 +283,6 @@ export function getLogDetails(params) {
             .catch(function (error) {
                 console.log(error);
             });
-        });
     });
 }
 
@@ -294,7 +291,7 @@ export function getLogDetails(params) {
  * @returns {[Date, Date]} The start and end times in the data, hardcoded values if no data loaded
  */
 export function getActualMinMaxTime() {
-    if(logDetails.length > 0) {
+    if (logDetails.length > 0) {
         return minmaxtime(logDetails, "creationTime");
     } else {
         const start = new Date("2021-12-31T00:00:00Z");
@@ -304,3 +301,14 @@ export function getActualMinMaxTime() {
 }
 
 // export function get
+
+export function validateCredential(params) {
+    const base = apiBaseURL + "/user";
+    return new Promise(function (resolve, reject) {
+        getToken(params).then((token) => {
+            resolve(token);
+        }).catch(function (error) {
+            reject(error);
+        });;
+    });
+}
