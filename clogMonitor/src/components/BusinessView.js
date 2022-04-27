@@ -44,7 +44,7 @@ export const BusinessView = () => {
   return (
     <div>
       <BusinessTreeFilters dataSetHandler={handleTableSet} />
-      <BusinessTableFilters />
+      <BusinessTableFilters dataSetHandler={handleTableSet} />
       <BusinessTable data={tableData} loading={loading}/>
     </div>
   );

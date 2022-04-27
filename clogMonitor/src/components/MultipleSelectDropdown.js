@@ -1,12 +1,5 @@
 import * as React from 'react';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import { FormHelperText } from '@mui/material';
-import ListItemText from '@mui/material/ListItemText';
-import Select from '@mui/material/Select';
-import Checkbox from '@mui/material/Checkbox';
+import { Checkbox, FormControl, FormHelperText, InputLabel, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material';
 
 /**
  * @author hiimlo
@@ -39,21 +32,22 @@ const MenuProps = {
 };
 
 
-export default function MultipleSelectDropdown({options, selectedOptions, handleChange}) {
-    const isError = () => {
-      return selectedOptions.size < 1;
+export default function MultipleSelectDropdown({options, selectedOptions, handleSelection}) {
+
+  const isError = () => {
+    return selectedOptions.size < 1;
   }
 
     return (
         <div>
           <FormControl sx={{ m: 1, width: 300 }}>
-              <InputLabel id="demo-multiple-checkbox-label">Business Domain</InputLabel>
+              <InputLabel id="business-multiple-checkbox-label">Business Domain</InputLabel>
               <Select
-              labelId="demo-multiple-checkbox-label"
-              id="demo-multiple-checkbox"
+              labelId="business-multiple-checkbox-label"
+              id="business-multiple-checkbox"
               multiple
               value={selectedOptions}
-              onChange={handleChange}
+              onChange={handleSelection}
               input={<OutlinedInput label="Business Domain" />}
               renderValue={(selected) => selected.join(', ')}
               MenuProps={MenuProps}
@@ -72,13 +66,10 @@ export default function MultipleSelectDropdown({options, selectedOptions, handle
                     </MenuItem>
                   ))}
               </Select>
+              <FormHelperText>
+                {isError() ? "Choose at least one" : " "}
+              </FormHelperText>
           </FormControl>
-          <FormHelperText 
-                  sx={{marginRight: 0, marginLeft: 0, marginTop: 0}}
-                  className='multidropdown-errmess'
-              >
-                  {isError() ? "Choose at least one" : " "}
-          </FormHelperText>
         </div>
     );
 }

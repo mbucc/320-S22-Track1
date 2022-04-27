@@ -1,12 +1,6 @@
-import { Button, FormControl } from "@mui/material";
+import { Button, FormControl, Grid } from "@mui/material";
 import React, { useEffect } from "react";
 import CheckboxGroup from "./CheckboxGroup";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import Chip from '@mui/material/Chip';
-import Box from '@mui/material/Box';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import { getColumnValues } from "../fakeDatabase";
 import MultipleSelectDropdown from "./MultipleSelectDropdown";
 
@@ -39,9 +33,8 @@ const BusinessTableFilters = (dataSetHandler) => {
     
 
     //dropdown: state, handler
-    const BUSINESS_SUBDOMAIN_ID = "BUSINESS_SUBDOMAIN_ID"
     const businessDomains = getColumnValues("BUSINESS_SUBDOMAIN")
-    const [selectedBusinessDomains, setBusinessDomains] = React.useState(new Set(businessDomains));
+    const [selectedBusinessDomains, setBusinessDomains] = React.useState([]);
 
     const handleMultiDropdownChange = (event) => {
         const {
@@ -106,7 +99,8 @@ const BusinessTableFilters = (dataSetHandler) => {
     return (
         <div>
             <form onSubmit={handleApplyFilters}>
-                {
+            <Grid container spacing={1} direction="row" alignItems="center" justifyContent="center">
+            {
                     <CheckboxGroup
                         key={"Severities"}
                         label={"Severities"} 
@@ -115,14 +109,20 @@ const BusinessTableFilters = (dataSetHandler) => {
                         handleSelection={getCheckboxHandler(allSeverities, selectedSeverities, setSelectedSeverities)}
                         direction={'row'}
                     />
-
                 }
-                <MultipleSelectDropdown options={businessDomains} selectedOptions={selectedBusinessDomains} handleChange={handleMultiDropdownChange} />
+                {
+                    <MultipleSelectDropdown 
+                    options={businessDomains} 
+                    selectedOptions={selectedBusinessDomains}  
+                    handleSelection={handleMultiDropdownChange}
+                    />
+                }
                 <FormControl>
                     <Button sx={{marginTop: "16px"}} disabled={hasError()} variant="contained" type="submit">
                         Apply
                     </Button>
                 </FormControl>
+            </Grid>
             </form>
         </div>
 
