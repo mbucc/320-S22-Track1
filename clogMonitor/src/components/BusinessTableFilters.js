@@ -12,17 +12,6 @@ import MultipleSelectDropdown from "./MultipleSelectDropdown";
 
 const BusinessTableFilters = (dataSetHandler) => {
 
-    //chip style things for the drop down
-    const ITEM_HEIGHT = 48;
-    const ITEM_PADDING_TOP = 8;
-    const MenuProps = {
-    PaperProps: {
-        style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-        },
-    },
-    };
     //checkbox set: state, handler
     const allSeverities = ["Error", "Warning", "Success", "Info"];
     const [selectedSeverities, setSelectedSeverities] = React.useState(new Set(allSeverities));
@@ -54,14 +43,18 @@ const BusinessTableFilters = (dataSetHandler) => {
     const businessDomains = getColumnValues("BUSINESS_SUBDOMAIN")
     const [selectedBusinessDomains, setBusinessDomains] = React.useState(new Set(businessDomains));
 
-    const handleDropdownChange = (event) => {
+    const handleMultiDropdownChange = (event) => {
         const {
-          target: { value },
+        target: { value },
         } = event;
+        if (value[value.length - 1] === "All") {
+          setBusinessDomains(selectedBusinessDomains.length === businessDomains.length ? [] : businessDomains);
+          return;
+        }
         setBusinessDomains(
-          typeof value === 'string' ? value.split(',') : value,
+        typeof value === 'string' ? value.split(',') : value,
         );
-      };
+    };
 
     //save cached filters for just the checkbox severity level and drop down
     useEffect(() => {
@@ -124,7 +117,7 @@ const BusinessTableFilters = (dataSetHandler) => {
                     />
 
                 }
-                <MultipleSelectDropdown />
+                <MultipleSelectDropdown options={businessDomains} selectedOptions={selectedBusinessDomains} handleChange={handleMultiDropdownChange} />
                 <FormControl>
                     <Button sx={{marginTop: "16px"}} disabled={hasError()} variant="contained" type="submit">
                         Apply
