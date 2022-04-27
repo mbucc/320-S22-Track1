@@ -26,7 +26,7 @@
   /* align-self: center; */
   padding: 20px;
   background-color: #f9f9f9;
-  height: 85vh;
+  height: 100vh;
   z-index: 2;
   transition: 1s;
 }
@@ -47,6 +47,7 @@
 
 .DashboardScreen__NameAndLogout {
   margin: 0px;
+  padding: 2px;
 }
 
 .DashboardScreen_Logo { 
@@ -54,6 +55,8 @@
 }
 
 .DashboardScreen__Center { 
+  height: 100vh;
+  overflow-y: auto;
   z-index: 1;
   position: relative;
   
@@ -81,4 +84,9 @@
 
 .DashboardScreen_WelcomeTynography {
   font-size: 30px;
+}
+
+.DashboardScreen__TopBar {
+  display: flex;
+  flex-direction: row;
 }

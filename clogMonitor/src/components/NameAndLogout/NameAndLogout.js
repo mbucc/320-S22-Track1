@@ -25,14 +25,11 @@ function NameAndLogout({ setLoggedIn }) {
           position: "absolute",
           border: "1px solid grey",
           borderRadius: "15px",
-          boxShadow: "0px 0px 12px -1px #000000",
-          top: "2%",
-          right: "5%",
+          left: "0px",
+          bottom: "0px",
           color: "grey",
-          paddingLeft: 1,
-          paddingRight: 1,
-          paddingBottom: 1,
-          paddingTop: 1,
+          margin: 0.5,
+          padding: 0.5,
         }}
         onClick={handleClick}
       >
@@ -40,18 +37,11 @@ function NameAndLogout({ setLoggedIn }) {
           direction="row"
           spacing={2}
           sx={{
-            position: "relative",
             borderRadius: "50%",
-            top: "15%",
-            left: "2%",
           }}
         >
           <Box
             sx={{
-              position: "relative",
-              borderRadius: "50%",
-              width: "13%",
-              left: "5%",
               alignItems: "center",
               justifyContent: "center",
             }}
@@ -70,11 +60,8 @@ function NameAndLogout({ setLoggedIn }) {
             direction="column"
             spacing={1}
             sx={{
-              position: "relative",
               borderRadius: "50%",
               width: "60%",
-              top: "15%",
-              left: "5%",
               alignItems: "center",
               justifyContent: "center",
               fontSize: "90%",
@@ -93,11 +80,11 @@ function NameAndLogout({ setLoggedIn }) {
         open={open}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
+          vertical: "top",
           horizontal: "center",
         }}
         transformOrigin={{
-          vertical: "top",
+          vertical: "bottom",
           horizontal: "center",
         }}
       >

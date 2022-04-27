@@ -5,8 +5,6 @@ import "./NavigationPane.css";
 function NavigationPane() {
   return (
     <div>
-      <h1 className="NavigationPane__heading">Navigation</h1>
-
       <div className="NavigationPane__links">
         <h3>
           <Link href="/" underline="none" className="NavigationPane__link">

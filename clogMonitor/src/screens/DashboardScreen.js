@@ -27,13 +27,12 @@ function DashboardScreen({ setLoggedIn }) {
     <div className="DashboardScreen">
       {/* <div className="DashboardScreen__NavigationPane"> */}
       <div className="DashboardScreen__NavigationPane__Display">
+        <Logo />
         <NavigationPane />
+        <NameAndLogout setLoggedIn={setLoggedIn} />
       </div>
       {/* </div> */}
       <div className="DashboardScreen__Center">
-        <div className="DashboardScreen_Logo">
-          <Logo />
-        </div>
         <div className="DashboardScreen__Center__main">
           <BrowserRouter>
             <Routes>
@@ -46,9 +45,6 @@ function DashboardScreen({ setLoggedIn }) {
               <Route path="/log-details/:id" element={<LogDetail />}></Route>
             </Routes>
           </BrowserRouter>
-        </div>
-        <div className="DashboardScreen__NameAndLogout">
-          <NameAndLogout setLoggedIn={setLoggedIn} />
         </div>
       </div>
     </div>
