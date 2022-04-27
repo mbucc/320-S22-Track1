@@ -123,6 +123,11 @@ const LogEventsTable = ({data, loading, error}) => {
                     ErrorOverlay: () => customErrorOverlay(error),
                     Toolbar: gridToolbar,
                 }}
+                initialState={{
+                    sorting: {
+                      sortModel: [{ field: 'creationTime', sort: 'desc' }],
+                    },
+                }}
             />
       </div>
     );
