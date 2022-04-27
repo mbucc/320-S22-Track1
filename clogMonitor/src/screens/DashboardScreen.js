@@ -7,16 +7,22 @@ import Home from "../components/Home/Home";
 import LogEvents from "../components/LogEvents";
 import LogDetail from "../components/LogDetail";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { getTableData } from '../fakeDatabase';
+import { getLogDetails } from '../fakeDatabase';
 import { BusinessView } from '../components/BusinessView';
 
 function DashboardScreen({ setLoggedIn }) {
 
   const [logEvents, setLogEvents] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
-    setLogEvents(getTableData(undefined));
+    setLoading(true);
+    getLogDetails(undefined).then((resultData) => {
+      setLogEvents(resultData)
+      setLoading(false);
+    });
   }, [])
+
   return (
     <div className="DashboardScreen">
       {/* <div className="DashboardScreen__NavigationPane"> */}
@@ -34,10 +40,10 @@ function DashboardScreen({ setLoggedIn }) {
               <Route
                 path="/"
                 element={<Home
-                  logEvents={logEvents} />} />
-              <Route path="business-processes" element={<BusinessView/>} />
+                  logEvents={logEvents} loading={loading} />} />
+              <Route path="business-processes" element={<BusinessView />} />
               <Route path="/log-events" element={<LogEvents />} />
-              <Route path="/log-details/:id" element={<LogDetail/>}></Route>
+              <Route path="/log-details/:id" element={<LogDetail />}></Route>
             </Routes>
           </BrowserRouter>
         </div>

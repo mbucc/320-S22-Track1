@@ -20,8 +20,8 @@ export default function AppBarChart({ logEvents }) {
   let dateToLogsCount = new Map();
   let applicationSet = new Set();
   logEvents.forEach(event => {
-    let date = event['CREATION_TIME'].toDateString();
-    let application = event['APPLICATION'];
+    let date = event['creationTime'].toDateString();
+    let application = event['application'];
     applicationSet.add(application);
     if (dateToLogsCount.get(date) === undefined) {
       dateToLogsCount.set(date, new Map());
@@ -74,6 +74,7 @@ export default function AppBarChart({ logEvents }) {
   let lastMonthData = [];
   processDate(lastWeek, lastWeekData);
   processDate(lastMonth, lastMonthData);
+  console.log(lastWeekData)
   let data = chart === "Last week" ? lastWeekData : lastMonthData;
   let ticks = chart === "Last week" ? [lastWeek[0], lastWeek[lastWeek.length - 1]] : [lastMonth[0], lastMonth[lastMonth.length - 1]];
   return (

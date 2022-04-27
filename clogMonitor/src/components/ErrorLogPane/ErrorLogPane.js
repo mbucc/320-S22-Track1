@@ -13,14 +13,17 @@ const myComponent = {
 };
 
 function ErrorLogPane({ logEvents }) {
-  // console.log(logEvents);
-  // setChosenLogEventID(logEvent["GLOBAL_INSTANCE_ID"]
   return (
     <div style={{ height: '500px' }}>
       <div className="ErrorLogPane">
         <h2 className="ErrorLogPane__heading">Recent Error Logs</h2>
         <div className="ErrorLogPane__body" style={myComponent}>
-          {logEvents.map((logEvent) => (
+          {logEvents.filter(logEvent => {
+            let yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
+            let dateObject = new Date(logEvent["creationTime"]);
+            // return dateObject.getTime() > yesterday.getTime();
+            return true;
+          }).map((logEvent) => (
             <ErrorLogBox
               className="ErrorLogPane__box"
               logEvent={logEvent}

@@ -6,22 +6,22 @@ function ErrorLogBox({ logEvent }) {
   // console.log(logEvent["CREATION_TIME"]);
   return (
     <Link
-      href={"/log-details/" + logEvent["GLOBAL_INSTANCE_ID"]}
+      href={"/log-details/" + logEvent["globalInstanceId"]}
       underline="none"
       className="NavigationPane__link">
       <div
         className="ErrorLogBox">
         <div className="ErrorLogBox__header">
           <div className="ErrorLogBox__processId">
-            <div>Application: {logEvent['APPLICATION']}</div>
-            <div>Log Event ID: {logEvent['GLOBAL_INSTANCE_ID']} </div>
+            <div>Application: {logEvent['application']}</div>
+            <div>Log Event ID: {logEvent['globalInstanceId']} </div>
           </div>
           {/* <div className="ErrorLogBox__date">
             <div>{logEvent['CREATION_TIME']}</div>
           </div> */}
         </div>
         <div className="ErrorLogBox__logMessage">
-          <div>Severity:{logEvent['SEVERITY']}</div>
+          <div>Severity:{logEvent['severity']}</div>
         </div>
       </div>
     </Link>
