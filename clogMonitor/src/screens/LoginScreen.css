@@ -49,13 +49,7 @@
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   background-color: #A9A9A9;
 }
-<<<<<<< HEAD
 .outlined-input {
-=======
-
-input[type="text"],
-input[type="password"] {
->>>>>>> 8cab60231b4b193df3d1acd29a4d4fec95eff834
   height: 25px;
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
