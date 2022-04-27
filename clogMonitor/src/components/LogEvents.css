@@ -1,0 +1,48 @@
+.log-events-container {
+  display: grid;
+  grid-template-rows: 7fr 13fr;
+  padding: 10px;
+  height: calc(100vh - 45px - 20px);
+}
+
+.log-events-filters {
+  display: flex;
+  justify-content: space-between;
+}
+
+.apply-filters-btn {
+  margin-top: 16px;
+}
+
+.dropdown-group {
+  max-width: 550px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-flow: row wrap;
+}
+
+.log-events-table-container {
+  height: 100%;
+  width: 100%;
+}
+
+.timerange {
+  min-width: 268px !important; 
+}
+
+.error-overlay {
+  text-align: center;
+  display: flex;
+  height: 100%;
+  align-self: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.38);
+  width: 100%;
+}

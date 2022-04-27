@@ -1,0 +1,12 @@
+.ErrorLogBox {
+  background-color: #e6eaec;
+  padding: 20px;
+  border-radius: 5%;
+  width: 300px;
+  margin-bottom: 20px;
+}
+
+.ErrorLogBox__header {
+  display: flex;
+  justify-content: space-between;
+}

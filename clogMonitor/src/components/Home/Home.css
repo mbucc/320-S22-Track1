@@ -1,0 +1,16 @@
+.Home__subscreen {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Home__FeaturedInfo{
+  flex:4;
+  margin-top: 10px;
+}
+
+.Home__Charts {
+  margin-top: 15px;
+  text-align: center;
+  width: 100%;
+}
+
