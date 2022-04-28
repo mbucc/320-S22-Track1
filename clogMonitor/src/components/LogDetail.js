@@ -64,23 +64,22 @@ displayNames.set('msg', 'Message')
  * @returns {React.ElementType}
  */
 const LogDetail = () => {
-    const {id} = useParams();
+    const { id } = useParams();
     const [data, setData] = useState([]);
     const [badID, setBadID] = useState(false);
+    const token = sessionStorage.getItem("token");
 
     useEffect(() => {
-        getLogDetails({ global_instance_id: id })
-        .then((resultData) => {
-            if(resultData.length !== 1) {
-                console.error(`There is/are ${resultData.length} row(s) with id: ${id}`);
-                setBadID(true);
-            } else {
-                setData(resultData[0]);
-                setBadID(false);
-            }
-        }).catch(err => {
-            console.log(err);
-        })
+        getLogDetails(token, { global_instance_id: id })
+            .then((resultData) => {
+                if (resultData.length !== 1) {
+                    console.error(`There is/are ${resultData.length} row(s) with id: ${id}`);
+                    setBadID(true);
+                } else {
+                    setData(resultData[0]);
+                    setBadID(false);
+                }
+            })
     }, [id]);
 
     const makeDetailBox = (key, label, value) => {
@@ -97,7 +96,7 @@ const LogDetail = () => {
                 }}
                
                 />
-        </span>
+            </span>
         )
     }
     const makeLongBox = (key, label, value) => {

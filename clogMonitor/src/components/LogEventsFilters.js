@@ -51,6 +51,7 @@ const getDefaultDateTimeString = (i) => {
  * @returns {React.ElementType}
  */
 const LogEventsFilters = ({ dataSetHandler }) => {
+    const token = sessionStorage.getItem("token");
     // Component States
     // Checkbox group states
     const allPriorities = ["High", "Medium", "Low"];
@@ -118,14 +119,14 @@ const LogEventsFilters = ({ dataSetHandler }) => {
             "event_context": setProcessServices,
         }
         for (let name in namesToSetters) {
-            getLogEventColumn(name).then(values => {
+            getLogEventColumn(token, name).then(values => {
                 namesToSetters[name](values);
             }).catch(err => {
                 console.error(`Querying for ${name} ran into an error, \nUsing mock database for dropdown values`);
                 namesToSetters[name](getColumnValues(name.toUpperCase()));
             })
         }
-    }, []);
+    }, [token]);
 
     // Handlers
     const handleApplyFilters = (e) => {
