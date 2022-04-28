@@ -79,7 +79,7 @@ export default function AppBarChart({ logEvents }) {
   let ticks = chart === "Last week" ? [lastWeek[0], lastWeek[lastWeek.length - 1]] : [lastMonth[0], lastMonth[lastMonth.length - 1]];
   return (
     <div className='rows'>
-      <div className='row'><Typography component='div'>
+      <Typography component='div'>
         <Box sx={{
           textAlign: 'left',
           m: 3,
@@ -90,6 +90,16 @@ export default function AppBarChart({ logEvents }) {
         > Error Log Chart
         </Box>
       </Typography>
+      <div className='timeSpan' >
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Time span</InputLabel>
+          <Select label="Time span">
+            <MenuItem value="Last week" onClick={() => setChart("Last week")}> Last week </MenuItem>
+            <MenuItem value="Last month" onClick={() => setChart("Last month")}> Last Month </MenuItem>
+          </Select>
+        </FormControl>
+      </div >
+      <div className='row'>
         <Stack
           direction="row"
           spacing={1}
@@ -97,10 +107,8 @@ export default function AppBarChart({ logEvents }) {
             display: 'flex',
             justifyContent: 'center',
             bgcolor: 'background.paper',
-            position: "relative",
-            top: "10%",
-            left: "2%",
             border: '1',
+            margin: '24px',
             borderRadius: '15px',
             boxShadow: "0px 0px 12px -1px #000000"
           }}
@@ -129,18 +137,6 @@ export default function AppBarChart({ logEvents }) {
 
         </Stack>
       </div>
-      <div className='row' style={{
-        margin: 40, width: "50%", position: "relative", top: 250
-      }} >
-        < FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Time span</InputLabel>
-          <Select label="Time">
-            <MenuItem value="Last week" onClick={() => setChart("Last week")}> Last week </MenuItem>
-            <MenuItem value="Last month" onClick={() => setChart("Last month")}> Last Month </MenuItem>
-          </Select>
-        </FormControl>
-
-      </div >
     </div >
 
   );
