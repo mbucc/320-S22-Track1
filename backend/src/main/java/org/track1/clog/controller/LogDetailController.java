@@ -33,9 +33,9 @@ public class LogDetailController {
                                                            @RequestParam(required = false) String version, @RequestParam(required = false) String local_instance_id, @RequestParam(required = false) String eai_transaction_id,
                                                            @RequestParam(required = false) String eai_domain, @RequestParam(required = false) String hostname, @RequestParam(required = false) String application,
                                                            @RequestParam(required = false) String event_context, @RequestParam(required = false) String component, @RequestParam(required = false) Boolean sev_info, @RequestParam(required = false) Boolean sev_succ,
-                                                           @RequestParam(required = false) Boolean sev_warn, @RequestParam(required = false) Boolean sev_err, @RequestParam(required = false) Boolean priority_low, @RequestParam(required = false) Boolean priority_med, 
+                                                           @RequestParam(required = false) Boolean sev_warn, @RequestParam(required = false) Boolean sev_err, @RequestParam(required = false) Boolean priority_low, @RequestParam(required = false) Boolean priority_med, @RequestParam(required = false) Boolean priority_high,
                                                            @RequestParam(required = false) String reasoning_scope, @RequestParam(required = false) Integer process_id, @RequestParam(required = false) String category_name,
-                                                           @RequestParam(required = false) Boolean priority_high, @RequestParam(required = false) Timestamp creation_time_start, @RequestParam(required = false) Timestamp creation_time_end,@RequestParam(required = false) String activity, @RequestParam(required = false) String msg) {
+                                                        @RequestParam(required = false) Timestamp creation_time_start, @RequestParam(required = false) Timestamp creation_time_end,@RequestParam(required = false) String activity, @RequestParam(required = false) String msg) {
         
         LogDetail logExample = new LogDetail(global_instance_id,business_domain,business_subdomain,version,local_instance_id,eai_transaction_id,eai_domain,hostname,application,event_context,component,null,null,null,reasoning_scope,process_id,category_name,activity,msg); 
         ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues();
@@ -78,11 +78,13 @@ public class LogDetailController {
             if ((sev_warn != null) && sev_warn){
                 allSevPred = builder.or(allSevPred,predWarn);
             }
-            if ((sev_warn != null) && sev_err){
+            if ((sev_err != null) && sev_err){
                 allSevPred = builder.or(allSevPred,predErr);
             }
             //add severity predicates
-            predicates.add(allSevPred);
+            if(!(sev_info == null && sev_info == sev_succ == sev_warn == sev_err)){
+                predicates.add(allSevPred);
+            }
 
             if ((priority_low != null) && priority_low){
                 allPrioPred = builder.or(allPrioPred,predLow);
@@ -94,7 +96,10 @@ public class LogDetailController {
                 allPrioPred = builder.or(allPrioPred,predHigh);
             }
             //add priority predicates
-            predicates.add(allPrioPred);
+            if(!(priority_low == null && priority_med == priority_high)){
+                predicates.add(allPrioPred);
+            }
+            
 
 
 
