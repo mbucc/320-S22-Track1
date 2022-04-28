@@ -76,7 +76,7 @@ function LoginScreen({ setLoggedIn }) {
     <div className="app">
       <div className="login-form">
         <Grid container justify = "center">
-          <img src = {ISOLogo} />
+          <img src = {ISOLogo} alt="sunset on a beach"/>
         </Grid>
         <div className="title"> CLOG Monitor Sign In</div>
         {isSubmitted ? (
