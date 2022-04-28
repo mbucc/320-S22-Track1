@@ -12,40 +12,45 @@ import BusinessTableFilters from "./BusinessTableFilters";
  */
 
 export const BusinessView = () => {
-  const [tableData, setTableData] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
+    const [tableData, setTableData] = React.useState([]);
+    const [loading, setLoading] = React.useState(false);
+    const [loadError, setLoadError] = React.useState(false);
+    const [needTryAgain, setNeedTryAgain] = React.useState(false);
 
-  React.useEffect(() => {
-      const tdata = getTableData(undefined);
-      console.log("Got tdata");
-      console.log(tdata);
-      setTableData(tdata);
-      // setLoading(true);
-      // getLogDetails(undefined).then((resultData) => {
-      //     console.log("Got api data")
-      //     setTableData(resultData)
-      //     setLoading(false);
-      // });
-  }, [])
+    const attemptQuery = (params, filters={}) => {
+        setLoading(true);
+        setNeedTryAgain(false);
+        getLogDetails(params).then((resultData) => {
+            // Since we still need to manually filter some things
+            const fullyFilteredData = filterTableData(filters, resultData);
+            // Actually update the table
+            setTableData(fullyFilteredData);
+            setLoading(false);
+            setLoadError(false);
+        }).catch(err => {
+            console.error(err);
+            setLoadError(true);
+            setNeedTryAgain(true);
+        });
+    }
 
-  function handleTableSet(params, todoFilters={}) {
+    React.useEffect(() => {
+      if(needTryAgain) {
+          setTimeout(() => {
+              attemptQuery(undefined)
+          }, 500);
+      }
+  }, [needTryAgain]);
 
-    // setLoading(true);
-    // getLogDetails(params).then((resultData) => {
-    //     // Since we still need to manually filter some things
-    //     const fullyFilteredData = filterTableData(todoFilters, resultData);
-    //     // Actually update the table
-    //     setTableData(fullyFilteredData);
-    //     setLoading(false);
-    //     return fullyFilteredData;
-    // })
-  }
+    function handleTableSet(params, todoFilters={}) {
+      attemptQuery(params, todoFilters);
+    }
 
   return (
     <div>
       <BusinessTreeFilters dataSetHandler={handleTableSet} />
       <BusinessTableFilters dataSetHandler={handleTableSet} />
-      <BusinessTable data={tableData} loading={loading}/>
+      <BusinessTable data={tableData} loading={loading} error={loadError} />
     </div>
   );
 };

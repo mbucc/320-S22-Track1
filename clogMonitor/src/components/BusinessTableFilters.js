@@ -1,7 +1,7 @@
 import { Button, FormControl, Grid } from "@mui/material";
 import React, { useEffect } from "react";
 import CheckboxGroup from "./CheckboxGroup";
-import { getColumnValues } from "../fakeDatabase";
+import { getColumnValues, getLogEventColumn } from "../fakeDatabase";
 import MultipleSelectDropdown from "./MultipleSelectDropdown";
 
 /**
@@ -11,7 +11,7 @@ import MultipleSelectDropdown from "./MultipleSelectDropdown";
  * @returns 
  */
 
-const BusinessTableFilters = (dataSetHandler) => {
+const BusinessTableFilters = ({ dataSetHandler }) => {
 
     //checkbox set: state, handler
     const allSeverities = ["Error", "Warning", "Success", "Info"];
@@ -72,6 +72,21 @@ const BusinessTableFilters = (dataSetHandler) => {
                     func(filters[key]);
                 }
             }
+        }
+    }, []);
+
+    useEffect(() => {
+        const namesToSetters = {
+            "business_subdomain": setBusinessDomains,
+        }
+        for (let name in namesToSetters) {
+            getLogEventColumn(name).then(values => {
+                namesToSetters[name](values);
+                console.log(businessDomains);
+            }).catch(err => {
+                console.error(`Querying for ${name} ran into an error, \nUsing mock database for dropdown values`);
+                namesToSetters[name](getColumnValues(name.toUpperCase()));
+            })
         }
     }, []);
 
