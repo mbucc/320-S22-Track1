@@ -12,6 +12,8 @@ import MultipleSelectDropdown from "./MultipleSelectDropdown";
  */
 
 const BusinessTableFilters = ({ dataSetHandler }) => {
+    
+    const token = sessionStorage.getItem("token");
 
     //checkbox set: state, handler
     const allSeverities = ["Error", "Warning", "Success", "Info"];
@@ -40,7 +42,7 @@ const BusinessTableFilters = ({ dataSetHandler }) => {
     
 
     //dropdown: state, handler
-    const businessDomains = getColumnValues("BUSINESS_SUBDOMAIN")
+    const [businessDomains, setBusiness] = React.useState([]);
     const [selectedBusinessDomains, setBusinessDomains] = React.useState([]);
 
     const handleMultiDropdownChange = (event) => {
@@ -77,10 +79,10 @@ const BusinessTableFilters = ({ dataSetHandler }) => {
 
     useEffect(() => {
         const namesToSetters = {
-            "business_subdomain": setBusinessDomains,
+            "business_subdomain": setBusiness,
         }
         for (let name in namesToSetters) {
-            getLogEventColumn(name).then(values => {
+            getLogEventColumn(token, name).then(values => {
                 namesToSetters[name](values);
                 console.log(businessDomains);
             }).catch(err => {

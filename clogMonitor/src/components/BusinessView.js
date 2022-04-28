@@ -20,7 +20,7 @@ export const BusinessView = () => {
     const attemptQuery = (params, filters={}) => {
         setLoading(true);
         setNeedTryAgain(false);
-        getLogDetails(params).then((resultData) => {
+        getLogDetails(token, params).then((resultData) => {
             // Since we still need to manually filter some things
             const fullyFilteredData = filterTableData(filters, resultData);
             // Actually update the table
