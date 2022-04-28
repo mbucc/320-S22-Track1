@@ -40,6 +40,12 @@
     "test": "cypress",
     "eject": "react-scripts eject"
   },
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:8080",
+      "ws": true
+    }
+  },
   "eslintConfig": {
     "extends": [
       "react-app",

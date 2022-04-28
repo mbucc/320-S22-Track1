@@ -107,7 +107,7 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>CI=false npm run build</id>
+						<id>npm run build --silence</id>
 						<goals>
 							<goal>npm</goal>
 						</goals>
