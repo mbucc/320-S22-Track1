@@ -83,8 +83,6 @@ const gridToolbar = () => {
 const BusinessTable = ({data, loading, error}) => {
     const [pageSize, setPageSize] = useState(5)
 
-    console.log("business table data:");
-    console.log(data);
 
     return (
     //   <div>
@@ -96,7 +94,7 @@ const BusinessTable = ({data, loading, error}) => {
             pageSize={pageSize}
             rowsPerPageOptions={[5, 10, 25, 50, 100]}
             onPageSizeChange={(newSize) => setPageSize(newSize)}
-            getRowId={(row) => row["GLOBAL_INSTANCE_ID"]}
+            getRowId={(row) => row["globalInstanceId"]}
             components={{
                 ErrorOverlay: () => customErrorOverlay(error),
                 Toolbar: gridToolbar,

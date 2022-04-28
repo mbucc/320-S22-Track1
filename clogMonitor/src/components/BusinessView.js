@@ -1,6 +1,5 @@
 import React from "react";
-import { Grid } from "@mui/material";
-import { filterTableData, getLogDetails, getColumnValues, getTableData } from '../fakeDatabase';
+import { filterTableData, getLogDetails } from '../fakeDatabase';
 import BusinessTable from "../components/BusinessTable";
 import BusinessTreeFilters from "../components/BusinessTreeFilters";
 import BusinessTableFilters from "./BusinessTableFilters";
