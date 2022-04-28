@@ -125,7 +125,7 @@
 						<configuration>
 							<target>
 							<copy todir="${project.build.directory}/classes/public">
-								<fileset dir="${project.basedir}/clog/build"/>
+								<fileset dir="${project.basedir}/backend/clog/build"/>
 							</copy>
 							</target>
 						</configuration>
