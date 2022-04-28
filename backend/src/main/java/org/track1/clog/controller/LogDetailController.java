@@ -64,7 +64,7 @@ public class LogDetailController {
             Predicate predErr = builder.greaterThanOrEqualTo(root.get("severity"),50);
             Predicate allSevPred = builder.disjunction();
 
-            //predicates for each type of severity
+            //predicates for each type of priority
             Predicate predLow = builder.equal(root.get("priority"), 10);
             Predicate predMed = builder.equal(root.get("priority"),50);
             Predicate predHigh = builder.equal(root.get("priority"),70);
