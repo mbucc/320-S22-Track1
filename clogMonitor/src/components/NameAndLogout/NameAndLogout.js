@@ -24,7 +24,6 @@ function NameAndLogout({ setLoggedIn }) {
         sx={{
           border: "1px solid grey",
           borderRadius: "15px",
-          // color: "grey",
           margin: 0.5,
           padding: 0.5,
         }}
@@ -89,9 +88,9 @@ function NameAndLogout({ setLoggedIn }) {
           onClick={() => {
             handleClose();
             setLoggedIn("false");
-            console.log("here");
             sessionStorage.setItem("loginCheck", "false");
           }}
+          sx={{width: "180px"}}
         >
           <Stack
             direction="row"
