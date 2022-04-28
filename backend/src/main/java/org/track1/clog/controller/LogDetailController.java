@@ -32,8 +32,8 @@ public class LogDetailController {
     public ResponseEntity<List<LogDetail>> getByGlobalInstanceId(@RequestParam(required = false) String global_instance_id, @RequestParam(required = false) String business_domain, @RequestParam(required = false) String business_subdomain,
                                                            @RequestParam(required = false) String version, @RequestParam(required = false) String local_instance_id, @RequestParam(required = false) String eai_transaction_id,
                                                            @RequestParam(required = false) String eai_domain, @RequestParam(required = false) String hostname, @RequestParam(required = false) String application,
-                                                           @RequestParam(required = false) String event_context, @RequestParam(required = false) String component, @RequestParam boolean sev_info, 
-                                                           @RequestParam boolean sev_warn,@RequestParam boolean sev_err, @RequestParam boolean priority_low, @RequestParam boolean priority_med, @RequestParam boolean priority_high, 
+                                                           @RequestParam(required = false) String event_context, @RequestParam(required = false) String component, @RequestParam boolean sev_info, @RequestParam boolean sev_succ,
+                                                           @RequestParam boolean sev_warn, @RequestParam boolean sev_err, @RequestParam boolean priority_low, @RequestParam boolean priority_med, @RequestParam boolean priority_high, 
                                                            @RequestParam(required = false) Timestamp creation_time_start, @RequestParam(required = false) Timestamp creation_time_end,
                                                            @RequestParam(required = false) String reasoning_scope, @RequestParam(required = false) Integer process_id, @RequestParam(required = false) String category_name,
                                                            @RequestParam(required = false) String activity, @RequestParam(required = false) String msg) {
@@ -42,7 +42,7 @@ public class LogDetailController {
         ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues();
         Example<LogDetail> logQuery = Example.of(logExample,matcher); 
         try {
-            List<LogDetail> logs = logDetailRepository.findAll(getByDatesPriority(sev_info,sev_warn,sev_err,priority_low,priority_med,priority_high,creation_time_start,creation_time_end,logQuery));
+            List<LogDetail> logs = logDetailRepository.findAll(getByDatesPriority(sev_info,sev_succ,sev_warn,sev_err,priority_low,priority_med,priority_high,creation_time_start,creation_time_end,logQuery));
             // no data
             if (logs.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -54,11 +54,12 @@ public class LogDetailController {
     }
 
     //no longer accepts ranges for severity
-    public Specification<LogDetail> getByDatesPriority(boolean sev_info, boolean sev_warn, boolean sev_err, boolean priority_low, boolean priority_med, boolean priority_high, Timestamp start, Timestamp end, Example<LogDetail> example){
+    public Specification<LogDetail> getByDatesPriority(boolean sev_info, boolean sev_succ, boolean sev_warn, boolean sev_err, boolean priority_low, boolean priority_med, boolean priority_high, Timestamp start, Timestamp end, Example<LogDetail> example){
         return  (root,query,builder) -> {
             final List<Predicate> predicates = new ArrayList<Predicate>();
             //predicates for each type of severity
-            Predicate predInfo = builder.between(root.get("severity"), 10, 29);
+            Predicate predInfo = builder.lessThan(root.get("severity"), 20);
+            Predicate predSucc = builder.between(root.get("severity"),20,29);
             Predicate predWarn = builder.between(root.get("severity"),30,49);
             Predicate predErr = builder.greaterThanOrEqualTo(root.get("severity"),50);
             Predicate allSevPred = builder.disjunction();
@@ -71,6 +72,9 @@ public class LogDetailController {
 
             if (sev_info){
                 allSevPred = builder.or(allSevPred,predInfo);
+            }
+            if(sev_succ){
+                allSevPred = builder.or(allSevPred,predSucc);
             }
             if (sev_warn){
                 allSevPred = builder.or(allSevPred,predWarn);
