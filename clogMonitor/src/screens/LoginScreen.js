@@ -5,9 +5,11 @@ import DashboardScreen from "./DashboardScreen";
 import "./LoginScreen.css";
 import App from "../App";
 import Home from "../components/Home/Home";
-import LockIcon from "@mui/icons-material/Lock";
-import { Grid } from "@material-ui/core";
+import LockIcon from '@mui/icons-material/Lock';
+import {Grid} from "@material-ui/core";
 import Beach from "../components/Images/Beach.jpg";
+import ISOLogo from "../components/Images/ISOLogo.png";
+
 
 function LoginScreen({ setLoggedIn }) {
   // React States
@@ -47,7 +49,7 @@ function LoginScreen({ setLoggedIn }) {
       } else {
         // setIsSubmitted(true);
         setLoggedIn("true");
-        sessionStorage.setItem("loginCheck", "true");
+        localStorage.setItem("loginCheck", "true");
       }
     } else {
       // Username not found
@@ -75,12 +77,12 @@ function LoginScreen({ setLoggedIn }) {
       <form onSubmit={handleSubmit}>
         <div className="input-container">
           <label>Username </label>
-          <input className="outlined-input" type="text" name="uname" required />
+          <input type="text" name="uname" required />
           {renderErrorMessage("uname")}
         </div>
         <div className="input-container">
           <label>Password </label>
-          <input className="outlined-input" type="password" name="pass" required />
+          <input type="password" name="pass" required />
           {renderErrorMessage("pass")}
         </div>
         <div className="button-container">
@@ -88,16 +90,16 @@ function LoginScreen({ setLoggedIn }) {
         </div>
       </form>
       <br></br>
-      <div className="button-container">
-        <button onClick={help}> Forgot Password? </button>
+      <div className="help-button">
+        <p onClick={help}> Forgot Password? </p>
       </div>
     </div>
   );
   return (
     <div className="app">
       <div className="login-form">
-        <Grid container justify="center">
-          <LockIcon fontSize="large" />
+        <Grid container justify = "center">
+          <img src = {ISOLogo} />
         </Grid>
         <div className="title"> CLOG Monitor Sign In</div>
         {isSubmitted ? (
@@ -115,14 +117,9 @@ function LoginScreen({ setLoggedIn }) {
         <div className="highlight" />
       </div>
     </div>
-  );
+  )
 }
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(
-  <div>
-    <LoginScreen />
-  </div>,
-  rootElement
-);
+ReactDOM.render(<div><LoginScreen /></div>, rootElement);
 export default LoginScreen;

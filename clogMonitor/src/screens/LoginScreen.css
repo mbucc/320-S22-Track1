@@ -1,41 +1,6 @@
-/* .app {
-  background-image:
-  radial-gradient(at top left, #205447 0%, #52d3ab 62%, transparent 62.2%),
-  url("../components/Images/Beach.jpg")
-  ;
-  background-size: 120% 70%,cover;
-  background-repeat: no-repeat;
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 20px;
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  background-color: #A9A9A9;
-}
-
-.app {
-  background-image: radial-gradient(at top left, transparent 67%, #fff 67.3%), url("../components/Images/Beach.jpg"),
-  linear-gradient(120deg, #408477 0%, #52d3ab 100%);
-  background-size: 120% 100%,cover;
-  background-repeat: no-repeat;
-  margin: 0;
-  height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 20px;
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  background-color: #A9A9A9;
-}
-*/
-
 .app{
-  background: linear-gradient(360deg, rgba(40,140,120,1) 0%, rgba(90,210,170,1) 2%,rgba(255,255,255,0) 2.5%),
-  url("../components/Images/Beach.jpg");
+  background: linear-gradient(360deg, rgba(40,140,120,1) 0%, rgba(90,210,170,1) 2%,rgba(255,255,255,0) 2.2%),
+  url("../../../../gitRepo/clogMonitor/src/components/Images/Beach.jpg");
   /* , , #A9A9A9 100%, linear-gradient(162deg, #205447 0%, #52d3ab 52.1%, transparent 52.2%); */
   background-size: 100% 100%,cover;
   background-repeat: no-repeat;
@@ -49,7 +14,9 @@
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   background-color: #A9A9A9;
 }
-.outlined-input {
+
+input[type="text"],
+input[type="password"] {
   height: 25px;
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
@@ -65,35 +32,55 @@ input[type="submit"] {
 input[type="submit"]:hover {
   background: #6CF0C2;
 }
+
 .button-container {
   display: flex;
   justify-content: center;
 }
+
+.help-button {
+  display: flex;
+  justify-content: center;
+  margin-top: -15px;
+  cursor: pointer;
+  font-size: 15px;
+}
+.help-button:hover {
+  color: #0645AD;
+  text-decoration: underline;
+}
+
 .login-form {
   justify-content: center;
   background-color: white;
   padding: 2rem;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0rem;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .highlight {
+  display: flex;
+  justify-content: center;
   padding-top: 6px;
-  height: 16px;
+  height: 12px;
+  width:14rem;
   background: #52d3ab;
 }
 
 .list-container {
   display: flex;
 }
+
 .error {
   color: red;
   font-size: 12px;
 }
+
 .title {
   font-size: 25px;
   margin-bottom: 20px;
 }
+
 .input-container {
   display: flex;
   flex-direction: column;
