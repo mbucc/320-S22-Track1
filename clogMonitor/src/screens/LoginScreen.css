@@ -1,7 +1,6 @@
 .app{
   background: linear-gradient(360deg, rgba(40,140,120,1) 0%, rgba(90,210,170,1) 2%,rgba(255,255,255,0) 2.2%),
-  url("../../../../gitRepo/clogMonitor/src/components/Images/Beach.jpg");
-  /* , , #A9A9A9 100%, linear-gradient(162deg, #205447 0%, #52d3ab 52.1%, transparent 52.2%); */
+  url("../components/Images/Beach.jpg");
   background-size: 100% 100%,cover;
   background-repeat: no-repeat;
   margin: 0;
