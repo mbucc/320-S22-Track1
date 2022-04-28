@@ -40,22 +40,18 @@ function LoginScreen({ setLoggedIn }) {
     event.preventDefault();
     var { uname, pass } = document.forms[0];
     // Find user login info
-    const userData = database.find((user) => user.username === uname.value);
-    // Compare user info
-    if (userData) {
-      if (userData.password !== pass.value) {
-        // Invalid password
+    validateCredential(uname.value, pass.value)
+      .then(token => {
+        sessionStorage.setItem("token", token);
+        sessionStorage.setItem("loginCheck", "true");
+        setTimeout(() => setLoggedIn("true"), 100); // Wait until session storage is set before logging in
+      }).catch(error => {
+        console.log(error);
+        setErrorMessages({ name: "uname", message: errors.uname });
         setErrorMessages({ name: "pass", message: errors.pass });
-      } else {
-        // setIsSubmitted(true);
-        setLoggedIn("true");
-        localStorage.setItem("loginCheck", "true");
-      }
-    } else {
-      // Username not found
-      setErrorMessages({ name: "uname", message: errors.uname });
-    }
-  };
+    });
+  }
+
 
   function help() {
     alert("Please contact support at xxx-xxx-xxxx or at example@email.com.");
@@ -73,23 +69,23 @@ function LoginScreen({ setLoggedIn }) {
 
   // JSX code for login form
   const renderForm = (
-    <div className="form">
-      <form onSubmit={handleSubmit}>
-        <div className="input-container">
-          <label>Username </label>
-          <input type="text" name="uname" required />
-          {renderErrorMessage("uname")}
-        </div>
-        <div className="input-container">
-          <label>Password </label>
-          <input type="password" name="pass" required />
-          {renderErrorMessage("pass")}
-        </div>
-        <div className="button-container">
-          <input type="submit" />
-        </div>
-      </form>
-      <br></br>
+      <div className="form">
+        <form onSubmit={handleSubmit}>
+          <div className="input-container">
+            <label>Username </label>
+            <input className="outlined-input" type="text" name="uname" required />
+            {renderErrorMessage("uname")}
+          </div>
+          <div className="input-container">
+            <label>Password </label>
+            <input className="outlined-input" type="password" name="pass" required />
+            {renderErrorMessage("pass")}
+          </div>
+          <div className="button-container">
+            <input type="submit" />
+          </div>
+        </form>
+        <br></br>
       <div className="help-button">
         <p onClick={help}> Forgot Password? </p>
       </div>
@@ -117,9 +113,8 @@ function LoginScreen({ setLoggedIn }) {
         <div className="highlight" />
       </div>
     </div>
-  )
-}
-
+  );
+};
 const rootElement = document.getElementById("root");
 ReactDOM.render(<div><LoginScreen /></div>, rootElement);
 export default LoginScreen;
