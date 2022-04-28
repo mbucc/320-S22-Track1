@@ -25,12 +25,14 @@ function DashboardScreen({ setLoggedIn }) {
 
   return (
     <div className="DashboardScreen">
-      {/* <div className="DashboardScreen__NavigationPane"> */}
-      <div className="DashboardScreen__NavigationPane__Display">
-        <Logo />
-        <NavigationPane />
+      <div className="DashboardScreen__SideNav">
+        <div className="DashboardScreen__NavigationPane__Display">
+          <Logo />
+          <NavigationPane />
+        </div>
         <NameAndLogout setLoggedIn={setLoggedIn} />
       </div>
+      
       {/* </div> */}
       <div className="DashboardScreen__Center">
         <div className="DashboardScreen__Center__main">
