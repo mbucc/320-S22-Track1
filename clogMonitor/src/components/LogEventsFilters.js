@@ -148,8 +148,6 @@ const LogEventsFilters = ({ dataSetHandler }) => {
 
         // Filters for filtering on our side
         const todoFilters = {
-            priority: [...selectedPriorities],
-            severity: [...selectedSeverities],
             categoryName: [...selectedCategories],
         }
 
@@ -181,6 +179,13 @@ const LogEventsFilters = ({ dataSetHandler }) => {
             // category_name: String
             // activity: String
             // msg: String
+            sev_info: selectedSeverities.has("Info") ? "true" : "false", // boolean
+            sev_succ: selectedSeverities.has("Success") ? "true" : "false", // boolean
+            sev_warn: selectedSeverities.has("Warning") ? "true" : "false", // boolean
+            sev_err: selectedSeverities.has("Error") ? "true" : "false", // boolean
+            priority_low: selectedPriorities.has("Low") ? "true" : "false", // boolean
+            priority_med: selectedPriorities.has("Medium") ? "true" : "false", // boolean
+            priority_high: selectedPriorities.has("High") ? "true" : "false", // boolean
         }
 
         // Set the data based on params
