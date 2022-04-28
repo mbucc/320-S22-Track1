@@ -107,7 +107,7 @@ export default function AppBarChart({ logEvents }) {
             justifyContent: 'center',
             bgcolor: 'background.paper',
             border: '1',
-            margin: '24px',
+            margin: '20px',
             borderRadius: '15px',
             boxShadow: "0px 0px 12px -1px #000000"
           }}
