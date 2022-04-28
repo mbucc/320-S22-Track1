@@ -36,7 +36,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "set \"CI=false\" && react-scripts build",
+    "build": "react-scripts build",
     "test": "cypress",
     "eject": "react-scripts eject"
   },
