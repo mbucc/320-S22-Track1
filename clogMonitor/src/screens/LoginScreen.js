@@ -2,17 +2,15 @@ import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./LoginScreen.css";
 import Home from "../components/Home/Home";
-import LockIcon from "@mui/icons-material/Lock";
 import { Grid } from "@material-ui/core";
 import { validateCredential } from '../fakeDatabase';
-import Beach from "../components/Images/Beach.jpg";
 import ISOLogo from "../components/Images/ISOLogo.png";
 
 function LoginScreen({ setLoggedIn }) {
   // React States
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
-  
+  // User Login info
   const errors = {
     uname: "invalid username",
     pass: "invalid password",
@@ -22,6 +20,7 @@ function LoginScreen({ setLoggedIn }) {
     //Prevent page reload
     event.preventDefault();
     var { uname, pass } = document.forms[0];
+    // Find user login info
     validateCredential(uname.value, pass.value)
     .then(token => {
       sessionStorage.setItem("token", token);
@@ -32,7 +31,8 @@ function LoginScreen({ setLoggedIn }) {
       setErrorMessages({ name: "uname", message: errors.uname });
       setErrorMessages({ name: "pass", message: errors.pass });
     });
-  };
+  }
+
 
   function help() {
     alert("Please contact support at xxx-xxx-xxxx or at example@email.com.");
@@ -54,12 +54,12 @@ function LoginScreen({ setLoggedIn }) {
       <form onSubmit={handleSubmit}>
         <div className="input-container">
           <label>Username </label>
-          <input className="login-input" type="text" name="uname" required />
+          <input className="outlined-input" type="text" name="uname" required />
           {renderErrorMessage("uname")}
         </div>
         <div className="input-container">
           <label>Password </label>
-          <input type="password" name="pass" required />
+          <input className="outlined-input" type="password" name="pass" required />
           {renderErrorMessage("pass")}
         </div>
         <div className="button-container">
@@ -73,7 +73,6 @@ function LoginScreen({ setLoggedIn }) {
     </div>
   );
   return (
-
     <div className="app">
       <div className="login-form">
         <Grid container justify = "center">
