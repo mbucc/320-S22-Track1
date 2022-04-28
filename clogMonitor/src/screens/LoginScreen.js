@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import "./LoginScreen.css";
 import Home from "../components/Home/Home";
 import { Grid } from "@material-ui/core";
@@ -83,11 +83,11 @@ function LoginScreen({ setLoggedIn }) {
         {isSubmitted ? (
           <div>
             {success()}
-            <BrowserRouter>
+            <HashRouter>
               <Routes>
                 <Route path="/" element={<Home />} />
               </Routes>
-            </BrowserRouter>
+            </HashRouter>
           </div>
         ) : (
           renderForm

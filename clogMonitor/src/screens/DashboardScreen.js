@@ -6,7 +6,7 @@ import "./DashboardScreen.css";
 import Home from "../components/Home/Home";
 import LogEvents from "../components/LogEvents";
 import LogDetail from "../components/LogDetail";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter , Routes, Route } from "react-router-dom";
 import { getLogDetails } from '../fakeDatabase';
 import { BusinessView } from '../components/BusinessView';
 
@@ -39,7 +39,7 @@ function DashboardScreen({ setLoggedIn }) {
           <Logo />
         </div>
         <div className="DashboardScreen__Center__main">
-          <BrowserRouter>
+          <HashRouter >
             <Routes>
               <Route
                 path="/"
@@ -49,7 +49,7 @@ function DashboardScreen({ setLoggedIn }) {
               <Route path="/log-events" element={<LogEvents/>} />
               <Route path="/log-details/:id" element={<LogDetail/>} />
             </Routes>
-          </BrowserRouter>
+          </HashRouter >
         </div>
         <div className="DashboardScreen__NameAndLogout">
           <NameAndLogout setLoggedIn={setLoggedIn} />

@@ -6,7 +6,7 @@ function ErrorLogBox({ logEvent }) {
   // console.log(logEvent["CREATION_TIME"]);
   return (
     <Link
-      href={"/log-details/" + logEvent["globalInstanceId"]}
+      href={"#/log-details/" + logEvent["globalInstanceId"]}
       underline="none"
       className="NavigationPane__link">
       <div
