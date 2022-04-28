@@ -34,6 +34,10 @@ export const BusinessView = () => {
     }
 
     React.useEffect(() => {
+      attemptQuery(undefined);
+  }, []);
+
+    React.useEffect(() => {
       if(needTryAgain) {
           setTimeout(() => {
               attemptQuery(undefined)
