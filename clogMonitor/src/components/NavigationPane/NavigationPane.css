@@ -11,6 +11,6 @@
   /* display: flex; */
 }
 
-.NavigationPane__link {
-  color: #828282;
+.NavigationPane__links {
+  flex-grow: 1;
 }

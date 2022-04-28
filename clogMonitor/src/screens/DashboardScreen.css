@@ -17,16 +17,20 @@
   transition: 1s;
 }
 
+.DashboardScreen__SideNav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 250px;
+  height: 100vh;
+  background-color: #f9f9f9;
+}
+
 .DashboardScreen__NavigationPane__Display {
   display: block;
   text-align: left;
-  max-width: 250px;
-  width: 200px;
   padding: 20px;
-  background-color: #f9f9f9;
-  height: calc(100vh - 40px);
-  z-index: 2;
-  transition: 1s;
+  height: 100%;
 }
 
 .DashboardScreen__NavigationPane__No__Display {

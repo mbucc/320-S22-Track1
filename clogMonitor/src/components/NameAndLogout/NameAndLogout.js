@@ -22,12 +22,9 @@ function NameAndLogout({ setLoggedIn }) {
     <div>
       <Box
         sx={{
-          position: "absolute",
           border: "1px solid grey",
           borderRadius: "15px",
-          left: "0px",
-          bottom: "0px",
-          color: "grey",
+          // color: "grey",
           margin: 0.5,
           padding: 0.5,
         }}
