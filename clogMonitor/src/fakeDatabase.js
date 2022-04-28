@@ -7,7 +7,6 @@ import data from './sample_log_details.json';
 // The types of certain columns. All other columns will be assumed to be strings
 const dateColumns = ['CREATION_TIME', 'creationTime'];
 const numberColumns = ['SEVERITY', 'PRIORITY', 'severity', 'priority'];
-const catCols = ['CATEGORY_NAME', 'categoryName'];
 
 // datetime
 const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
@@ -38,11 +37,6 @@ function dataCleaning(data, needConvert = true) {
                 }
                 let d = new Date(datetimestring);
                 row[colName] = d;
-            } else if (catCols.includes(colName)) {
-                // ReportSituation is an error in the data provided, should be Status
-                if (row[colName].toLowerCase() === "reportsituation") {
-                    row[colName] = "Status";
-                }
             }
         }
     }
@@ -83,6 +77,7 @@ function parseFilters(filters) {
             // because severity uses ranges instead of strict values
             // rawFilter should be of type Set("Info"|"Success"|"Warning"|"Error")
             resultFilters[columnName] = (x) => {
+                console.log(rawFilter.includes("Info"));
                 if (x < 20) {
                     return rawFilter.includes("Info");
                 } else if (x < 30) {
@@ -135,9 +130,12 @@ export function filterTableData(filters, tData) {
             if (filterfuncs[col]) {
                 const filterfunc = filterfuncs[col];
                 if (!(filterfunc(row[col]))) {
+                    console.log(row[col]);
+                    console.log(filterfunc);
                     includeRow = false;
                     break;
                 }
+                
             }
         }
         // only include rows that don't violate the filters
@@ -162,6 +160,8 @@ export function getTableData(filters) {
 
 /**
  * Returns all the (unique) values that are in data for the given columnName
+ * 
+ * @deprecated
  * 
  * @param {String} columnName The name of the column to get the values for
  * @returns {String[]} The values of the column, [""] if no such column exists
@@ -227,62 +227,28 @@ severity: 10
 version: "1.0"
 */
 
+// This is the base URL for the api, which is different from login auth
 export const apiBaseURL = "http://localhost:8080/api";
-
-/**
- * 
- * @returns {Promise<string>} A promise for the current api token
- */
-export function getToken(params) {
-    // TODO: hide credentials (possibly in .env?)
-    var data = qs.stringify(params);
-    var config = {
-        method: 'post',
-        url: 'http://localhost:8080/user',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        data: data
-    };
-
-    return new Promise(function (resolve, reject) {
-        // some async operation here
-        axios(config)
-            .then(function (response) {
-                if (response.status === 200) {
-                    const token = response.data.token;
-                    // console.log(JSON.stringify(response.data));
-                    resolve(token);
-                }
-            })
-    });
-}
 
 let logDetails = [];
 /**
- * 
+ * @param {string} token The token for this session
  * @param {{[key: string]: string | number}} params The params for the query
  * 
  * @returns {Promise<{[columnName: string]: String;}[]>} A promise for row data returned by the query
  */
 export function getLogDetails(token, params) {
     const base = apiBaseURL + "/log_detail";
-    console.log("heyyyyyy ", token, params);
+    const headers = { Authorization: token }
     return new Promise(function (resolve, reject) {
-        const headers = {
-            Authorization: token
-        }
         axios.get(base, { params: params, headers: headers })
-            .then(function (response) {
-                console.log(response)
-                const resultData = response.data;
-                dataCleaning(resultData, false);
-                logDetails = resultData;
-                resolve(resultData);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        .then(function (response) {
+            const resultData = response.data;
+            dataCleaning(resultData, false);
+            logDetails = resultData;
+            resolve(resultData);
+        })
+        .catch(reject);
     });
 }
 
@@ -294,21 +260,61 @@ export function getActualMinMaxTime() {
     if (logDetails.length > 0) {
         return minmaxtime(logDetails, "creationTime");
     } else {
-        const start = new Date("2021-12-31T00:00:00Z");
-        const end = new Date("2022-01-02T00:00:00Z");
+        const start = new Date("2022-04-19T22:05:29Z");
+        const end = new Date("2022-04-21T22:05:33Z");
         return [start, end];
     }
 }
 
-// export function get
+/**
+ * 
+ * @returns {Promise<string>} A promise for the token if username and password are valid
+ */
+export function validateCredential(username, password) {
+    var data = qs.stringify({
+        'user': username,
+        'password': password
+    });
 
-export function validateCredential(params) {
-    const base = apiBaseURL + "/user";
+    var config = {
+        method: 'post',
+        url: 'http://localhost:8080/user',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data: data
+    };
+
     return new Promise(function (resolve, reject) {
-        getToken(params).then((token) => {
-            resolve(token);
-        }).catch(function (error) {
-            reject(error);
-        });;
+        axios(config)
+            .then(function (response) {
+                if (!response.data.error) {
+                    const token = response.data.token;
+                    resolve(token);
+                }
+                reject("Bad login");
+            })
+            .catch(reject);
+    });
+}
+
+/**
+ * @param {string} token The token for this session
+ * @param {string} columnName The columnName for queries (eg. eai_domain)
+ * 
+ * @returns {Promise<string[]>} A promise for unique values in the database under the given columnName
+ */
+export function getLogEventColumn(token, columnName) {
+    const base = apiBaseURL + "/log_detail_unique";
+    return new Promise(function(resolve, reject) {
+        const headers = {
+            Authorization: token
+        }
+        axios.get(base, {params: {columnName: columnName}, headers: headers})
+        .then(function (response) {
+            const resultData = response.data;
+            resolve(resultData);
+        })
+        .catch(reject);
     });
 }

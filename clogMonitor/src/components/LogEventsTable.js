@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import { Button } from "@mui/material";
+import './LogEvents.css'
+
 // Defines the columns for mui DataGrid
 // See https://mui.com/components/data-grid/columns/ for possible keys and more details
 // Used keys:
@@ -72,10 +74,26 @@ const columns = [
         headerName: 'Log Event',
         type: 'actions',
         getActions: (params) => [
-            <Button key="detailkey" href={"/log-details/" + params.id}>Detail</Button>
+            <Button key="detailkey" href={"/log-details/" + params.id} target="_blank">Detail</Button>
         ]
     }
 ];
+
+const customErrorOverlay = (error) => {
+    return (
+        <div className='error-overlay'>
+            An error occured. {error ? "Maybe the API isn't running?" : ""}
+        </div>
+    )
+}
+
+const gridToolbar = () => {
+    return (
+        <GridToolbarContainer>
+          <GridToolbarExport printOptions={{disableToolbarButton: true}} />
+        </GridToolbarContainer>
+      );
+}
 
 /**
  * A table that displays Log Events
@@ -87,7 +105,7 @@ const columns = [
  * 
  * @returns {React.ElementType}
  */
-const LogEventsTable = ({data, loading}) => {
+const LogEventsTable = ({data, loading, error}) => {
     const [pageSize, setPageSize] = useState(5)
 
     return (
@@ -95,11 +113,21 @@ const LogEventsTable = ({data, loading}) => {
             <DataGrid
                 rows={data}
                 loading={loading}
+                error={error ? true : undefined}
                 columns={columns}
                 pageSize={pageSize}
                 rowsPerPageOptions={[5, 10, 25, 50, 100]}
                 onPageSizeChange={(newSize) => setPageSize(newSize)}
                 getRowId={(row) => row["globalInstanceId"]}
+                components={{
+                    ErrorOverlay: () => customErrorOverlay(error),
+                    Toolbar: gridToolbar,
+                }}
+                initialState={{
+                    sorting: {
+                      sortModel: [{ field: 'creationTime', sort: 'desc' }],
+                    },
+                }}
             />
       </div>
     );
