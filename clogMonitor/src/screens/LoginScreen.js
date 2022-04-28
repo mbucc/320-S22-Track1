@@ -5,11 +5,11 @@ import DashboardScreen from "./DashboardScreen";
 import "./LoginScreen.css";
 import App from "../App";
 import Home from "../components/Home/Home";
-import LockIcon from '@mui/icons-material/Lock';
-import {Grid} from "@material-ui/core";
+import LockIcon from "@mui/icons-material/Lock";
+import { Grid } from "@material-ui/core";
+import { validateCredential } from '../fakeDatabase';
 import Beach from "../components/Images/Beach.jpg";
 import ISOLogo from "../components/Images/ISOLogo.png";
-
 
 function LoginScreen({ setLoggedIn }) {
   // React States
