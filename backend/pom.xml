@@ -107,7 +107,7 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>CI= npm run build</id>
+						<id>npm run build</id>
 						<goals>
 							<goal>npm</goal>
 						</goals>
