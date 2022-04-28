@@ -1,35 +1,18 @@
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import DashboardScreen from "./DashboardScreen";
 import "./LoginScreen.css";
-import App from "../App";
 import Home from "../components/Home/Home";
-import LockIcon from '@mui/icons-material/Lock';
-import {Grid} from "@material-ui/core";
+import LockIcon from "@mui/icons-material/Lock";
+import { Grid } from "@material-ui/core";
+import { validateCredential } from '../fakeDatabase';
 import Beach from "../components/Images/Beach.jpg";
 import ISOLogo from "../components/Images/ISOLogo.png";
-
 
 function LoginScreen({ setLoggedIn }) {
   // React States
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
-  // User Login info
-  const database = [
-    {
-      username: "Mark",
-      password: "12345",
-    },
-    {
-      username: "user1",
-      password: "pass1",
-    },
-    {
-      username: "user2",
-      password: "pass2",
-    },
-  ];
+  
   const errors = {
     uname: "invalid username",
     pass: "invalid password",
@@ -39,22 +22,16 @@ function LoginScreen({ setLoggedIn }) {
     //Prevent page reload
     event.preventDefault();
     var { uname, pass } = document.forms[0];
-    // Find user login info
-    const userData = database.find((user) => user.username === uname.value);
-    // Compare user info
-    if (userData) {
-      if (userData.password !== pass.value) {
-        // Invalid password
-        setErrorMessages({ name: "pass", message: errors.pass });
-      } else {
-        // setIsSubmitted(true);
-        setLoggedIn("true");
-        localStorage.setItem("loginCheck", "true");
-      }
-    } else {
-      // Username not found
+    validateCredential(uname.value, pass.value)
+    .then(token => {
+      sessionStorage.setItem("token", token);
+      sessionStorage.setItem("loginCheck", "true");
+      setTimeout(() => setLoggedIn("true"), 100); // Wait until session storage is set before logging in
+    }).catch(error => {
+      console.log(error);
       setErrorMessages({ name: "uname", message: errors.uname });
-    }
+      setErrorMessages({ name: "pass", message: errors.pass });
+    });
   };
 
   function help() {
@@ -96,6 +73,7 @@ function LoginScreen({ setLoggedIn }) {
     </div>
   );
   return (
+
     <div className="app">
       <div className="login-form">
         <Grid container justify = "center">
@@ -120,6 +98,4 @@ function LoginScreen({ setLoggedIn }) {
   )
 }
 
-const rootElement = document.getElementById("root");
-ReactDOM.render(<div><LoginScreen /></div>, rootElement);
 export default LoginScreen;
