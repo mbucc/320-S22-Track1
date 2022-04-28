@@ -3,8 +3,8 @@ import Typography from '@mui/material/Typography';
 
 function Logo(props) {
     return (
-        <Typography variant="h4">
-            CLOG MONITOR
+        <Typography fontSize={28} fontWeight={"bold"}>
+            CLOG Monitor
         </Typography>
     );
 }
