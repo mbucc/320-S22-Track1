@@ -32,17 +32,17 @@ public class LogDetailController {
     public ResponseEntity<List<LogDetail>> getByGlobalInstanceId(@RequestParam(required = false) String global_instance_id, @RequestParam(required = false) String business_domain, @RequestParam(required = false) String business_subdomain,
                                                            @RequestParam(required = false) String version, @RequestParam(required = false) String local_instance_id, @RequestParam(required = false) String eai_transaction_id,
                                                            @RequestParam(required = false) String eai_domain, @RequestParam(required = false) String hostname, @RequestParam(required = false) String application,
-                                                           @RequestParam(required = false) String event_context, @RequestParam(required = false) String component, @RequestParam(required = false) Integer severity, 
-                                                           @RequestParam(required = false) Integer priority_low, @RequestParam(required = false) Integer priority_high, 
+                                                           @RequestParam(required = false) String event_context, @RequestParam(required = false) String component, @RequestParam boolean sev_info, 
+                                                           @RequestParam boolean sev_warn,@RequestParam boolean sev_err, @RequestParam boolean priority_low, @RequestParam boolean priority_med, @RequestParam boolean priority_high, 
                                                            @RequestParam(required = false) Timestamp creation_time_start, @RequestParam(required = false) Timestamp creation_time_end,
                                                            @RequestParam(required = false) String reasoning_scope, @RequestParam(required = false) Integer process_id, @RequestParam(required = false) String category_name,
                                                            @RequestParam(required = false) String activity, @RequestParam(required = false) String msg) {
         
-        LogDetail logExample = new LogDetail(global_instance_id,business_domain,business_subdomain,version,local_instance_id,eai_transaction_id,eai_domain,hostname,application,event_context,component,severity,null,null,reasoning_scope,process_id,category_name,activity,msg); 
+        LogDetail logExample = new LogDetail(global_instance_id,business_domain,business_subdomain,version,local_instance_id,eai_transaction_id,eai_domain,hostname,application,event_context,component,null,null,null,reasoning_scope,process_id,category_name,activity,msg); 
         ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues();
         Example<LogDetail> logQuery = Example.of(logExample,matcher); 
         try {
-            List<LogDetail> logs = logDetailRepository.findAll(getByDatesPriority(priority_low,priority_high,creation_time_start,creation_time_end,logQuery));
+            List<LogDetail> logs = logDetailRepository.findAll(getByDatesPriority(sev_info,sev_warn,sev_err,priority_low,priority_med,priority_high,creation_time_start,creation_time_end,logQuery));
             // no data
             if (logs.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -54,21 +54,55 @@ public class LogDetailController {
     }
 
     //no longer accepts ranges for severity
-    public Specification<LogDetail> getByDatesPriority(Integer priority_low, Integer priority_high, Timestamp start, Timestamp end, Example<LogDetail> example){
+    public Specification<LogDetail> getByDatesPriority(boolean sev_info, boolean sev_warn, boolean sev_err, boolean priority_low, boolean priority_med, boolean priority_high, Timestamp start, Timestamp end, Example<LogDetail> example){
         return  (root,query,builder) -> {
             final List<Predicate> predicates = new ArrayList<Predicate>();
-            if (priority_low != null){
-                predicates.add(builder.greaterThanOrEqualTo(root.get("priority"), priority_low));
+            //predicates for each type of severity
+            Predicate predInfo = builder.between(root.get("severity"), 10, 29);
+            Predicate predWarn = builder.between(root.get("severity"),30,49);
+            Predicate predErr = builder.greaterThanOrEqualTo(root.get("severity"),50);
+            Predicate allSevPred = builder.disjunction();
+
+            //predicates for each type of severity
+            Predicate predLow = builder.equal(root.get("priority"), 10);
+            Predicate predMed = builder.equal(root.get("priority"),50);
+            Predicate predHigh = builder.equal(root.get("priority"),70);
+            Predicate allPrioPred = builder.disjunction();
+
+            if (sev_info){
+                allSevPred = builder.or(allSevPred,predInfo);
             }
-            if (priority_high != null){
-                predicates.add(builder.lessThanOrEqualTo(root.get("priority"), priority_high));
+            if (sev_warn){
+                allSevPred = builder.or(allSevPred,predWarn);
             }
+            if (sev_err){
+                allSevPred = builder.or(allSevPred,predErr);
+            }
+            //add severity predicates
+            predicates.add(allSevPred);
+
+            if (priority_low){
+                allPrioPred = builder.or(allPrioPred,predLow);
+            }
+            if (priority_med){
+                allPrioPred = builder.or(allPrioPred,predMed);
+            }
+            if (priority_high){
+                allPrioPred = builder.or(allPrioPred,predHigh);
+            }
+            //add priority predicates
+            predicates.add(allPrioPred);
+
+
+
+            //date time ranges
             if (start != null){
                 predicates.add(builder.greaterThanOrEqualTo(root.get("creationTime"), start));
             }
             if (end != null){
                 predicates.add(builder.lessThanOrEqualTo(root.get("creationTime"), end));
             }
+
             predicates.add(QueryByExamplePredicateBuilder.getPredicate(root, builder, example));
             Predicate[] predArr = predicates.toArray(new Predicate[predicates.size()]);
             return builder.and(predArr);
@@ -102,22 +136,6 @@ public class LogDetailController {
                 break;
             }
 
-            // List<String> list = logDetailRepository.getDistinctLogDetailByGlobalInstanceId();
-            // list.addAll(logDetailRepository.getDistinctLogDetailByBusinessDomain());
-            // list.addAll(logDetailRepository.getDistinctLogDetailByBusinessSubDomain());
-            // list.addAll(logDetailRepository.getDistinctLogDetailByVersion());
-            // list.addAll(logDetailRepository.getDistinctLogDetailByLocalInstanceId());
-            // list.addAll(logDetailRepository.getDistinctLogDetailByEaiTransactionId());
-            // list.addAll(logDetailRepository.getDistinctLogDetailByEaiDomain());
-            // list.addAll(logDetailRepository.getDistinctLogDetailByHostname());
-            // list.addAll(logDetailRepository.getDistinctLogDetailByApplication());
-            // list.addAll(logDetailRepository.getDistinctLogDetailByEventContext());
-            // list.addAll(logDetailRepository.getDistinctLogDetailByComponent());
-            // list.addAll(logDetailRepository.getDistinctLogDetailByReasoningScope());
-            // list.addAll(logDetailRepository.getDistinctLogDetailByCategoryName());
-            // list.addAll(logDetailRepository.getDistinctLogDetailByActivity());
-            // list.addAll(logDetailRepository.getDistinctLogDetailByMsg());
-
             if (list.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -126,50 +144,5 @@ public class LogDetailController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    /**
-
-    @GetMapping("/log_detail_severity")
-    public ResponseEntity<List<Integer>> getByDistinctSev(){
-        try{
-            List<Integer> list = logDetailRepository.getDistinctLogDetailBySeverity();
-            if (list.isEmpty()){
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(list,HttpStatus.OK);
-        } catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    
-    @GetMapping("/log_detail_priority")
-    public ResponseEntity<List<Integer>> getByDistinctPrio(){
-        try{
-            List<Integer> list = logDetailRepository.getDistinctLogDetailByPriority();
-            if (list.isEmpty()){
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(list,HttpStatus.OK);
-        } catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-     
-    @GetMapping("/log_detail_processs_id")
-    public ResponseEntity<List<Integer>> getByDistinctProId(){
-        try{
-            List<Integer> list = logDetailRepository.getDistinctLogDetailByProcessId();
-            if (list.isEmpty()){
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(list,HttpStatus.OK);
-        } catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    
-    **/
 
 }
