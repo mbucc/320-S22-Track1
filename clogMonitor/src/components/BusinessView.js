@@ -12,6 +12,8 @@ import BusinessTableFilters from "./BusinessTableFilters";
  */
 
 export const BusinessView = () => {
+  // To get token, use the following line:
+  // const token = sessionStorage.getItem("token");
   const [tableData, setTableData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
 
