@@ -83,7 +83,7 @@
 				<artifactId>frontend-maven-plugin</artifactId>
 				<version>1.6</version>
 				<configuration>
-					<workingDirectory>../clogMonitor</workingDirectory>
+					<workingDirectory>../clog</workingDirectory>
 					<installDirectory>target</installDirectory>
 				</configuration>
 				<executions>
@@ -125,7 +125,7 @@
 						<configuration>
 							<target>
 							<copy todir="${project.build.directory}/classes/public">
-								<fileset dir="${project.basedir}/../clogMonitor/build"/>
+								<fileset dir="${project.basedir}/clog/build"/>
 							</copy>
 							</target>
 						</configuration>
