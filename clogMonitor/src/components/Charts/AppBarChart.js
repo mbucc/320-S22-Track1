@@ -84,7 +84,6 @@ export default function AppBarChart({ logEvents }) {
           textAlign: 'left',
           m: 3,
           fontWeight: 'bold',
-          fontFamily: 'Monospace',
           fontSize: 'h4.fontSize',
         }}
         > Error Log Chart
