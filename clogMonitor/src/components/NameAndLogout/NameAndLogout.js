@@ -45,7 +45,7 @@ function NameAndLogout({ setLoggedIn }) {
             <Avatar
               sx={{
                 borderRadius: "50%",
-                backgroundColor: "red",
+                backgroundColor: "rgb(82, 152, 68)",
               }}
               alt="Remy Sharp"
               src="./img_avatar.png"
@@ -63,10 +63,10 @@ function NameAndLogout({ setLoggedIn }) {
               fontSize: "90%",
             }}
           >
-            <Typography variant="body2">Mark Robison</Typography>
+            <Typography color="white" variant="body2">Mark Robison</Typography>
           </Stack>
 
-          <KeyboardArrowDownIcon />
+          <KeyboardArrowDownIcon sx={{color: "white"}}/>
         </Stack>
       </Box>
       <Menu

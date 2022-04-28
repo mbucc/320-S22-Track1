@@ -23,7 +23,8 @@
   justify-content: space-between;
   width: 280px;
   height: 100vh;
-  background-color: #f9f9f9;
+  /* background-color: #f9f9f9; */
+  background-color: rgb(27, 37, 24);
 }
 
 .DashboardScreen__NavigationPane__Display {

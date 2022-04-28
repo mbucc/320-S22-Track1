@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 
 function Logo(props) {
     return (
-        <Typography fontSize={28} fontWeight={"bold"}>
+        <Typography fontSize={28} fontWeight={"bold"} color={"white"}>
             CLOG Monitor
         </Typography>
     );
