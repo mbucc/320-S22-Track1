@@ -258,6 +258,8 @@ export function getToken() {
     });
 }
 
+
+
 let logDetails = [];
 /**
  * 
@@ -297,6 +299,34 @@ export function getActualMinMaxTime() {
         const end = new Date("2022-04-21T22:05:33Z");
         return [start, end];
     }
+}
+
+export function validateCredential(username, password) {
+    var data = qs.stringify({
+        'user': username,
+        'password': password
+    });
+
+    var config = {
+        method: 'post',
+        url: 'http://localhost:8080/user',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data: data
+    };
+
+    return new Promise(function (resolve, reject) {
+        axios(config)
+            .then(function (response) {
+                if (!response.data.error) {
+                    const token = response.data.token;
+                    resolve(token);
+                }
+                reject("Bad login");
+            })
+            .catch(reject);
+    });
 }
 
 /**
