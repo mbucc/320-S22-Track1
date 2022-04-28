@@ -15,6 +15,7 @@ export const BusinessView = () => {
     const [loading, setLoading] = React.useState(false);
     const [loadError, setLoadError] = React.useState(false);
     const [needTryAgain, setNeedTryAgain] = React.useState(false);
+    const token = sessionStorage.getItem("token");
 
     const attemptQuery = (params, filters={}) => {
         setLoading(true);
