@@ -36,13 +36,13 @@ function App() {
   );
 
   return (
-    <div className="App">
+    <ThemeProvider theme={theme}>
       {loggedIn === "true" ? (
         <DashboardScreen setLoggedIn={setLoggedIn} />
       ) : (
         <LoginScreen setLoggedIn={setLoggedIn} />
       )}
-    </div>
+    </ThemeProvider>
   );
 }
 

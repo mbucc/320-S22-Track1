@@ -54,7 +54,7 @@ function LoginScreen({ setLoggedIn }) {
       <form onSubmit={handleSubmit}>
         <div className="input-container">
           <label>Username </label>
-          <input type="text" name="uname" required />
+          <input className="login-input" type="text" name="uname" required />
           {renderErrorMessage("uname")}
         </div>
         <div className="input-container">
