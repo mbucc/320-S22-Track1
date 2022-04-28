@@ -41,7 +41,7 @@ input[type="submit"]:hover {
 .help-button {
   display: flex;
   justify-content: center;
-  margin-top: -15px;
+  margin-top: -28px;
   cursor: pointer;
   font-size: 15px;
 }
@@ -61,9 +61,10 @@ input[type="submit"]:hover {
 .highlight {
   display: flex;
   justify-content: center;
+  margin:auto;
   padding-top: 6px;
   height: 12px;
-  width:14rem;
+  width: 14vw;
   background: #52d3ab;
 }
 
