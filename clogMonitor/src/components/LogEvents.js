@@ -57,6 +57,7 @@ const LogEvents = () => {
     return (
         <div className='log-events-container'>
             <LogEventsFilters dataSetHandler={handleTableSet}></LogEventsFilters>
+            &nbsp;
             <LogEventsTable data={tableData} loading={loading} error={loadError}></LogEventsTable>
         </div>
     );

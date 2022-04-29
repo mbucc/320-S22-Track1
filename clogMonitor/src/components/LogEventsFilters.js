@@ -1,6 +1,8 @@
-import { Button, FormControl } from "@mui/material";
+import { Button, Collapse, FormControl } from "@mui/material";
 import React, { useEffect } from "react";
 import { getActualMinMaxTime, getColumnValues, getLogEventColumn } from "../fakeDatabase";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import CheckboxGroup from "./CheckboxGroup";
 import Dropdown from "./Dropdown";
 import TimeRange from "./TimeRange";
@@ -82,6 +84,9 @@ const LogEventsFilters = ({ dataSetHandler }) => {
     // Datetime states (Dates stored are as local time strings, not UTC time)
     const [startTime, setStartTime] = React.useState(getDefaultDateTimeString(0));
     const [endTime, setEndTime] = React.useState(getDefaultDateTimeString(1));
+
+    // Collapsing
+    const [collapsed, setCollapsed] = React.useState(false);
 
     // On component load, try to find and load cached filters
     useEffect(() => {
@@ -281,9 +286,25 @@ const LogEventsFilters = ({ dataSetHandler }) => {
         makeDropdownProps("Process/Service", PROCESS_SERVICE_ID, processServices, process_service, setProcess_service),
     ]
 
+    // Collapsing
+    const handleCollapse = () => {
+        setCollapsed(!collapsed);
+    }
+
+    // Apply indicator
+    const filtersChanged = () => {
+        // TODO: compare the current filters with those that are in sessionStorage
+        return false;
+    }
+    const getBorderColor = () => {
+        const filtersChangedColor = "rgb(152, 154, 5)"; // TODO: choose good colors for this
+        const filtersAppliedColor = "rgb(82, 152, 68)"; // This is the color the whole app will have soon
+        return !filtersChanged() ? filtersChangedColor : filtersAppliedColor;
+    }
+
     return (
-        <div>
-            <form className="log-events-filters" onSubmit={handleApplyFilters}>
+        <form className="log-events-filters-outline" style={{borderColor: getBorderColor()}} onSubmit={handleApplyFilters}>
+            <Collapse className="log-events-filters" in={!collapsed}>
                 {
                     checkBoxGroupProps.map(cbprops => {
                         return (
@@ -321,14 +342,20 @@ const LogEventsFilters = ({ dataSetHandler }) => {
                         })
                     }
                 </div>
+            </Collapse>
 
-                <FormControl>
+            <FormControl sx={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
+                <Collapse in={!collapsed}>
                     <Button sx={{marginTop: "16px"}} disabled={hasError()} variant="contained" type="submit">
                         Apply
                     </Button>
-                </FormControl>
-            </form>
-        </div>
+                </Collapse>
+
+                <Button variant="outlined" onClick={handleCollapse}>
+                    {collapsed ? <ExpandMoreIcon/> : <ExpandLessIcon/>}
+                </Button>
+            </FormControl>
+        </form>
     );
 };
 
