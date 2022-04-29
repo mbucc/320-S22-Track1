@@ -228,7 +228,7 @@ version: "1.0"
 */
 
 // This is the base URL for the api, which is different from login auth
-export const apiBaseURL = "http://localhost:8080/api";
+export const apiBaseURL = window.location.href + "/api";
 
 let logDetails = [];
 /**
@@ -278,7 +278,7 @@ export function validateCredential(username, password) {
 
     var config = {
         method: 'post',
-        url: 'http://localhost:8080/user',
+        url: window.location.href + '/user',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
