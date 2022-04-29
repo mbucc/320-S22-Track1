@@ -62,7 +62,6 @@ const BusinessTableFilters = ({ dataSetHandler }) => {
     useEffect(() => {
         const value = sessionStorage.getItem("BusinessTableFilters");
         if(value) {
-            console.log("Restoring cached log events filters");
             const namesAndSetters = {
                 severity: (x) => setSelectedSeverities(new Set(x)),
                 businessDomain: setBusinessDomains,
@@ -84,7 +83,6 @@ const BusinessTableFilters = ({ dataSetHandler }) => {
         for (let name in namesToSetters) {
             getLogEventColumn(token, name).then(values => {
                 namesToSetters[name](values);
-                console.log(businessDomains);
             }).catch(err => {
                 console.error(`Querying for ${name} ran into an error, \nUsing mock database for dropdown values`);
                 namesToSetters[name](getColumnValues(name.toUpperCase()));
