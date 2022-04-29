@@ -17,9 +17,9 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-radius: 15px;
+  border-radius: 5px;
   padding: 5px;
-  border-width: 2px;
+  border-width: 1.5px;
   border-style: solid;
 }
 

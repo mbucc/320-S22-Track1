@@ -299,7 +299,7 @@ const LogEventsFilters = ({ dataSetHandler }) => {
     const getBorderColor = () => {
         const filtersChangedColor = "rgb(152, 154, 5)"; // TODO: choose good colors for this
         const filtersAppliedColor = "rgb(82, 152, 68)"; // This is the color the whole app will have soon
-        return !filtersChanged() ? filtersChangedColor : filtersAppliedColor;
+        return filtersChanged() ? filtersChangedColor : filtersAppliedColor;
     }
 
     return (
