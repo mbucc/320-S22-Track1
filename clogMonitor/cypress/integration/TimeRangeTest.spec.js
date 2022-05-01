@@ -55,11 +55,11 @@ describe("TimeRange works correctly", () => {
     cy.get('[id="startformcontrol"]')
       .click()
       .type("0000-00-00T08:30")
-      .contains("Input is missing a value");
+      .contains("Input is missing");
     cy.get('[id="endformcontrol"]')
       .click()
       .type("2017-00-01T08:30")
-      .contains("Input is missing a value");
+      .contains("Input is missing");
   });
 
   it("validates if there is an error, the apply button is disabled", () => {
