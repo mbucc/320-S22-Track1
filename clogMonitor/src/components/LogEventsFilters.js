@@ -323,7 +323,7 @@ const LogEventsFilters = ({ dataSetHandler }) => {
                 </div>
 
                 <FormControl>
-                    <Button sx={{marginTop: "16px"}} disabled={hasError()} variant="contained" type="submit">
+                    <Button className="apply-filters-btn" sx={{marginTop: "16px"}} disabled={hasError()} variant="contained" type="submit">
                         Apply
                     </Button>
                 </FormControl>
