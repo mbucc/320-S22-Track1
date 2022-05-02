@@ -146,16 +146,12 @@ const LogEventsFilters = ({ dataSetHandler }) => {
             creationTime: [startTime, endTime],
         };
 
-        // Filters for filtering on our side
-        const todoFilters = {
-            priority: [...selectedPriorities],
-            severity: [...selectedSeverities],
-            categoryName: [...selectedCategories],
-        }
-
         // Ensure that seconds are included in the time params
-        const actualStart = startTime.length === 16 ? startTime + ":00" : startTime;
-        const actualEnd = endTime.length === 16 ? endTime + ":00" : endTime;
+        const actualStartString = startTime.length === 16 ? startTime + ":00" : startTime;
+        const actualEndString = endTime.length === 16 ? endTime + ":00" : endTime;
+        // Convert to UTC
+        const localDates = [new Date(actualStartString), new Date(actualEndString)]
+        const [actualStart, actualEnd] = localDates.map(d => d.toISOString().substring(0, 19));
         
         // set the API parameters based on filter values
         const params = {
@@ -181,10 +177,22 @@ const LogEventsFilters = ({ dataSetHandler }) => {
             // category_name: String
             // activity: String
             // msg: String
+            sev_info: selectedSeverities.has("Info") ? "true" : "false", // boolean
+            sev_succ: selectedSeverities.has("Success") ? "true" : "false", // boolean
+            sev_warn: selectedSeverities.has("Warning") ? "true" : "false", // boolean
+            sev_err: selectedSeverities.has("Error") ? "true" : "false", // boolean
+            priority_low: selectedPriorities.has("Low") ? "true" : "false", // boolean
+            priority_med: selectedPriorities.has("Medium") ? "true" : "false", // boolean
+            priority_high: selectedPriorities.has("High") ? "true" : "false", // boolean
+            status: selectedCategories.has("Status") ? "true" : "false",
+            start: selectedCategories.has("Start") ? "true" : "false",
+            stop: selectedCategories.has("Stop") ? "true" : "false",
+            security: selectedCategories.has("Security") ? "true" : "false",
+            heartbeat: selectedCategories.has("Heartbeat") ? "true" : "false",
         }
 
         // Set the data based on params
-        dataSetHandler(params, todoFilters);
+        dataSetHandler(params, {});
 
         // Cache the filters in sessionStorage
         sessionStorage.setItem("LogEventsFilters", JSON.stringify(allFilters));

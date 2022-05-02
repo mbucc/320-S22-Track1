@@ -77,7 +77,6 @@ function parseFilters(filters) {
             // because severity uses ranges instead of strict values
             // rawFilter should be of type Set("Info"|"Success"|"Warning"|"Error")
             resultFilters[columnName] = (x) => {
-                console.log(rawFilter.includes("Info"));
                 if (x < 20) {
                     return rawFilter.includes("Info");
                 } else if (x < 30) {
@@ -130,8 +129,6 @@ export function filterTableData(filters, tData) {
             if (filterfuncs[col]) {
                 const filterfunc = filterfuncs[col];
                 if (!(filterfunc(row[col]))) {
-                    console.log(row[col]);
-                    console.log(filterfunc);
                     includeRow = false;
                     break;
                 }

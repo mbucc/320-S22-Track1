@@ -16,10 +16,25 @@ function DashboardScreen({ setLoggedIn }) {
   const [loading, setLoading] = React.useState(false);
   const token = sessionStorage.getItem("token");
 
+  const defaultQuery = {
+    sev_info: "true", // boolean
+    sev_succ: "true", // boolean
+    sev_warn: "true", // boolean
+    sev_err: "true", // boolean
+    priority_low: "true", // boolean
+    priority_med: "true", // boolean
+    priority_high: "true", // boolean
+    status: "true",
+    start: "true",
+    stop: "true",
+    security: "true",
+    heartbeat: "true",
+  }
+
   React.useEffect(() => {
     setLoading(true);
     if (token !== undefined) {
-      getLogDetails(token).then((resultData) => {
+      getLogDetails(token, defaultQuery).then((resultData) => {
         setLogEvents(resultData)
         setLoading(false);
       });
