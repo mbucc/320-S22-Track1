@@ -55,16 +55,16 @@ function LoginScreen({ setLoggedIn }) {
         <form onSubmit={handleSubmit}>
           <div className="input-container">
             <label>Username </label>
-            <input className="outlined-input" type="text" name="uname" required />
+            <input className="outlined-input username-input" type="text" name="uname" required />
             {renderErrorMessage("uname")}
           </div>
           <div className="input-container">
             <label>Password </label>
-            <input className="outlined-input" type="password" name="pass" required />
+            <input className="outlined-input password-input" type="password" name="pass" required />
             {renderErrorMessage("pass")}
           </div>
           <div className="button-container">
-            <input type="submit" />
+            <input className="login-btn" type="submit" />
           </div>
         </form>
         <br></br>
