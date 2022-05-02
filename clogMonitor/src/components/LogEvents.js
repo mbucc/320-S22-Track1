@@ -25,6 +25,11 @@ const LogEvents = () => {
         priority_low: "true", // boolean
         priority_med: "true", // boolean
         priority_high: "true", // boolean
+        status: "true",
+        start: "true",
+        stop: "true",
+        security: "true",
+        heartbeat: "true",
     }
 
     const attemptQuery = (params, filters={}) => {
