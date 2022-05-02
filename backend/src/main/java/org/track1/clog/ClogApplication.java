@@ -1,5 +1,9 @@
 package org.track1.clog;
 
+import java.util.TimeZone;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +22,12 @@ import org.track1.clog.security.JWTAuthorizationFilter;
 
 @SpringBootApplication
 public class ClogApplication {
+
+	//Set Time Zone to UTC for handeling API calls
+	@PostConstruct
+	void started() {
+		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(ClogApplication.class, args);
