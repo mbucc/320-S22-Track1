@@ -21,8 +21,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 280px;
-  height: 100vh;
+  width: 250px;
+  height: calc(100vh - 64px);
   /* background-color: #f9f9f9; */
   background-color: rgb(27, 37, 24);
 }
@@ -30,7 +30,6 @@
 .DashboardScreen__NavigationPane__Display {
   display: block;
   text-align: left;
-  padding: 20px;
   height: 100%;
 }
 
@@ -58,7 +57,7 @@
 }
 
 .DashboardScreen__Center { 
-  height: 100vh;
+  height: calc(100vh - 64px);
   overflow-y: auto;
   z-index: 1;
   position: relative;
