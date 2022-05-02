@@ -82,7 +82,7 @@ public class LogDetailController {
                 allSevPred = builder.or(allSevPred,predErr);
             }
             //add severity predicates
-            if(!(sev_info == null && sev_info == sev_succ == sev_warn == sev_err)){
+            if(!(sev_info == null && sev_succ == null && sev_warn == null && sev_err == null)){
                 predicates.add(allSevPred);
             }
 
@@ -96,12 +96,9 @@ public class LogDetailController {
                 allPrioPred = builder.or(allPrioPred,predHigh);
             }
             //add priority predicates
-            if(!(priority_low == null && priority_med == priority_high)){
+            if(!(priority_low == null && priority_med == null && priority_high == null)){
                 predicates.add(allPrioPred);
             }
-            
-
-
 
             //date time ranges
             if (start != null){
