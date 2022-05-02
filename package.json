@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "recharts": "^2.1.9"
+    "recharts": "^2.1.9",
+    "tabler": "^1.0.0-alpha.8"
   }
 }

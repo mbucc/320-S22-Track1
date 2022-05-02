@@ -148,11 +148,22 @@ const BusinessFilters = ({dataSetHandler}) => {
                     </Grid>
                     <Grid item lg={2.75} xl={2.5} justifyContent="center" align="center">
                         <CustomDateTimePicker 
-                        startTime={startTime} 
-                        startChangeHandler={getDatetimeHandler(setStartTime)}
-                        endTime={endTime}
-                        endChangeHandler={getDatetimeHandler(setEndTime)}
+                        id={'bp-tree-filter-start-date-picker'}
+                        label = {"Start Time"}
+                        onChange={(newDate)=> {
+                        setStartTime(newDate);
+                        }}
+                        Time={startTime} 
                         />
+                        <CustomDateTimePicker 
+                        id={'bp-tree-filter-end-date-picker'}
+                        label = {"End Time"}
+                        onChange={(newDate)=> {
+                        setEndTime(newDate);
+                        }}
+                        Time={endTime} 
+                        />
+                        
                         {
                             dropdownProps.map(dprops => {
                                 return (

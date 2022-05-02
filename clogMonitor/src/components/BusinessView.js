@@ -4,6 +4,7 @@ import { filterTableData, getLogDetails, getColumnValues, getTableData } from '.
 import BusinessTable from "../components/BusinessTable";
 import BusinessTreeFilters from "../components/BusinessTreeFilters";
 import BusinessTableFilters from "./BusinessTableFilters";
+//import BPTreeView from '../components/GBTree/core';
 
 //keeping consistent with other views, similar code is here for handling checkboxes
 //checkbox and dropdown both need to be here since they're post selection filtering
@@ -48,6 +49,10 @@ export const BusinessView = () => {
       <BusinessTreeFilters dataSetHandler={handleTableSet} />
       <BusinessTableFilters dataSetHandler={handleTableSet} />
       <BusinessTable data={tableData} loading={loading}/>
+      {/*<BPTreeView onChange={(id) => {
+              setSelectedTransactionID(id);
+            }}/>*/}
+      
     </div>
   );
 };
