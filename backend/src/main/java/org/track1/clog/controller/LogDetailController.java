@@ -27,21 +27,21 @@ public class LogDetailController {
     LogDetailRepository logDetailRepository;
 
     @GetMapping("/log_detail")
-    //severity_low - lower bound, severity_high - upper bound, same for priority
     //all timestamps must follow this format: 'yyyy-dd-mm hh.mi.ss.ms' for example 01-JAN-22 12.55.03.480000 AM would be 2022-01-01 00:55:03.480000
+    //each desired type of severity, priority, and category, must be given value true
     public ResponseEntity<List<LogDetail>> getByGlobalInstanceId(@RequestParam(required = false) String global_instance_id, @RequestParam(required = false) String business_domain, @RequestParam(required = false) String business_subdomain,
                                                            @RequestParam(required = false) String version, @RequestParam(required = false) String local_instance_id, @RequestParam(required = false) String eai_transaction_id,
                                                            @RequestParam(required = false) String eai_domain, @RequestParam(required = false) String hostname, @RequestParam(required = false) String application,
                                                            @RequestParam(required = false) String event_context, @RequestParam(required = false) String component, @RequestParam(required = false) Boolean sev_info, @RequestParam(required = false) Boolean sev_succ,
                                                            @RequestParam(required = false) Boolean sev_warn, @RequestParam(required = false) Boolean sev_err, @RequestParam(required = false) Boolean priority_low, @RequestParam(required = false) Boolean priority_med, @RequestParam(required = false) Boolean priority_high,
-                                                           @RequestParam(required = false) String reasoning_scope, @RequestParam(required = false) Integer process_id, @RequestParam(required = false) String category_name,
+                                                           @RequestParam(required = false) String reasoning_scope, @RequestParam(required = false) Integer process_id, @RequestParam(required = false) Boolean status, @RequestParam(required = false) Boolean start, @RequestParam(required = false) Boolean stop, @RequestParam(required = false) Boolean security, @RequestParam(required = false) Boolean heartbeat,
                                                         @RequestParam(required = false) Timestamp creation_time_start, @RequestParam(required = false) Timestamp creation_time_end,@RequestParam(required = false) String activity, @RequestParam(required = false) String msg) {
         
-        LogDetail logExample = new LogDetail(global_instance_id,business_domain,business_subdomain,version,local_instance_id,eai_transaction_id,eai_domain,hostname,application,event_context,component,null,null,null,reasoning_scope,process_id,category_name,activity,msg); 
+        LogDetail logExample = new LogDetail(global_instance_id,business_domain,business_subdomain,version,local_instance_id,eai_transaction_id,eai_domain,hostname,application,event_context,component,null,null,null,reasoning_scope,process_id,null,activity,msg); 
         ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues();
         Example<LogDetail> logQuery = Example.of(logExample,matcher); 
         try {
-            List<LogDetail> logs = logDetailRepository.findAll(getByDatesPriority(sev_info,sev_succ,sev_warn,sev_err,priority_low,priority_med,priority_high,creation_time_start,creation_time_end,logQuery));
+            List<LogDetail> logs = logDetailRepository.findAll(getByDatesPriority(sev_info,sev_succ,sev_warn,sev_err,priority_low,priority_med,priority_high,status,start,stop,security,heartbeat,creation_time_start,creation_time_end,logQuery));
             // no data
             if (logs.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -53,7 +53,10 @@ public class LogDetailController {
     }
 
     //no longer accepts ranges for severity
-    public Specification<LogDetail> getByDatesPriority(Boolean sev_info, Boolean sev_succ, Boolean sev_warn, Boolean sev_err, Boolean priority_low, Boolean priority_med, Boolean priority_high, Timestamp start, Timestamp end, Example<LogDetail> example){
+    //Status, Start, Stop, Security, Heartbeat
+    public Specification<LogDetail> getByDatesPriority(Boolean sev_info, Boolean sev_succ, Boolean sev_warn, Boolean sev_err, Boolean priority_low, 
+                                                        Boolean priority_med, Boolean priority_high, Boolean status, Boolean start, Boolean stop, Boolean security, 
+                                                        Boolean heartbeat, Timestamp start_time, Timestamp end_time, Example<LogDetail> example){
         return  (root,query,builder) -> {
             final List<Predicate> predicates = new ArrayList<Predicate>();
             //predicates for each type of severity
@@ -69,6 +72,15 @@ public class LogDetailController {
             Predicate predHigh = builder.equal(root.get("priority"),70);
             Predicate allPrioPred = builder.disjunction();
 
+            //predicates for each type of category
+            Predicate predStatus = builder.equal(root.get("categoryName"), "Status");
+            Predicate predStart = builder.equal(root.get("categoryName"), "Start");
+            Predicate predStop = builder.equal(root.get("categoryName"),"Stop");
+            Predicate predSec = builder.equal(root.get("categoryName"), "Security");
+            Predicate predHeart = builder.equal(root.get("categoryName"),"Heartbeat");
+            Predicate allCategoryPred = builder.disjunction();
+
+            //Severity builders
             if ((sev_info != null) && sev_info){
                 allSevPred = builder.or(allSevPred,predInfo);
             }
@@ -86,6 +98,7 @@ public class LogDetailController {
                 predicates.add(allSevPred);
             }
 
+            //Priority builders
             if ((priority_low != null) && priority_low){
                 allPrioPred = builder.or(allPrioPred,predLow);
             }
@@ -100,12 +113,34 @@ public class LogDetailController {
                 predicates.add(allPrioPred);
             }
 
-            //date time ranges
-            if (start != null){
-                predicates.add(builder.greaterThanOrEqualTo(root.get("creationTime"), start));
+            //Category builders
+            if ((status != null) && status){
+                allCategoryPred = builder.or(allCategoryPred,predStatus);
             }
-            if (end != null){
-                predicates.add(builder.lessThanOrEqualTo(root.get("creationTime"), end));
+            if((start != null) && start){
+                allCategoryPred = builder.or(allCategoryPred,predStart);
+            }
+            if ((stop != null) && stop){
+                allCategoryPred = builder.or(allCategoryPred,predStop);
+            }
+            if ((security != null) && security){
+                allCategoryPred = builder.or(allCategoryPred,predSec);
+            }
+            if ((heartbeat != null) && heartbeat){
+                allCategoryPred = builder.or(allCategoryPred,predHeart);
+            }
+            //add category predicates
+            if(!(status == null && start == null && stop == null && security == null && heartbeat == null)){
+                predicates.add(allCategoryPred);
+            }
+
+
+            //date time ranges
+            if (start_time != null){
+                predicates.add(builder.greaterThanOrEqualTo(root.get("creationTime"), start_time));
+            }
+            if (end_time != null){
+                predicates.add(builder.lessThanOrEqualTo(root.get("creationTime"), end_time));
             }
 
             predicates.add(QueryByExamplePredicateBuilder.getPredicate(root, builder, example));
