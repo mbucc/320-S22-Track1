@@ -63,7 +63,7 @@ function NameAndLogout({ setLoggedIn }) {
               fontSize: "90%",
             }}
           >
-            <Typography color="#116e1f" variant="body2">Mark Robison</Typography>
+            <Typography color="primary.light" variant="body2">Mark Robison</Typography>
           </Stack>
 
           <KeyboardArrowDownIcon sx={{color: "white"}}/>

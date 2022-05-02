@@ -6,15 +6,8 @@
   display: none;
 }
 
-.NavigationPane__li {
-  background-color: inherit !important;
-  color: rgb(82, 152, 68) !important;
-}
-
 .NavigationPane__li:hover {
   background-color: rgb(43, 95, 33) !important;
-  /* color: #116e1f !important; */
-  color: rgb(82, 152, 68) !important;
 }
 
 /* .NavigationPane__link:hover {

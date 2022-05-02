@@ -1,7 +1,6 @@
 import React from 'react';
 import NavigationPane from "../components/NavigationPane/NavigationPane";
 import NameAndLogout from "../components/NameAndLogout/NameAndLogout";
-import Logo from "../components/Logo/Logo";
 import "./DashboardScreen.css";
 import Home from "../components/Home/Home";
 import LogEvents from "../components/LogEvents";
@@ -51,10 +50,7 @@ function DashboardScreen({ setLoggedIn }) {
           <div className="DashboardScreen__Center__main">
             <BrowserRouter>
               <Routes>
-                <Route
-                  path="/"
-                  element={<Home
-                    logEvents={logEvents} loading={loading} />} />
+                <Route path="/" element={<Home logEvents={logEvents} loading={loading} />} />
                 <Route path="business-processes" element={<BusinessView/>} />
                 <Route path="/log-events" element={<LogEvents/>} />
                 <Route path="/log-details/:id" element={<LogDetail/>} />
