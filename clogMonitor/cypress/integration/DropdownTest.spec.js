@@ -1,16 +1,19 @@
-//<reference types="cypress" />
+/// <reference types="cypress" />
 import {getColumnValues} from '../../src/fakeDatabase'
 
 describe('Dropdown works correctly', () => {
-
-    beforeEach(() => {
-      // Cypress starts out with a blank slate for each test
-      // so we must tell it to visit our website with the `cy.visit()` command.
-      // Since we want to visit the same URL at the start of all our tests,
-      // we include it in our beforeEach function so that it runs before each test
-      // We set the "baseUrl" in cypress.json so we can use '/' to refer to the baseUrl
-      cy.visit('/log-events');
-    });
+  
+  it ("log into application", () => {
+    cy.loginForLogEvents()
+  });
+  
+  beforeEach(() => {
+    // Reset filters
+    cy.window().then((win) => {
+      win.sessionStorage.removeItem("LogEventsFilters");
+    })
+    cy.reload();
+  });
 
     it('displays the Dropdown component', () => {
       // We use the `cy.get()` command to get all elements that match the selector.

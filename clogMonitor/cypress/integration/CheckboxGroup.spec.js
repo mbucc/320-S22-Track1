@@ -1,6 +1,16 @@
+/// <reference types="cypress" />
+
 describe("CheckboxGroup Tests", () => {
+  it("log into application", () => {
+    cy.loginForLogEvents();
+  });
+
   beforeEach(() => {
-    cy.visit("/log-events");
+    // Reset filters
+    cy.window().then((win) => {
+      win.sessionStorage.removeItem("LogEventsFilters");
+    });
+    cy.reload();
   });
 
   // Test if there is a checkbox group displayed for each of the Priorities, Severities, and Categories filters
@@ -34,7 +44,7 @@ describe("CheckboxGroup Tests", () => {
   it("validates if no priorities are checked, the apply button is disabled", () => {
     const prioritiesCheckboxes = cy.get(".Priorities").find(".checkbox");
     prioritiesCheckboxes.each((element) => {
-      // "uncheck" all boxes. Note: this only works if all boxes are "checked" on load
+      // "uncheck" all boxes
       element.click();
     });
 
