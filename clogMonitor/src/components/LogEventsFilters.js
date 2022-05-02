@@ -152,8 +152,11 @@ const LogEventsFilters = ({ dataSetHandler }) => {
         }
 
         // Ensure that seconds are included in the time params
-        const actualStart = startTime.length === 16 ? startTime + ":00" : startTime;
-        const actualEnd = endTime.length === 16 ? endTime + ":00" : endTime;
+        const actualStartString = startTime.length === 16 ? startTime + ":00" : startTime;
+        const actualEndString = endTime.length === 16 ? endTime + ":00" : endTime;
+        // Convert to UTC
+        const localDates = [new Date(actualStartString), new Date(actualEndString)]
+        const [actualStart, actualEnd] = localDates.map(d => d.toISOString().substring(0, 19));
         
         // set the API parameters based on filter values
         const params = {
