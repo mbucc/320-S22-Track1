@@ -3,8 +3,9 @@ import React, { useEffect } from "react";
 import { getActualMinMaxTime, getColumnValues, getLogEventColumn } from "../fakeDatabase";
 import CheckboxGroup from "./CheckboxGroup";
 import Dropdown from "./Dropdown";
-import TimeRange from "./TimeRange";
 import './LogEvents.css'
+import TimeRange, { hasDSTerror, hasDSTconflict } from "./TimeRange";
+import moment from 'moment';
 
 /**
  * Returns the current datetime as a valid string for datetime-local inputs
@@ -82,6 +83,46 @@ const LogEventsFilters = ({ dataSetHandler }) => {
     // Datetime states (Dates stored are as local time strings, not UTC time)
     const [startTime, setStartTime] = React.useState(getDefaultDateTimeString(0));
     const [endTime, setEndTime] = React.useState(getDefaultDateTimeString(1));
+    
+    /* TEST NEEDED ********************** begin */
+
+    //DST confliction BEFORE or AFTER selection
+    const [startTimeDST, setStartTimeDST] = React.useState([]);
+    const [endTimeDST, setEndTimeDST] = React.useState([]);
+    const getStartDstDatetimeHandler = (setter) => {
+        function f(event) {
+            let val = event.target.value; //BEFORE or AFTER
+            setter(val);
+            let tm = startTimeDST.state; //time: '2021-11-07T01:30:00'
+            if(hasDSTconflict(tm)) {
+                if (val==='AFTER') { //
+                    let date = new Date(tm);
+                    let mdate = moment(date).add(1,'hours').format("YYYY-MM-DDTHH:mm:ss");
+                    setStartTimeDST(mdate);          
+                }
+            }
+        }
+        return f
+        //return (event) => setter(event.target.value);
+    }
+    const getEndDstDatetimeHandler = (setter) => {
+        function f(event) {
+            let val = event.target.value; //BEFORE or AFTER
+            setter(val);
+            let tm = endTimeDST.state; //time: '2021-11-07T01:30:00'
+            if(hasDSTconflict(tm)) {
+                if (val==='AFTER') { //
+                    let date = new Date(tm);
+                    let mdate = moment(date).add(1,'hours').format("YYYY-MM-DDTHH:mm:ss");
+                    setEndTimeDST(mdate);          
+                }
+            }
+        }
+        return f
+        //return (event) => setter(event.target.value);
+    }
+    
+    /* TEST NEEDED ********************** end */
 
     // On component load, try to find and load cached filters
     useEffect(() => {
@@ -236,6 +277,10 @@ const LogEventsFilters = ({ dataSetHandler }) => {
         if ((new Date(endTime) < (new Date(startTime)))) {
             return true;
         }
+        // DST 
+        if (hasDSTerror(startTime) || hasDSTerror(endTime)) {
+            return true
+        }
         // Dropdowns
         const dropdownError = dropdownProps.some(p => {
             return p.value !== "All" && (p.value === undefined || !p.options.includes(p.value));
@@ -299,12 +344,16 @@ const LogEventsFilters = ({ dataSetHandler }) => {
                 }
 
                 <TimeRange 
-                    startTime={startTime} 
+                    startTime={startTime}
                     startChangeHandler={getDatetimeHandler(setStartTime)}
                     endTime={endTime}
                     endChangeHandler={getDatetimeHandler(setEndTime)}
+                    value1={startTimeDST}
+                    value2={endTimeDST}
+                    startDstChangeHandler={getStartDstDatetimeHandler(setStartTimeDST)}
+                    endDstChangeHandler={getEndDstDatetimeHandler(setEndTimeDST)}
                 />
-
+                
                 <div className="dropdown-group">
                     {
                         dropdownProps.map(dprops => {
@@ -323,7 +372,7 @@ const LogEventsFilters = ({ dataSetHandler }) => {
                 </div>
 
                 <FormControl>
-                    <Button sx={{marginTop: "16px"}} disabled={hasError()} variant="contained" type="submit">
+                    <Button className="apply-filters-btn" sx={{marginTop: "16px"}} disabled={hasError()} variant="contained" type="submit">
                         Apply
                     </Button>
                 </FormControl>

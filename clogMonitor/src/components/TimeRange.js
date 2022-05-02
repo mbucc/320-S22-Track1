@@ -17,71 +17,54 @@ import { MenuItem, Select } from '@mui/material';
  * @returns {React.ElementType}
  */
 
+function hasDSTeffect(time) {
+    // check to see if DST is in effect in user's timezone 
+    const parsedDate = new Date(time)
+    const jan = new Date(parsedDate.getFullYear(), 0, 1); 
+    const jul = new Date(parsedDate.getFullYear(), 6, 1); 
+    // standard time offset
+    const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+    if(parsedDate.getTimezoneOffset() < stdOffset) {
+        return true;
+    }
+    return false;
+}
 
-const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, direction="column" }) => {
+export function hasDSTconflict(time) {
 
-    //DST ********************** begin
-    const hasDSTeffect = time => {
-        // check to see if DST is in effect in user's timezone 
-        const parsedDate = new Date(time)
-        const jan = new Date(parsedDate.getFullYear(), 0, 1); 
-        const jul = new Date(parsedDate.getFullYear(), 6, 1); 
-        // standard time offset
-        const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-        //check to see if DST is in effect in user's country
-        if(parsedDate.getTimezoneOffset() !== stdOffset) {
-            return true;
-        }
+    if (!hasDSTeffect(time)) {
         return false;
     }
-    
-    const hasDSTconflict = time => {
-        // check to see if chosen date/time has DST conflict
-        const parsedDate = new Date(time)
-        let curHour = parsedDate.getHours();
-        let curMinute = parsedDate.getMinutes();
-        //check to see if chosen date/time is the start date/time of DST
-        const curMidnight = new Date(parsedDate.getFullYear(), parsedDate.getMonth(), parsedDate.getDate(), 0).getTimezoneOffset();
-        const cur3AM = new Date(parsedDate.getFullYear(), parsedDate.getMonth(), parsedDate.getDate(), 3).getTimezoneOffset();
-        if (curMidnight !== cur3AM && curHour === 1 && curMinute >= 0 && curMinute < 60){
-                return true;
-           }
+    // check to see if chosen date/time has DST conflict
+    const parsedDate = new Date(time)
+    let curHour = parsedDate.getHours();
+    let curMinute = parsedDate.getMinutes();
+    //check to see if chosen date/time is the start date/time of DST
+    const curMidnight = new Date(parsedDate.getFullYear(), parsedDate.getMonth(), parsedDate.getDate(), 0).getTimezoneOffset();
+    const cur3AM = new Date(parsedDate.getFullYear(), parsedDate.getMonth(), parsedDate.getDate(), 3).getTimezoneOffset();
+    if (curMidnight < cur3AM && curHour === 1 && curMinute >= 0 && curMinute < 60){
+            return true;
+       }
+    return false;
+}
+
+export function hasDSTerror(time) {
+    // check to see if date/time is not existed (e.g. 2021-3-14 2:30AM)
+    // time format: '2021-11-07T01:30:00' 
+
+    if (!hasDSTeffect(time)) {
         return false;
     }
-    
-    const [dst1, setDst1] = React.useState('');
-    const [openDst1, setOpenDst1] = React.useState(false);
-    
-    const handleDst1Change = (event) => {
-        setDst1(event.target.value);
-    };
-    const handleDst1Close = () => {
-        setOpenDst1(false);
-    };
-    const handleDst1Open = () => {
-        setOpenDst1(true);
-    };
-
-    const [dst2, setDst2] = React.useState('');
-    const [openDst2, setOpenDst2] = React.useState(false);
-    
-    const handleDst2Change = (event) => {
-        setDst2(event.target.value);
-    };
-    const handleDst2Close = () => {
-        setOpenDst2(false);
-    };
-    const handleDst2Open = () => {
-        setOpenDst2(true);
-    };
-
-    const isDST = time => {
-        if (hasDSTeffect(time) && hasDSTconflict(time)) {
-            return true;
-        }        
-        return false;    
+    const parsedDate = new Date(time)
+    let curHour = parsedDate.getHours();
+    if (curHour!==parseInt(time.substring(11,13))) {
+        return true;
     }
-    //DST ********************** end
+    return false;
+}
+
+
+const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, dst1, dst2, startDstChangeHandler, endDstChangeHandler, direction="column"}) => {
 
     // Error checking
     const isRangeError = () => {
@@ -99,10 +82,15 @@ const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, d
             return "Input is missing a necessary value";
         } else if (isRangeError()) {
             return "Start must be before End";
-        } else if (isDST(time)) {
-            //alert
-            return "Daylight saving time conflict!";
+        } else if (hasDSTconflict(time)) {
+            //let str = "hasDSTeffect(time)="+hasDSTeffect(time)+" month="+((new Date(time)).getMonth()+1)+" hour="+(new Date(time)).getHours();
+            //return str;
+            return "Daylight saving time conflict exists! Please choose:";
+        } else if (hasDSTerror(time)) {
+            return "Chosen date/time does not exist!";
         } else {
+            //let str = "hasDSTeffect(time)="+hasDSTeffect(time)+" hour="+(new Date(time)).getHours();
+            //return str;
             return " ";
         }
     }
@@ -110,7 +98,7 @@ const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, d
     return (
         <FormControl margin="normal" id="timerangeformcontrol" className="timerange">
             <Stack id="timerangestack" spacing={2} direction={direction}>
-                <FormControl id="startformcontrol" error={isInputError(startTime) || isRangeError() || isDST(startTime)}>
+                <FormControl id="startformcontrol" error={isInputError(startTime) || isRangeError() || hasDSTerror(startTime)}>
                     <InputLabel htmlFor="startimeinput" shrink>Start Time</InputLabel>
                     <OutlinedInput
                         value={startTime}
@@ -125,24 +113,21 @@ const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, d
                 </FormControl>
                 
                 {/* DST ********************** begin */}
-                <FormControl className={'DST-startformcontrol'} style={{ display: (isDST(startTime)?'':'none')}}>
+                <FormControl className={'DST-startformcontrol'} style={{ display: (hasDSTconflict(startTime)?'':'none')}}>
                     <InputLabel className='DST-start-label'>BEFORE or AFTER clock change</InputLabel>
                     <Select
                         id="dst1"
                         label="BEFORE or AFTER clock change"
-                        open={openDst1}
-                        onClose={handleDst1Close}
-                        onOpen={handleDst1Open}
                         value={dst1}
-                        onChange={handleDst1Change}
+                        onChange={startDstChangeHandler}
                         >
-                        <MenuItem value={0}>Before</MenuItem>
-                        <MenuItem value={1}>After</MenuItem>
+                        <MenuItem value={'BEFORE'}>BEFORE</MenuItem>
+                        <MenuItem value={'AFTER'}>AFTER</MenuItem>
                     </Select>
                 </FormControl>
                 {/* DST ********************** end */}
 
-                <FormControl id="endformcontrol" error={isInputError(endTime) || isRangeError() || isDST(endTime)}>
+                <FormControl id="endformcontrol" error={isInputError(endTime) || isRangeError() || hasDSTerror(endTime)}>
                     <InputLabel htmlFor="endtimeinput" shrink>End Time</InputLabel>
                     <OutlinedInput
                         value={endTime}
@@ -157,24 +142,20 @@ const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, d
                 </FormControl>
 
                 {/* DST ********************** begin */}
-                <FormControl className={'DST-endformcontrol'} style={{ display: (isDST(endTime)?'':'none')}}>
+                <FormControl className={'DST-endformcontrol'} style={{ display: (hasDSTconflict(endTime)?'':'none')}}>
                     <InputLabel className='DST-start-label'>BEFORE or AFTER clock change</InputLabel>
                     <Select
                         id="dst2"
                         label="BEFORE or AFTER clock change"
-                        open={openDst2}
-                        onClose={handleDst2Close}
-                        onOpen={handleDst2Open}
                         value={dst2}
-                        onChange={handleDst2Change}
+                        onChange={endDstChangeHandler}
                         >
-                        <MenuItem value={0}>Default</MenuItem>
-                        <MenuItem value={1}>Before</MenuItem>
-                        <MenuItem value={2}>After</MenuItem>
+                        <MenuItem value={'BEFORE'}>BEFORE</MenuItem>
+                        <MenuItem value={'AFTER'}>AFTER</MenuItem>
                     </Select>
                 </FormControl>
                 {/* DST ********************** end */}
-
+            
             </Stack>
         </FormControl>
     );
