@@ -168,7 +168,7 @@ const BusinessFilters = ({dataSetHandler}) => {
                             })
                         }
                     </Grid>
-                    <Grid item lg={9} xl={6} justifyContent="center">
+                    <Grid item lg={8} xl={8} justifyContent="center">
                         <BusinessTree />
                     </Grid>
                     <Grid item lg={1} xl={4}>

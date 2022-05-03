@@ -25,4 +25,18 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 // Add testing-library commands
-import '@testing-library/cypress/add-commands';
+import "@testing-library/cypress/add-commands";
+
+Cypress.Commands.add("loginForLogEvents", () => {
+  // Ensures user is logged out
+  cy.window().then((win) => {
+    win.sessionStorage.clear();
+  });
+  cy.reload();
+
+  cy.visit("/log-events");
+  cy.get(".username-input").type("Mark");
+  cy.get(".password-input").type("12345678");
+  cy.get(".login-btn").click();
+  cy.get(".DashboardScreen").should("exist"); // Waits for dashboard to load
+});

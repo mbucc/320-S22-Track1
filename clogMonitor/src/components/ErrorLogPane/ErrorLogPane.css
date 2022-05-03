@@ -3,7 +3,7 @@
   flex-direction: column;
   background-color: #f9f9f9;
   padding: 20px;
-  max-height: inherit;
+  height: calc(100% - 40px);
 }
 
 .ErrorLogPane__heading {
