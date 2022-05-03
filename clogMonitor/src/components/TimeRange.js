@@ -64,7 +64,7 @@ export function hasDSTerror(time) {
 }
 
 
-const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, dst1, dst2, startDstChangeHandler, endDstChangeHandler, direction="column"}) => {
+const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, startTimeDST, startDstChangeHandler, endTimeDST, endDstChangeHandler, direction="column"}) => {
 
     // Error checking
     const isRangeError = () => {
@@ -83,14 +83,10 @@ const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, d
         } else if (isRangeError()) {
             return "Start must be before End";
         } else if (hasDSTconflict(time)) {
-            //let str = "hasDSTeffect(time)="+hasDSTeffect(time)+" month="+((new Date(time)).getMonth()+1)+" hour="+(new Date(time)).getHours();
-            //return str;
             return "Daylight saving time conflict exists! Please choose:";
         } else if (hasDSTerror(time)) {
             return "Chosen date/time does not exist!";
         } else {
-            //let str = "hasDSTeffect(time)="+hasDSTeffect(time)+" hour="+(new Date(time)).getHours();
-            //return str;
             return " ";
         }
     }
@@ -113,12 +109,12 @@ const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, d
                 </FormControl>
                 
                 {/* DST ********************** begin */}
-                <FormControl className={'DST-startformcontrol'} style={{ display: (hasDSTconflict(startTime)?'':'none')}}>
+                <FormControl className={'DST-formcontrol'} style={{ display: (hasDSTconflict(startTime)?'':'none')}}>
                     <InputLabel className='DST-start-label'>BEFORE or AFTER clock change</InputLabel>
                     <Select
-                        id="dst1"
+                        id="startTimeDST"
                         label="BEFORE or AFTER clock change"
-                        value={dst1}
+                        value={startTimeDST}
                         onChange={startDstChangeHandler}
                         >
                         <MenuItem value={'BEFORE'}>BEFORE</MenuItem>
@@ -142,12 +138,12 @@ const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, d
                 </FormControl>
 
                 {/* DST ********************** begin */}
-                <FormControl className={'DST-endformcontrol'} style={{ display: (hasDSTconflict(endTime)?'':'none')}}>
+                <FormControl className={'DST-formcontrol'} style={{ display: (hasDSTconflict(endTime)?'':'none')}}>
                     <InputLabel className='DST-start-label'>BEFORE or AFTER clock change</InputLabel>
                     <Select
-                        id="dst2"
+                        id="endTimeDST"
                         label="BEFORE or AFTER clock change"
-                        value={dst2}
+                        value={endTimeDST}
                         onChange={endDstChangeHandler}
                         >
                         <MenuItem value={'BEFORE'}>BEFORE</MenuItem>

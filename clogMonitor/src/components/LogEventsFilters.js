@@ -85,43 +85,32 @@ const LogEventsFilters = ({ dataSetHandler }) => {
     const [endTime, setEndTime] = React.useState(getDefaultDateTimeString(1));
     
     /* TEST NEEDED ********************** begin */
-
-    //DST confliction BEFORE or AFTER selection
-    const [startTimeDST, setStartTimeDST] = React.useState([]);
-    const [endTimeDST, setEndTimeDST] = React.useState([]);
-    const getStartDstDatetimeHandler = (setter) => {
-        function f(event) {
-            let val = event.target.value; //BEFORE or AFTER
-            setter(val);
-            let tm = startTimeDST.state; //time: '2021-11-07T01:30:00'
-            if(hasDSTconflict(tm)) {
-                if (val==='AFTER') { //
-                    let date = new Date(tm);
-                    let mdate = moment(date).add(1,'hours').format("YYYY-MM-DDTHH:mm:ss");
-                    setStartTimeDST(mdate);          
-                }
-            }
-        }
-        return f
-        //return (event) => setter(event.target.value);
-    }
-    const getEndDstDatetimeHandler = (setter) => {
-        function f(event) {
-            let val = event.target.value; //BEFORE or AFTER
-            setter(val);
-            let tm = endTimeDST.state; //time: '2021-11-07T01:30:00'
-            if(hasDSTconflict(tm)) {
-                if (val==='AFTER') { //
-                    let date = new Date(tm);
-                    let mdate = moment(date).add(1,'hours').format("YYYY-MM-DDTHH:mm:ss");
-                    setEndTimeDST(mdate);          
-                }
-            }
-        }
-        return f
-        //return (event) => setter(event.target.value);
+    // DST states
+    const [startTimeDST, setStartTimeDST] = React.useState('BEFORE');
+    const [endTimeDST, setEndTimeDST] = React.useState('BEFORE');
+    
+    // DST selection handlers
+    const getDstDatetimeHandler = (setter) => {
+        return (event) => setter(event.target.value); // 'BEFORE' or 'AFTER'
     }
     
+    // convert DST to UTC
+    const convertDSTtoUTC = (localDates, startDSTconflict, endDSTconflict, startTimeDST, endTimeDST) => {
+        if (!startDSTconflict && !endDSTconflict) {
+            return localDates;
+        }
+        if (startDSTconflict) {
+            if (startTimeDST === 'AFTER') {
+                localDates[0] = moment(localDates[0]).add(1,'hours');
+            }
+        }
+        if (endDSTconflict) {
+            if (endTimeDST === 'AFTER') {
+                localDates[1] = moment(localDates[1]).add(1,'hours');
+            }
+        }
+        return localDates;        
+    }
     /* TEST NEEDED ********************** end */
 
     // On component load, try to find and load cached filters
@@ -191,7 +180,13 @@ const LogEventsFilters = ({ dataSetHandler }) => {
         const actualStartString = startTime.length === 16 ? startTime + ":00" : startTime;
         const actualEndString = endTime.length === 16 ? endTime + ":00" : endTime;
         // Convert to UTC
-        const localDates = [new Date(actualStartString), new Date(actualEndString)]
+        let localDates = [new Date(actualStartString), new Date(actualEndString)]
+
+        /* TEST NEEDED ********************** start */
+        // check to see if localDates if DST
+        localDates = convertDSTtoUTC(localDates, hasDSTconflict(startTime), hasDSTconflict(endTime), startTimeDST, endTimeDST);
+        /* TEST NEEDED ********************** end */
+
         const [actualStart, actualEnd] = localDates.map(d => d.toISOString().substring(0, 19));
         
         // set the API parameters based on filter values
@@ -285,7 +280,7 @@ const LogEventsFilters = ({ dataSetHandler }) => {
         if ((new Date(endTime) < (new Date(startTime)))) {
             return true;
         }
-        // DST 
+        // DST
         if (hasDSTerror(startTime) || hasDSTerror(endTime)) {
             return true
         }
@@ -356,10 +351,10 @@ const LogEventsFilters = ({ dataSetHandler }) => {
                     startChangeHandler={getDatetimeHandler(setStartTime)}
                     endTime={endTime}
                     endChangeHandler={getDatetimeHandler(setEndTime)}
-                    value1={startTimeDST}
-                    value2={endTimeDST}
-                    startDstChangeHandler={getStartDstDatetimeHandler(setStartTimeDST)}
-                    endDstChangeHandler={getEndDstDatetimeHandler(setEndTimeDST)}
+                    startTimeDST={startTimeDST} // startTimeDST
+                    startDstChangeHandler={getDstDatetimeHandler(setStartTimeDST)} // startTimeDST handle
+                    endTimeDST={endTimeDST} // endTimeDST
+                    endDstChangeHandler={getDstDatetimeHandler(setEndTimeDST)} // endTimeDST handle
                 />
                 
                 <div className="dropdown-group">
