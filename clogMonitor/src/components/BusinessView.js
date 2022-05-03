@@ -45,14 +45,24 @@ export const BusinessView = () => {
   }
 
   return (
-    <div>
-      <BusinessTreeFilters dataSetHandler={handleTableSet} />
+    <Grid container spacing={1} direction="row" alignItems="center" justifyContent="center">
+      <Grid item>
+        <BusinessTreeFilters dataSetHandler={handleTableSet} />
+      </Grid>
+      <Grid item lg={12} xl={12} align="center">
       <BusinessTableFilters dataSetHandler={handleTableSet} />
+      </Grid>
+      <Grid item lg={12} xl={12} align="center">
       <BusinessTable data={tableData} loading={loading}/>
       {/*<BPTreeView onChange={(id) => {
               setSelectedTransactionID(id);
-            }}/>*/}
+            }}/>
+            
+            </div>*/}
       
-    </div>
+   
+      </Grid>
+    </Grid>
+
   );
 };
