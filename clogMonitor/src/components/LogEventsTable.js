@@ -74,7 +74,7 @@ const columns = [
         headerName: 'Log Event',
         type: 'actions',
         getActions: (params) => [
-            <Button key="detailkey" href={"#/log-details/" + params.id} target="_blank">Detail</Button>
+            <Button key="detailkey" href={"log-details/" + params.id} target="_blank">Detail</Button>
         ]
     }
 ];

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./LoginScreen.css";
 import Home from "../components/Home/Home";
 import { Grid } from "@material-ui/core";
@@ -23,14 +22,14 @@ function LoginScreen({ setLoggedIn }) {
     var { uname, pass } = document.forms[0];
     // Find user login info
     validateCredential(uname.value, pass.value)
-      .then(token => {
-        sessionStorage.setItem("token", token);
-        sessionStorage.setItem("loginCheck", "true");
-        setTimeout(() => setLoggedIn("true"), 100); // Wait until session storage is set before logging in
-      }).catch(error => {
-        console.log(error);
-        setErrorMessages({ name: "uname", message: errors.uname });
-        setErrorMessages({ name: "pass", message: errors.pass });
+    .then(token => {
+      sessionStorage.setItem("token", token);
+      sessionStorage.setItem("loginCheck", "true");
+      setTimeout(() => setLoggedIn("true"), 100); // Wait until session storage is set before logging in
+    }).catch(error => {
+      console.log(error);
+      setErrorMessages({ name: "uname", message: errors.uname });
+      setErrorMessages({ name: "pass", message: errors.pass });
     });
   }
 
@@ -77,17 +76,17 @@ function LoginScreen({ setLoggedIn }) {
     <div className="app">
       <div className="login-form">
         <Grid container justify = "center">
-          <img src = {ISOLogo} />
+          <img src = {ISOLogo} alt="sunset on a beach"/>
         </Grid>
         <div className="title"> CLOG Monitor Sign In</div>
         {isSubmitted ? (
           <div>
             {success()}
-            <HashRouter>
+            <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Home />} />
               </Routes>
-            </HashRouter>
+            </BrowserRouter>
           </div>
         ) : (
           renderForm
@@ -95,8 +94,7 @@ function LoginScreen({ setLoggedIn }) {
         <div className="highlight" />
       </div>
     </div>
-  );
-};
-const rootElement = document.getElementById("root");
-ReactDOM.render(<div><LoginScreen /></div>, rootElement);
+  )
+}
+
 export default LoginScreen;

@@ -17,6 +17,21 @@ const LogEvents = () => {
     const [needTryAgain, setNeedTryAgain] = React.useState(false);
     const token = sessionStorage.getItem("token");
 
+    const defaultQuery = {
+        sev_info: "true", // boolean
+        sev_succ: "true", // boolean
+        sev_warn: "true", // boolean
+        sev_err: "true", // boolean
+        priority_low: "true", // boolean
+        priority_med: "true", // boolean
+        priority_high: "true", // boolean
+        status: "true",
+        start: "true",
+        stop: "true",
+        security: "true",
+        heartbeat: "true",
+    }
+
     const attemptQuery = (params, filters={}) => {
         setLoading(true);
         setNeedTryAgain(false);
@@ -36,14 +51,14 @@ const LogEvents = () => {
 
     // Initial query on component load
     React.useEffect(() => {
-        attemptQuery(undefined);
+        attemptQuery(defaultQuery);
     }, []);
 
     // The try again loop
     React.useEffect(() => {
         if(needTryAgain) {
             setTimeout(() => {
-                attemptQuery(undefined)
+                attemptQuery(defaultQuery)
             }, 500);
         }
     }, [needTryAgain]);
