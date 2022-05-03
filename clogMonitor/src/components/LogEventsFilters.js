@@ -354,8 +354,8 @@ const LogEventsFilters = ({ dataSetHandler }) => {
 
             <FormControl sx={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
                 <Collapse in={!collapsed}>
-                    <Button className="apply-filters-btn" sx={{marginTop: "16px"}} disabled={hasError()} variant="contained" type="submit">
-                        Apply
+                    <Button className="apply-filters-btn" sx={{marginTop: "16px", width: "88px"}} disabled={hasError()} variant="contained" type="submit">
+                        {filtersChanged() ? "Apply" : "Applied"}
                     </Button>
                 </Collapse>
 
