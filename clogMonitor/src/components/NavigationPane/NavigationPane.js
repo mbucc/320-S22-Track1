@@ -14,22 +14,43 @@ import EventIcon from '@mui/icons-material/Event';
  * @returns {React.ElementType} 
  */
 function NavigationPane() {
-  const linkTextSx = {color: "primary.light"};
+  const linkTextSx = {color: "white", opacity: 1};
+  const pages = [
+    {
+      name: "Home",
+      href: "/",
+      selected: window.location.pathname === "/",
+      icon: HomeIcon,
+    },
+    {
+      name: "Business Process",
+      href: "/business-processes",
+      selected: window.location.pathname === "/business-processes",
+      icon: BusinessIcon,
+    },
+    {
+      name: "Log Events",
+      href: "/log-events",
+      selected: window.location.pathname === "/log-events",
+      icon: EventIcon,
+    },
+  ]
   return (
     <Box sx={{ overflow: 'auto' }}>
       <List>
-        <ListItem button key={'Home'} className="NavigationPane__li" component={Link} href="/">
-          <ListItemIcon><HomeIcon sx={{color: "white"}}/></ListItemIcon>
-          <Typography sx={linkTextSx}>Home</Typography>
-        </ListItem>
-        <ListItem button key={'Business Process'} className="NavigationPane__li" component={Link} href="/business-processes">
-          <ListItemIcon><BusinessIcon sx={{color: "white"}}/></ListItemIcon>
-          <Typography sx={linkTextSx}>Business Process</Typography>
-        </ListItem>
-        <ListItem button key={'Log Events'} className="NavigationPane__li" component={Link} href="/log-events">
-          <ListItemIcon><EventIcon sx={{color: "white"}}/></ListItemIcon>
-          <Typography sx={linkTextSx}>Log Events</Typography>
-        </ListItem>
+        {
+          pages.map(p => {
+            const addStyles = {
+              backgroundColor: p.selected ? "primary.main" : "inherit",
+            }
+            return (
+              <ListItem button sx={addStyles} key={p.name} className="NavigationPane__li" component={Link} href={p.href}>
+                <ListItemIcon><p.icon sx={{color: "white"}}/></ListItemIcon>
+                <Typography sx={linkTextSx}>{p.name}</Typography>
+              </ListItem>
+            )
+          })
+        }
       </List>
     </Box>
   );

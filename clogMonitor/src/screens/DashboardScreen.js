@@ -11,7 +11,6 @@ import { BusinessView } from '../components/BusinessView';
 import { AppBar, Toolbar, Typography } from '@mui/material';
 
 function DashboardScreen({ setLoggedIn }) {
-
   const [logEvents, setLogEvents] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const token = sessionStorage.getItem("token");
@@ -30,7 +29,7 @@ function DashboardScreen({ setLoggedIn }) {
   return (
     <div className="Layout">
       <AppBar>
-        <Toolbar>
+        <Toolbar sx={{backgroundColor: "primary.dark"}}>
           <Typography variant="h6" noWrap component="div">
             CLOG Monitor
           </Typography>
@@ -40,7 +39,7 @@ function DashboardScreen({ setLoggedIn }) {
       <div className="DashboardScreen"> 
         <div className="DashboardScreen__SideNav">
           <div className="DashboardScreen__NavigationPane__Display">
-            <NavigationPane />
+            <NavigationPane/>
           </div>
           <NameAndLogout setLoggedIn={setLoggedIn} />
         </div>
