@@ -302,10 +302,41 @@ const LogEventsFilters = ({ dataSetHandler }) => {
     // Apply indicator
     const filtersChanged = () => {
         // TODO: compare the current filters with those that are in sessionStorage
+        const filters = JSON.parse(sessionStorage.getItem("LogEventsFilters"));
+        
+        if (filters){
+
+            let st = filters['creationTime'][0];
+            let et = filters['creationTime'][1];
+            if(st !== startTime || et !== endTime) return true;
+
+            const namesAndData = {
+                'application':application,
+                'businessDomain':businessDomain,
+                'businessSubdomain':businessSubDomain,
+                'eaiDomain':EAIDomain,
+                'eventContext':process_service,
+                'categoryName':selectedCategories,
+                'priority':selectedPriorities,
+                'severity':selectedSeverities,
+            }
+
+            const diff = ['categoryName','priority','severity']
+            
+            let areSetsEqual = (a, b) => a.size === b.size && [...a].every(value => b.has(value));
+            for (let name in namesAndData){
+                if (diff.includes(name)){
+                    if (!areSetsEqual(new Set(filters[name]), namesAndData[name])) return true;
+                } else {
+                    if (filters[name] !== namesAndData[name]) return true;
+                }
+            }
+        }
         return false;
+
     }
     const getBorderColor = () => {
-        const filtersChangedColor = "rgb(152, 154, 5)"; // TODO: choose good colors for this
+        const filtersChangedColor = "rgb(255, 0, 0)"; // TODO: choose good colors for this
         const filtersAppliedColor = "rgb(82, 152, 68)"; // This is the color the whole app will have soon
         return filtersChanged() ? filtersChangedColor : filtersAppliedColor;
     }
