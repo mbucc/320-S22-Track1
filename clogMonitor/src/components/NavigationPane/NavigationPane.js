@@ -18,8 +18,8 @@ function NavigationPane() {
   const pages = [
     {
       name: "Home",
-      href: "/",
-      selected: window.location.pathname === "/",
+      href: "#/",
+      selected: window.location.pathname === "#/",
       icon: HomeIcon,
     },
     {
