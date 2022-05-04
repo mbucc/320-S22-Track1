@@ -331,12 +331,14 @@ const LogEventsFilters = ({ dataSetHandler }) => {
                     if (filters[name] !== namesAndData[name]) return true;
                 }
             }
+
+            return false;
         }
-        return false;
+        return true;
 
     }
     const getBorderColor = () => {
-        const filtersChangedColor = "rgb(255, 0, 0)"; // TODO: choose good colors for this
+        const filtersChangedColor = "rgb(245, 238, 44)"; // TODO: choose good colors for this
         const filtersAppliedColor = "rgb(82, 152, 68)"; // This is the color the whole app will have soon
         return filtersChanged() ? filtersChangedColor : filtersAppliedColor;
     }
