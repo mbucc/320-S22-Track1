@@ -6,11 +6,10 @@
   display: none;
 }
 
-.NavigationPane__heading {
-  color: #224957;
-  /* display: flex; */
+.NavigationPane__li:hover {
+  background-color: rgb(43, 95, 33) !important;
 }
 
-.NavigationPane__link {
-  color: #828282;
-}
+/* .NavigationPane__link:hover {
+  color: rgb(112, 189, 97) !important;
+} */
