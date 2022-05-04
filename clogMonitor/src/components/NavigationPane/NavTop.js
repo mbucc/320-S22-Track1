@@ -51,8 +51,8 @@ export default function NavTop() {
           indicatorColor="primary"
         >
           <LinkTab label="Dashboard" href="/" />
-          <LinkTab label="Business Processes" href="/#/business-processes" />
-          <LinkTab label="Log View" href="/#/log-events" />
+          <LinkTab label="Business Processes" href="#/business-processes" />
+          <LinkTab label="Log View" href="#/log-events" />
         </Tabs>
       </Grid>
       <Grid item lg={2} xl={1}>

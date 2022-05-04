@@ -24,14 +24,14 @@ function NavigationPane() {
     },
     {
       name: "Business Process",
-      href: "/#/business-processes",
-      selected: window.location.pathname === "/business-processes",
+      href: "#/business-processes",
+      selected: window.location.pathname === "#/business-processes",
       icon: BusinessIcon,
     },
     {
       name: "Log Events",
-      href: "/#/log-events",
-      selected: window.location.pathname === "/log-events",
+      href: "#/log-events",
+      selected: window.location.pathname === "#/log-events",
       icon: EventIcon,
     },
   ]
