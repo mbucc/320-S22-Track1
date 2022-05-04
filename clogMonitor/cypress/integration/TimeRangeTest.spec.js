@@ -68,4 +68,9 @@ describe("TimeRange works correctly", () => {
 
     cy.get(".apply-filters-btn").should("be.disabled");
   });
+
+  /*  DST tests TODO *********************************************/
+
+  // Apply button is disabled when time does not exist
+  // Apply button is enabled with startime = November 7th 1:05 am (BEFORE), endtime = November 7th 1:00 (AFTER)
 });

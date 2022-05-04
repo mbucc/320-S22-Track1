@@ -84,7 +84,14 @@ describe("TimeRange Component Tests", () => {
           .contains('Start must be before End');
     });
 
-    
-   
+
+    /*  DST tests TODO *********************************************/
+
+    // Correct error message shows up when time does not exist (March 14th 2:30 am) in starttime and endtime
+    // Correct message shows up when time is ambiguous (November 7th, 1:00 am)
+    // BEFORE/AFTER select appears on screen when time is ambiguous (November 7th, 1:00 am)
+    // BEFORE/AFTER select does not appears on screen when time is unambiguous (November 6th, 1:00 am)
+    // BEFORE/AFTER select, when visible, shows options: BEFORE and AFTER
+    // BEFORE/AFTER select, when visible, has options that are clickable and fire the correct handlers
 
 });
