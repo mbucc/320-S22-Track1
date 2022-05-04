@@ -225,7 +225,7 @@ version: "1.0"
 */
 
 // This is the base URL for the api, which is different from login auth
-export const apiBaseURL = window.location.href + "api";
+export const baseURL = window.location.href;
 
 let logDetails = [];
 /**
@@ -235,7 +235,7 @@ let logDetails = [];
  * @returns {Promise<{[columnName: string]: String;}[]>} A promise for row data returned by the query
  */
 export function getLogDetails(token, params) {
-    const base = apiBaseURL + "/log_detail";
+    const base = baseURL + "api/log_detail";
     const headers = { Authorization: token }
     return new Promise(function (resolve, reject) {
         axios.get(base, { params: params, headers: headers })
@@ -275,7 +275,7 @@ export function validateCredential(username, password) {
 
     var config = {
         method: 'post',
-        url: window.location.href + 'user',
+        url: baseURL + 'user',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -302,7 +302,7 @@ export function validateCredential(username, password) {
  * @returns {Promise<string[]>} A promise for unique values in the database under the given columnName
  */
 export function getLogEventColumn(token, columnName) {
-    const base = apiBaseURL + "/log_detail_unique";
+    const base = baseURL + "api/log_detail_unique";
     return new Promise(function(resolve, reject) {
         const headers = {
             Authorization: token
