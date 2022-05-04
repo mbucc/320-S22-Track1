@@ -4,7 +4,7 @@ import { getActualMinMaxTime, getColumnValues, getLogEventColumn } from "../fake
 import CheckboxGroup from "./CheckboxGroup";
 import Dropdown from "./Dropdown";
 import './LogEvents.css'
-import TimeRange, { hasDSTerror, hasDSTconflict, convertDSTtoUTC } from "./TimeRange";
+import TimeRange, { hasDSTerror, hasDSTconflict, convertDSTtoUTC, isRangeError } from "./TimeRange";
 
 /**
  * Returns the current datetime as a valid string for datetime-local inputs
@@ -260,15 +260,13 @@ const LogEventsFilters = ({ dataSetHandler }) => {
         if (startTime === "" || endTime === "") {
             return true;
         }
-        if (new Date(endTime) < new Date(startTime)) {
-            return true;
-        }
-        //DST
+
         let end = new Date(endTime);
         let start = new Date(startTime)
-        if (convertDSTtoUTC(end, hasDSTconflict(end), endTimeDST) < convertDSTtoUTC(start, hasDSTconflict(start), startTimeDST)) {
-            return true;
+        if(isRangeError(start, end, startTimeDST, endTimeDST)){
+            return true
         }
+        
         if (hasDSTerror(startTime) || hasDSTerror(endTime)) {
             return true
         }

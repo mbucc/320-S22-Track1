@@ -90,9 +90,31 @@ export function convertDSTtoUTC(datetimeString, hasDST_conflict, choice) {
 }
 
 /**
+ * Returns true if end time is before start time
+ * 
+ * @param {Object} props
+ * @param {string} props.startTime - The string representing the start Date, format: YYYY-MM-DDTHH:mm:ss
+= * @param {string} props.endTime - The string representing the end Date, format: YYYY-MM-DDTHH:mm:ss
+ * @param {string} props.startTimeDST - The string representing BEFORE/AFTER selection for start time in DST
+ * @param {string} props.endTimeDST - The string representing BEFORE/AFTER selection for end time in DST
+ *
+ * @returns {boolean}
+ */
+export function isRangeError(startTime, endTime, startTimeDST, endTimeDST){
+    let dt_start = new Date(startTime);
+    let dt_end = new Date(endTime);
+    if(hasDSTconflict(dt_start) && hasDSTconflict(dt_end)){
+        dt_start = convertDSTtoUTC(dt_start, hasDSTconflict(dt_start), startTimeDST)
+        dt_end = convertDSTtoUTC(dt_end, hasDSTconflict(dt_end), endTimeDST)
+    }
+    return dt_end < dt_start;
+}
+
+/**
  * Wrapper on two datetime-local inputs representing a start and end datetime respectively.
  *
  * @author Kevin Lin
+ * @author Junzhu Li
  * 
  * @param {Object} props
  * @param {string} props.startTime - The string representing the start Date, format: YYYY-MM-DDTHH:mm:ss
@@ -110,23 +132,13 @@ export function convertDSTtoUTC(datetimeString, hasDST_conflict, choice) {
 const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, startTimeDST, startDstChangeHandler, endTimeDST, endDstChangeHandler, direction="column"}) => {
 
     // Error checking
-    const isRangeError = () => {
-        // Convert times to actual Date objects to compare
-        let dt_start = new Date(startTime);
-        let dt_end = new Date(endTime);
-        if (hasDSTconflict(dt_start) && hasDSTconflict(dt_end)) {
-            dt_start = convertDSTtoUTC(dt_start, hasDSTconflict(dt_start), startTimeDST)
-            dt_end = convertDSTtoUTC(dt_end, hasDSTconflict(dt_end), endTimeDST)
-        }
-        return dt_end < dt_start;
-    }
 
     const isInputError = (time) => time === "";
 
     const getErrorMess = (time) => {
         if (isInputError(time)) {
             return "Input is missing a necessary value";
-        } else if (isRangeError()) {
+        } else if (isRangeError(startTime, endTime, startTimeDST, endTimeDST)) {
             return "Start must be before End";
         } else if (hasDSTconflict(time)) {
             return "Daylight saving time conflict exists! Please choose:";
@@ -140,7 +152,7 @@ const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, s
     return (
         <FormControl margin="normal" id="timerangeformcontrol" className="timerange">
             <Stack id="timerangestack" spacing={2} direction={direction}>
-                <FormControl id="startformcontrol" error={isInputError(startTime) || isRangeError() || hasDSTerror(startTime)}>
+                <FormControl id="startformcontrol" error={isInputError(startTime) || isRangeError(startTime, endTime, startTimeDST, endTimeDST) || hasDSTerror(startTime)}>
                     <InputLabel htmlFor="startimeinput" shrink>Start Time</InputLabel>
                     <OutlinedInput
                         value={startTime}
@@ -169,7 +181,7 @@ const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, s
                 </FormControl>
                 {/* DST ********************** end */}
 
-                <FormControl id="endformcontrol" error={isInputError(endTime) || isRangeError() || hasDSTerror(endTime)}>
+                <FormControl id="endformcontrol" error={isInputError(endTime) || isRangeError(startTime, endTime, startTimeDST, endTimeDST) || hasDSTerror(endTime)}>
                     <InputLabel htmlFor="endtimeinput" shrink>End Time</InputLabel>
                     <OutlinedInput
                         value={endTime}
