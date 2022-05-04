@@ -4,8 +4,7 @@ import { getActualMinMaxTime, getColumnValues, getLogEventColumn } from "../fake
 import CheckboxGroup from "./CheckboxGroup";
 import Dropdown from "./Dropdown";
 import './LogEvents.css'
-import TimeRange, { hasDSTerror, hasDSTconflict } from "./TimeRange";
-import moment from 'moment';
+import TimeRange, { hasDSTerror, hasDSTconflict, convertDSTtoUTC } from "./TimeRange";
 
 /**
  * Returns the current datetime as a valid string for datetime-local inputs
@@ -84,7 +83,6 @@ const LogEventsFilters = ({ dataSetHandler }) => {
     const [startTime, setStartTime] = React.useState(getDefaultDateTimeString(0));
     const [endTime, setEndTime] = React.useState(getDefaultDateTimeString(1));
     
-    /* TEST NEEDED ********************** begin */
     // DST states
     const [startTimeDST, setStartTimeDST] = React.useState('BEFORE');
     const [endTimeDST, setEndTimeDST] = React.useState('BEFORE');
@@ -94,24 +92,6 @@ const LogEventsFilters = ({ dataSetHandler }) => {
         return (event) => setter(event.target.value); // 'BEFORE' or 'AFTER'
     }
     
-    // convert DST to UTC
-    const convertDSTtoUTC = (localDates, startDSTconflict, endDSTconflict, startTimeDST, endTimeDST) => {
-        if (!startDSTconflict && !endDSTconflict) {
-            return localDates;
-        }
-        if (startDSTconflict) {
-            if (startTimeDST === 'AFTER') {
-                localDates[0] = moment(localDates[0]).add(1,'hours');
-            }
-        }
-        if (endDSTconflict) {
-            if (endTimeDST === 'AFTER') {
-                localDates[1] = moment(localDates[1]).add(1,'hours');
-            }
-        }
-        return localDates;        
-    }
-    /* TEST NEEDED ********************** end */
 
     // On component load, try to find and load cached filters
     useEffect(() => {
@@ -128,6 +108,8 @@ const LogEventsFilters = ({ dataSetHandler }) => {
                 application: setApplication,
                 eventContext: setProcess_service,
                 creationTime: (x) => { setStartTime(x[0]); setEndTime(x[1]); },
+                startTimeDST: setStartTimeDST,
+                endTimeDST: setEndTimeDST
             }
             const filters = JSON.parse(value);
             for(let key in filters) {
@@ -174,6 +156,8 @@ const LogEventsFilters = ({ dataSetHandler }) => {
             application: application,
             eventContext: process_service,
             creationTime: [startTime, endTime],
+            startTimeDST: startTimeDST,
+            endTimeDST: endTimeDST,            
         };
 
         // Ensure that seconds are included in the time params
@@ -182,11 +166,10 @@ const LogEventsFilters = ({ dataSetHandler }) => {
         // Convert to UTC
         let localDates = [new Date(actualStartString), new Date(actualEndString)]
 
-        /* TEST NEEDED ********************** start */
-        // check to see if localDates if DST
-        localDates = convertDSTtoUTC(localDates, hasDSTconflict(startTime), hasDSTconflict(endTime), startTimeDST, endTimeDST);
-        /* TEST NEEDED ********************** end */
-
+        // If DST, convert date/time after choosing "BEFORE/AFTER" to UTC
+        localDates[0] = convertDSTtoUTC(localDates[0], hasDSTconflict(startTime), startTimeDST);
+        localDates[1] = convertDSTtoUTC(localDates[1], hasDSTconflict(endTime), endTimeDST);
+        
         const [actualStart, actualEnd] = localDates.map(d => d.toISOString().substring(0, 19));
         
         // set the API parameters based on filter values
@@ -277,10 +260,15 @@ const LogEventsFilters = ({ dataSetHandler }) => {
         if (startTime === "" || endTime === "") {
             return true;
         }
-        if ((new Date(endTime) < (new Date(startTime)))) {
+        if (new Date(endTime) < new Date(startTime)) {
             return true;
         }
-        // DST
+        //DST
+        let end = new Date(endTime);
+        let start = new Date(startTime)
+        if (convertDSTtoUTC(end, hasDSTconflict(end), endTimeDST) < convertDSTtoUTC(start, hasDSTconflict(start), startTimeDST)) {
+            return true;
+        }
         if (hasDSTerror(startTime) || hasDSTerror(endTime)) {
             return true
         }

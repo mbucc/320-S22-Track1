@@ -1,45 +1,45 @@
 import React from 'react';
 import { FormControl, FormHelperText, InputLabel, OutlinedInput, Stack } from '@mui/material';
 import { MenuItem, Select } from '@mui/material';
+import moment from 'moment';
 
 /**
- * Wrapper on two datetime-local inputs representing a start and end datetime respectively.
- *
- * @author Kevin Lin
+ * Returns true if DST is in effect in user's timezone 
  * 
  * @param {Object} props
- * @param {string} props.startTime - The string representing the start Date, format: YYYY-MM-DDTHH:mm:ss
- * @param {(event: Event) => any} props.startChangeHandler - Handler for start time changes
- * @param {string} props.endTime - The string representing the end Date, format: YYYY-MM-DDTHH:mm:ss
- * @param {(event: Event) => any} props.endChangeHandler - Handler for end time changes
- * @param {"column" | "row"} [props.direction="column"] - Direction to display the inputs
+ * @param {string} props.time - The string representing the current time, format: YYYY-MM-DDTHH:mm:ss
  * 
- * @returns {React.ElementType}
+ * @returns {boolean} 
+ * @see {@link https://stackoverflow.com/questions/11887934/how-to-check-if-dst-daylight-saving-time-is-in-effect-and-if-so-the-offset}
  */
-
 function hasDSTeffect(time) {
-    // check to see if DST is in effect in user's timezone 
     const parsedDate = new Date(time)
     const jan = new Date(parsedDate.getFullYear(), 0, 1); 
     const jul = new Date(parsedDate.getFullYear(), 6, 1); 
-    // standard time offset
-    const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+    const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset()); // Standard time offset
     if(parsedDate.getTimezoneOffset() < stdOffset) {
         return true;
     }
     return false;
 }
 
+/**
+ * Returns true if chosen date/time has conflict during DST clock changing period
+ * 
+ * @param {Object} props
+ * @param {string} props.time - The string representing the current time, format: YYYY-MM-DDTHH:mm:ss
+ * 
+ * @returns {boolean} 
+ */
 export function hasDSTconflict(time) {
 
     if (!hasDSTeffect(time)) {
         return false;
     }
-    // check to see if chosen date/time has DST conflict
     const parsedDate = new Date(time)
     let curHour = parsedDate.getHours();
     let curMinute = parsedDate.getMinutes();
-    //check to see if chosen date/time is the start date/time of DST
+    // Check to see if chosen date/time is the end date/time of DST
     const curMidnight = new Date(parsedDate.getFullYear(), parsedDate.getMonth(), parsedDate.getDate(), 0).getTimezoneOffset();
     const cur3AM = new Date(parsedDate.getFullYear(), parsedDate.getMonth(), parsedDate.getDate(), 3).getTimezoneOffset();
     if (curMidnight < cur3AM && curHour === 1 && curMinute >= 0 && curMinute < 60){
@@ -48,10 +48,15 @@ export function hasDSTconflict(time) {
     return false;
 }
 
+/**
+ * Returns true if chosen date/time does not exist (e.g. 2021-3-14 2:30AM)
+ * 
+ * @param {Object} props
+ * @param {string} props.time - The string representing the current time, format: YYYY-MM-DDTHH:mm:ss
+ * 
+ * @returns {boolean}
+ */
 export function hasDSTerror(time) {
-    // check to see if date/time is not existed (e.g. 2021-3-14 2:30AM)
-    // time format: '2021-11-07T01:30:00' 
-
     if (!hasDSTeffect(time)) {
         return false;
     }
@@ -63,15 +68,56 @@ export function hasDSTerror(time) {
     return false;
 }
 
+/**
+ * Returns converted time to UTC in conflicting DST clock change period 
+ * 
+ * @param {Object} props
+ * @param {string} props.datetimeString - The string representing local date/time, format: YYYY-MM-DDTHH:mm:ss
+ * @param {boolean} hasDST_conflict - The boolean value representing whether chosen date/time has DST conflict
+ * @param {string} choice - The string representing your choice of BEFORE or AFTER
+ *
+ * @returns {string}
+ */
 
+export function convertDSTtoUTC(datetimeString, hasDST_conflict, choice) {
+    const dateTime = new Date(datetimeString);
+    if(hasDST_conflict) {
+        if(choice === "AFTER") {
+            return moment(dateTime).add(1, 'hours');
+        }
+    }
+    return dateTime;
+}
+
+/**
+ * Wrapper on two datetime-local inputs representing a start and end datetime respectively.
+ *
+ * @author Kevin Lin
+ * 
+ * @param {Object} props
+ * @param {string} props.startTime - The string representing the start Date, format: YYYY-MM-DDTHH:mm:ss
+ * @param {(event: Event) => any} props.startChangeHandler - Handler for start time changes
+ * @param {string} props.endTime - The string representing the end Date, format: YYYY-MM-DDTHH:mm:ss
+ * @param {(event: Event) => any} props.endChangeHandler - Handler for end time changes
+ * @param {string} props.startTimeDST - The string representing BEFORE/AFTER selection for start time in DST
+ * @param {(event: Event) => any} props.startDstChangeHandler - Handler for DST start time changes
+ * @param {string} props.endTimeDST - The string representing BEFORE/AFTER selection for end time in DST
+ * @param {(event: Event) => any} props.endDstChangeHandler - Handler for DST end time changes 
+ * @param {"column" | "row"} [props.direction="column"] - Direction to display the inputs
+*
+ * @returns {React.ElementType}
+ */
 const TimeRange = ({ startTime, startChangeHandler, endTime, endChangeHandler, startTimeDST, startDstChangeHandler, endTimeDST, endDstChangeHandler, direction="column"}) => {
 
     // Error checking
     const isRangeError = () => {
         // Convert times to actual Date objects to compare
-        // Note: we only care about the relative difference, so time zone should not matter
-        const dt_start = new Date(startTime);
-        const dt_end = new Date(endTime);
+        let dt_start = new Date(startTime);
+        let dt_end = new Date(endTime);
+        if (hasDSTconflict(dt_start) && hasDSTconflict(dt_end)) {
+            dt_start = convertDSTtoUTC(dt_start, hasDSTconflict(dt_start), startTimeDST)
+            dt_end = convertDSTtoUTC(dt_end, hasDSTconflict(dt_end), endTimeDST)
+        }
         return dt_end < dt_start;
     }
 
