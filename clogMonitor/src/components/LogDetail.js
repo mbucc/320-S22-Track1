@@ -70,16 +70,27 @@ const LogDetail = () => {
     const token = sessionStorage.getItem("token");
 
     useEffect(() => {
-        getLogDetails(token, { global_instance_id: id })
-            .then((resultData) => {
-                if (resultData.length !== 1) {
-                    console.error(`There is/are ${resultData.length} row(s) with id: ${id}`);
-                    setBadID(true);
-                } else {
-                    setData(resultData[0]);
-                    setBadID(false);
-                }
-            })
+        // getLogDetails(token, { global_instance_id: id })
+        //     .then((resultData) => {
+        //         if (resultData.length !== 1) {
+        //             console.error(`There is/are ${resultData.length} row(s) with id: ${id}`);
+        //             setBadID(true);
+        //         } else {
+        //             setData(resultData[0]);
+        //             setBadID(false);
+        //         }
+        //     })
+        
+        // Gets and sets log details from local storage
+        const LogDetails = JSON.parse(localStorage.getItem(`LogDetails-${id}`));
+        setData(LogDetails);
+        
+        // Removes log details object from local storage when the user closes the tab
+        const removeItem = () => {localStorage.removeItem(`LogDetails-${id}`)};
+        window.addEventListener('beforeunload', removeItem);
+        return () => {
+            window.removeEventListener('beforeunload', removeItem);
+        }
     }, [id]);
 
     const makeDetailBox = (key, label, value) => {
