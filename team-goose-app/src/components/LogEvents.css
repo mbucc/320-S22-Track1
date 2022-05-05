@@ -1,0 +1,27 @@
+.log-events-container {
+  display: grid;
+  grid-template-rows: 7fr 13fr;
+  padding: 10px;
+  height: calc(100% - 20px);
+}
+
+.log-events-filters {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dropdown-group {
+  max-width: 550px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-flow: row wrap;
+}
+
+.log-events-table-container {
+  height: 100%;
+  width: 100%;
+}
+
+.timerange {
+  min-width: 268px !important; 
+}
