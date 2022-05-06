@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Button, FormControl} from "@mui/material";
 import CustomDateTimePicker from "./CustomDateTimePicker"
 import { Grid} from '@mui/material';
@@ -59,12 +59,46 @@ const BusinessFilters = ({dataSetHandler}) => {
     const pubBusinessDomains = ["OPER", "CRM", "ACCOUNT"];
     const [pubBusinessDomain, setPubBusinessDomain] = React.useState("All");
 
-    // Datetime states (Dates stored are in local time, not UTC)
+    // Datetime states (UTC)
     var d = new Date(); // get start time based on documents
     d.setHours(d.getHours(),d.getMinutes()-30,0,0);
     const [startTime, setStartTime] = React.useState(d);
     const [endTime, setEndTime] = React.useState(new Date());
+    const [startTimeError, setStartTimeError] = useState(null);
+    const [endTimeError, setEndTimeError] = useState(null);
+    const [startValue, setStartValue] = useState(startTime);
+    const [endValue, setEndValue] = useState(endTime);
+    // Track the common date picker error.
+  useEffect(() => {
+    if (startTime && startTime > new Date()) {
+      setStartTimeError('Start time must be in the past.');
+    } else {
+      setStartTimeError(null);
+    }
+  }, [startTime]);
 
+  useEffect(() => {
+    if (endTime) {
+      setEndTimeError(null);
+    }
+  }, [endTime]);
+  const onApplyClick = () => {
+    if (startTime && endTime && startTime > endTime) {
+      setEndTimeError('End date must be later than start date.');
+      return;
+    }
+
+    if (startTime && startTime > new Date()) {
+      setStartTimeError('Start date must be in the past.');
+      return;
+    }
+    }
+    /*onChange({
+      'startTime': startTime,
+      'endTime': endTime,
+      'eaiDomain': EAIDomain.join(','),
+      'publishingBusinessDomain': pubBusinessDomains.join(','),
+    });*/
     // Handlers
     const handleApplyFilters = (e) => {
         e.preventDefault(); // don't actually submit the form
@@ -150,18 +184,22 @@ const BusinessFilters = ({dataSetHandler}) => {
                         <CustomDateTimePicker 
                         id={'bp-tree-filter-start-date-picker'}
                         label = {"Start Time"}
-                        onChange={(newDate)=> {
-                        setStartTime(newDate);
-                        }}
+                        onChange = {setStartTime}
                         Time={startTime} 
+                        value = {startValue}
+                        setValue = {setStartValue}
+                        minValue = {new Date('December 1, 1900 00:00:00')}
+                        maxValue = {endValue}
                         />
                         <CustomDateTimePicker 
                         id={'bp-tree-filter-end-date-picker'}
                         label = {"End Time"}
-                        onChange={(newDate)=> {
-                        setEndTime(newDate);
-                        }}
+                        onChange={setEndTime}
                         Time={endTime} 
+                        value = {endValue}
+                        setValue = {setEndValue}
+                        minValue = {startValue}
+                        maxValue = {new Date}
                         />
                         
                         {
@@ -188,8 +226,9 @@ const BusinessFilters = ({dataSetHandler}) => {
                                 onClick={() => {
                                 var d = new Date(); // get current date
                                 d.setHours(d.getHours(),d.getMinutes()-30,0,0);
-                                setStartTime(d);
-                                setEndTime(new Date());}}>
+                                setStartValue(d);
+                                setEndValue(new Date());
+                                onApplyClick()}}>
                                 Refresh
                             </Button>
                         </FormControl>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridFilterModel} from '@mui/x-data-grid';
 import { Button } from "@mui/material";
 // Defines the columns for mui DataGrid
 // See https://mui.com/components/data-grid/columns/ for possible keys and more details
@@ -73,6 +73,27 @@ const BusinessTable = ({data, loading}) => {
     return (
     //   <div>
         <DataGrid
+            /*initialState={{
+            filter: {
+                filterModel: {
+                items: [{ columnField: 'CREATION_TIME', operatorValue: '>', value: '2.5' }],
+                },
+            },
+            }}*/
+            /*initialState={{
+          ...data.initialState,
+          filter: {
+            filterModel: {
+              items: [
+                {
+                  columnField: 'CREATION_TIME',
+                  operatorValue: '>',
+                  value: '0',
+                },
+              ],
+            },
+          },
+        }}*/
             style={{height: "50vh", width:"90%"}}
             rows={data}
             loading={loading}

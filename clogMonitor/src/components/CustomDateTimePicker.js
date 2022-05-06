@@ -11,6 +11,7 @@ import {BPDimens, BPStandards} from './GBTimeTreeHelper/standards';
 import {parseDate} from './GBTimeTreeHelper/date-picker-processor';
 import {BPDatePickerConflictResolver} from './GBTimeTreeHelper/date-picker-conflict-resolver';
 import StaticDateTimePicker from '@mui/lab/StaticDateTimePicker';
+import {Button, FormControl} from "@mui/material";
 
 /* Author: @wilsonnexus
  * Customizable MUI Date Time Range Picker 
@@ -18,9 +19,9 @@ import StaticDateTimePicker from '@mui/lab/StaticDateTimePicker';
  * 
  */
 
-export default function CustomDateTimePicker({id = 'bp-datepicker', label, onChange, Time}) {
+export default function CustomDateTimePicker({id = 'bp-datepicker', label, onChange, Time, value, setValue, minValue, maxValue}) {
 // Date picker value.
-  const [value, setValue] = useState(Time);
+  //const [value, setValue] = useState(Time);
   // Input field value.
   const [inputValue, setInputValue] = useState('');
   // Date picker open state.
@@ -108,11 +109,11 @@ export default function CustomDateTimePicker({id = 'bp-datepicker', label, onCha
             error={errorState}
             placeholder={'mm/dd/yyyy hh:mm:ss'}
             value={inputValue}
-            onTextChange={(newValue) => {
+            /*onTextChange={(newValue) => {
               setHintState(null);
               setErrorState(null);
               setInputValue(newValue);
-            }}
+            }}*/
             onEnterPress={(e) => {
               handlePopoverClose();
               setHintState(null);
@@ -184,11 +185,14 @@ export default function CustomDateTimePicker({id = 'bp-datepicker', label, onCha
                     onChange={(newValue) => {
                       setValue(newValue);
                     }}
+                    minDate={minValue}
+                    maxDate={maxValue}
                     onAccept={() => {
                       handlePopoverClose();
                     }}
                     renderInput={(params) => <TextField {...params}/>}
                   />
+            
         {/*<DateTimePicker
           value={endTime}
           onChange={endChangeHandler}
