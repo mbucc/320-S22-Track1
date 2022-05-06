@@ -7,7 +7,6 @@ import Stack from "@mui/material/Stack";
 import {dateOptions} from './GBTimeTreeHelper/date-options';
 import {ClickAwayListener, Popper} from '@mui/material';
 import BPTextInput from './GBTimeTreeHelper/text-input';
-import {DatePickerHelper} from './GBTimeTreeHelper/date-picker-helper';
 import {BPDimens, BPStandards} from './GBTimeTreeHelper/standards';
 import {parseDate} from './GBTimeTreeHelper/date-picker-processor';
 import {BPDatePickerConflictResolver} from './GBTimeTreeHelper/date-picker-conflict-resolver';
@@ -99,7 +98,7 @@ export default function CustomDateTimePicker({id = 'bp-datepicker', label, onCha
                 }}
               >
                {label}
-                <DatePickerHelper/>
+                
               </div>
             )}
              boxRef={(ref) => {
