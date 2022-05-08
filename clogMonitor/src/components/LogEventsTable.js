@@ -125,7 +125,7 @@ const LogEventsTable = ({data, loading, error}) => {
                 }}
                 initialState={{
                     sorting: {
-                      sortModel: [{ field: 'creationTime', sort: 'desc' }],
+                      sortModel: [{ field: 'creationTime', sort: 'asc' }],
                     },
                 }}
             />
