@@ -4,9 +4,16 @@ import Link from "@mui/material/Link";
 
 function ErrorLogBox({ logEvent }) {
   // console.log(logEvent["CREATION_TIME"]);
+
+  // onClick event handler for log details button
+  const saveLogDetails = () => {
+    localStorage.setItem(`LogDetails-${logEvent["globalInstanceId"]}`, JSON.stringify(logEvent));
+  }
   return (
     <Link
       href={"/log-details/" + logEvent["globalInstanceId"]}
+      onClick={saveLogDetails}
+      target="_blank"
       underline="none"
       className="ErrorLogBox__link">
       <div
