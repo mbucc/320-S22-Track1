@@ -19,7 +19,7 @@ const columns = [
         type: 'number',
         align: 'left',
         headerAlign: 'left',
-        flex: 2,
+        flex: 3,
         valueFormatter: (params) => {
             // Info < 20, Success >= 20 and < 30, Warning >= 30 and < 50, Error >= 50
             const val = params.value;
@@ -39,7 +39,7 @@ const columns = [
         field: 'priority', 
         headerName: 'Priority', 
         type: 'number',
-        flex: 2,
+        flex: 3,
         align: 'left',
         headerAlign: 'left',
         valueFormatter: (params) => {
@@ -54,7 +54,7 @@ const columns = [
             return "High"
         },
     },
-    { field: 'categoryName', headerName: 'Category', flex: 2 },
+    { field: 'categoryName', headerName: 'Category', flex: 3 },
     { 
         field: 'creationTime', 
         type: 'dateTime',
@@ -67,8 +67,8 @@ const columns = [
     },
     { field: 'application', headerName: 'Application', flex: 4 },
     // EVENT_CONTEXT is the key for PROCESS, COMPONENT is the key for SERVICE
-    { field: 'eventContext', headerName: 'Process/Service', flex: 5 },
-    { field: 'activity', headerName: 'Activity', flex: 6 },
+    { field: 'eventContext', headerName: 'Process/Service', flex: 4 },
+    { field: 'activity', headerName: 'Activity', flex: 5 },
     {
         field: 'actions',
         headerName: 'Log Event',
@@ -106,7 +106,7 @@ const gridToolbar = () => {
  * @returns {React.ElementType}
  */
 const LogEventsTable = ({data, loading, error}) => {
-    const [pageSize, setPageSize] = useState(5)
+    const [pageSize, setPageSize] = useState(10)
 
     return (
         <div className='log-events-table-container'>
@@ -116,7 +116,7 @@ const LogEventsTable = ({data, loading, error}) => {
                 error={error ? true : undefined}
                 columns={columns}
                 pageSize={pageSize}
-                rowsPerPageOptions={[5, 10, 25, 50, 100]}
+                rowsPerPageOptions={[10, 25, 50, 100]}
                 onPageSizeChange={(newSize) => setPageSize(newSize)}
                 getRowId={(row) => row["globalInstanceId"]}
                 components={{
@@ -125,7 +125,7 @@ const LogEventsTable = ({data, loading, error}) => {
                 }}
                 initialState={{
                     sorting: {
-                      sortModel: [{ field: 'creationTime', sort: 'desc' }],
+                      sortModel: [{ field: 'creationTime', sort: 'asc' }],
                     },
                 }}
             />
