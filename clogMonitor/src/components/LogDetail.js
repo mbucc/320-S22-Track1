@@ -81,9 +81,14 @@ const LogDetail = () => {
         //         }
         //     })
         
-        // Gets and sets log details from local storage
-        const LogDetails = JSON.parse(localStorage.getItem(`LogDetails-${id}`));
-        setData(LogDetails);
+        // Gets and sets log details from local/session storage
+        if (sessionStorage.getItem(`LogDetails-${id}`) !== null) {
+            setData(JSON.parse(sessionStorage.getItem(`LogDetails-${id}`)));    
+        } else {
+            const LogDetails = JSON.parse(localStorage.getItem(`LogDetails-${id}`));
+            setData(LogDetails);
+            sessionStorage.setItem(`LogDetails-${id}`, JSON.stringify(LogDetails));
+        }
         
         // Removes log details object from local storage when the user closes the tab
         const removeItem = () => {localStorage.removeItem(`LogDetails-${id}`)};

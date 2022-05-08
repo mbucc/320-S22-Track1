@@ -5,7 +5,6 @@ import './LogEvents.css'
 
 // onClick event handler for log details button
 const saveLogDetails = (params) => {
-    console.log(params.row);
     localStorage.setItem(`LogDetails-${params.id}`, JSON.stringify(params.row));
 }
 
