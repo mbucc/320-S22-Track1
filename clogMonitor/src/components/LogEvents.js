@@ -18,9 +18,9 @@ const LogEvents = () => {
     const token = sessionStorage.getItem("token");
 
     const now = new Date();
-    const oneHourOffset = 60 * 60 * 1000; // 1 hour * 60 min/hr * 60 sec/min * 1000 ms/sec
-    const oneHourAgo = new Date(now.getTime() - oneHourOffset);
-    const defaultStart = oneHourAgo.toISOString().substring(0, 19).replace("T", " ");
+    const offset = 24 * 60 * 60 * 1000; // 24 hour * 60 min/hr * 60 sec/min * 1000 ms/sec
+    const before = new Date(now.getTime() - offset);
+    const defaultStart = before.toISOString().substring(0, 19).replace("T", " ");
     const defaultEnd = now.toISOString().substring(0, 19).replace("T", " ");
 
     const defaultQuery = {

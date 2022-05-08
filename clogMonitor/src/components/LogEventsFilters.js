@@ -62,8 +62,8 @@ const LogEventsFilters = ({ dataSetHandler }) => {
     const [processServices, setProcessServices] = React.useState([]);
     const [process_service, setProcess_service] = React.useState("All");
     // Datetime states (Dates stored are as local time strings, not UTC time)
-    const oneHourOffset = 60 * 60 * 1000; // 1 hour * 60 min/hr * 60 sec/min * 1000 ms/sec
-    const [startTime, setStartTime] = React.useState(dateTimeStringFromNow(oneHourOffset));
+    const defaultOffset = 24 * 60 * 60 * 1000; // 24 hour * 60 min/hr * 60 sec/min * 1000 ms/sec
+    const [startTime, setStartTime] = React.useState(dateTimeStringFromNow(defaultOffset));
     const [endTime, setEndTime] = React.useState(dateTimeStringFromNow(0));
 
     // On component load, try to find and load cached filters
