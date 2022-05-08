@@ -106,7 +106,7 @@ const gridToolbar = () => {
  * @returns {React.ElementType}
  */
 const LogEventsTable = ({data, loading, error}) => {
-    const [pageSize, setPageSize] = useState(5)
+    const [pageSize, setPageSize] = useState(10)
 
     return (
         <div className='log-events-table-container'>
@@ -116,7 +116,7 @@ const LogEventsTable = ({data, loading, error}) => {
                 error={error ? true : undefined}
                 columns={columns}
                 pageSize={pageSize}
-                rowsPerPageOptions={[5, 10, 25, 50, 100]}
+                rowsPerPageOptions={[10, 25, 50, 100]}
                 onPageSizeChange={(newSize) => setPageSize(newSize)}
                 getRowId={(row) => row["globalInstanceId"]}
                 components={{
