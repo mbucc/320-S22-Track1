@@ -61,3 +61,7 @@
 .titleIcon.error{
     color: red;
 }
+
+.titleIcon.success{
+    color: green;
+}
