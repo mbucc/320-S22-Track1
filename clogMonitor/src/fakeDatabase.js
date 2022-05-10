@@ -229,8 +229,8 @@ version: "1.0"
 */
 
 // Use .env file to set the backend URL
-const storedBackendURL = process.env.REACT_APP_BACKEND_URL
-export const backendBaseURL = storedBackendURL ? storedBackendURL : "http://localhost:8080"
+const storedBackendURL = process.env.REACT_APP_BACKEND_URI;
+export const backendBaseURL = storedBackendURL ? storedBackendURL : "http://localhost:8080";
 
 // This is the base URL for the api, which is different from login auth
 export const apiBaseURL = backendBaseURL + "/api";
