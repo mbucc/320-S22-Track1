@@ -1,6 +1,10 @@
 pipeline {
     agent any
     
+    environment {
+        BRANCH = env.BRANCH_NAME
+    }
+
     stages {
         stage('Dashboard View') {
             steps {
