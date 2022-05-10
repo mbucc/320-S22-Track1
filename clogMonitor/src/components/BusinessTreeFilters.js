@@ -1,6 +1,7 @@
 import React from "react";
 import {Button, FormControl} from "@mui/material";
 import CustomDateTimePicker from "./CustomDateTimePicker"
+import { getColumnValues, getLogEventColumn } from "../fakeDatabase";
 import { Grid} from '@mui/material';
 import Dropdown from "./Dropdown";
 import BusinessTree from './BusinessTree';
@@ -54,9 +55,9 @@ const BusinessFilters = ({dataSetHandler}) => {
     const PUBLISHING_BUSINESS_DOMAIN_ID = "PUBLISHING_BUSINESS_DOMAIN_ID"
 
     // Dropdown states
-    const EAIDomains = ["EAI_DOMAIN_1", "EAI_DOMAIN_2"];
+    const [EAIDomains, setEAIDomains] = React.useState([]);
     const [EAIDomain, setEAIDomain] = React.useState("All");
-    const pubBusinessDomains = ["OPER", "CRM", "ACCOUNT"];
+    const [pubBusinessDomains, setPubBusinessDomains] = React.useState([]);
     const [pubBusinessDomain, setPubBusinessDomain] = React.useState("All");
 
     // Datetime states (Dates stored are in local time, not UTC)
@@ -64,6 +65,42 @@ const BusinessFilters = ({dataSetHandler}) => {
     d.setHours(d.getHours(),d.getMinutes()-30,0,0);
     const [startTime, setStartTime] = React.useState(d);
     const [endTime, setEndTime] = React.useState(new Date());
+
+    //retrieve cached filters on load
+    useEffect(() => {
+        const value = sessionStorage.getItem("BusinessTreeFilters");
+        if(value) {
+            console.log("Restoring cached business tree filters");
+            const namesAndSetters = {
+                eaiDomain: setEAIDomain,
+                pubBusinessDomain: setPubBusinessDomain,
+                creationTime: (x) => { setStartTime(x[0]); setEndTime(x[1]); },
+            }
+            const filters = JSON.parse(value);
+            for(let key in filters) {
+                let func = namesAndSetters[key];
+                if (func) {
+                    func(filters[key]);
+                }
+            }
+        }
+    }, []);
+
+    // load dropdown values
+    useEffect(() => {
+        const namesToSetters = {
+            "eai_domain": setEAIDomains,
+            "business_domain": setPubBusinessDomains,
+        }
+        for (let name in namesToSetters) {
+            getLogEventColumn(token, name).then(values => {
+                namesToSetters[name](values);
+            }).catch(err => {
+                console.error(`Querying for ${name} ran into an error, \nUsing mock database for dropdown values`);
+                namesToSetters[name](getColumnValues(name.toUpperCase()));
+            })
+        }
+    }, [token]);
 
     // Handlers
     const handleApplyFilters = (e) => {
