@@ -27,7 +27,7 @@ Access from terminal:
 cd .ssh
 ssh 34.148.168.151 -l <USERNAME> -i <PrivatekeyDir>
 ```
-<PrivatekeyDir> is most likely id_rsa
+PrivatekeyDir is most likely id_rsa
 
 Access from browser:
 http://34.148.168.151:8080/login?from=%2F
