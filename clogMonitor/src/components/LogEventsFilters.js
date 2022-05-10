@@ -1,6 +1,8 @@
-import { Button, FormControl } from "@mui/material";
+import { Button, Collapse, FormControl } from "@mui/material";
 import React, { useEffect } from "react";
 import { getActualMinMaxTime, getColumnValues, getLogEventColumn } from "../fakeDatabase";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import CheckboxGroup from "./CheckboxGroup";
 import Dropdown from "./Dropdown";
 import './LogEvents.css'
@@ -76,6 +78,9 @@ const LogEventsFilters = ({ dataSetHandler }) => {
     }
     
 
+    // Collapsing
+    const [collapsed, setCollapsed] = React.useState(false);
+
     // On component load, try to find and load cached filters
     useEffect(() => {
         const value = sessionStorage.getItem("LogEventsFilters");
@@ -101,6 +106,9 @@ const LogEventsFilters = ({ dataSetHandler }) => {
                     func(filters[key]);
                 }
             }
+        } else {
+            // Store the default filters
+            handleApplyFilters();
         }
     }, []);
 
@@ -125,7 +133,9 @@ const LogEventsFilters = ({ dataSetHandler }) => {
 
     // Handlers
     const handleApplyFilters = (e) => {
-        e.preventDefault(); // don't actually submit the form
+        if(e) {
+            e.preventDefault(); // don't actually submit the form
+        }
         console.log("Apply filters was pressed");
         
         // Bundle the filter values for caching
@@ -298,9 +308,56 @@ const LogEventsFilters = ({ dataSetHandler }) => {
         makeDropdownProps("Process/Service", PROCESS_SERVICE_ID, processServices, process_service, setProcess_service),
     ]
 
+    // Collapsing
+    const handleCollapse = () => {
+        setCollapsed(!collapsed);
+    }
+
+    // Apply indicator
+    const filtersChanged = () => {
+        // TODO: compare the current filters with those that are in sessionStorage
+        const filters = JSON.parse(sessionStorage.getItem("LogEventsFilters"));
+        
+        if (filters){
+
+            let st = filters['creationTime'][0];
+            let et = filters['creationTime'][1];
+            if(st !== startTime || et !== endTime) return true;
+
+            const namesAndData = {
+                'application':application,
+                'businessDomain':businessDomain,
+                'businessSubdomain':businessSubDomain,
+                'eaiDomain':EAIDomain,
+                'eventContext':process_service,
+                'categoryName':selectedCategories,
+                'priority':selectedPriorities,
+                'severity':selectedSeverities,
+            }
+
+            const diff = ['categoryName','priority','severity']
+            
+            let areSetsEqual = (a, b) => a.size === b.size && [...a].every(value => b.has(value));
+            for (let name in namesAndData){
+                if (diff.includes(name)){
+                    if (!areSetsEqual(new Set(filters[name]), namesAndData[name])) return true;
+                } else {
+                    if (filters[name] !== namesAndData[name]) return true;
+                }
+            }
+        }
+        return false;
+
+    }
+    const getBorderColor = () => {
+        const filtersChangedColor = "rgb(245, 238, 44)"; // TODO: choose good colors for this
+        const filtersAppliedColor = "rgb(82, 152, 68)"; // This is the color the whole app will have soon
+        return filtersChanged() ? filtersChangedColor : filtersAppliedColor;
+    }
+
     return (
-        <div>
-            <form className="log-events-filters" onSubmit={handleApplyFilters}>
+        <form className="log-events-filters-outline" style={{borderColor: getBorderColor()}} onSubmit={handleApplyFilters}>
+            <Collapse className="log-events-filters" in={!collapsed}>
                 {
                     checkBoxGroupProps.map(cbprops => {
                         return (
@@ -342,14 +399,20 @@ const LogEventsFilters = ({ dataSetHandler }) => {
                         })
                     }
                 </div>
+            </Collapse>
 
-                <FormControl>
-                    <Button className="apply-filters-btn" sx={{marginTop: "16px"}} disabled={hasError()} variant="contained" type="submit">
-                        Apply
+            <FormControl sx={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
+                <Collapse in={!collapsed}>
+                    <Button className="apply-filters-btn" sx={{marginTop: "16px", width: "88px"}} disabled={hasError()} variant="contained" type="submit">
+                        {filtersChanged() ? "Apply" : "Applied"}
                     </Button>
-                </FormControl>
-            </form>
-        </div>
+                </Collapse>
+
+                <Button variant="outlined" onClick={handleCollapse}>
+                    {collapsed ? <ExpandMoreIcon/> : <ExpandLessIcon/>}
+                </Button>
+            </FormControl>
+        </form>
     );
 };
 
