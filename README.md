@@ -30,8 +30,11 @@ ssh 34.148.168.151 -l <USERNAME> -i <PrivatekeyDir>
 PrivatekeyDir is most likely id_rsa
 
 Access from browser:
+
 http://34.148.168.151:8080/login?from=%2F
+
 Credentials
+
 Admin
 - Username: admin
 - Password: teamkick
@@ -51,15 +54,17 @@ Tomcat GUIcredentials
 - password: teamkick 
 
 From browser:
-Visit http://34.148.168.151:8081/
-Click on “manager webapp", Login with user: admin, pass: teamkick
-Click on “/MainDeployment”, Login with user: admin, pass: admin
-Land on CLOG Monitor login page, credentials: <>
+- Visit http://34.148.168.151:8081/
+- Click on “manager webapp", Login with user: admin, pass: teamkick
+- Click on “/MainDeployment”, Login with user: admin, pass: admin
+- Land on CLOG Monitor login page, credentials: <>
   
 ## MySQL
 
 Login:
+
 On main page, next to “MySQL Connections”, select the + symbol to add a new connection
+
 Enter the following credentials:
 - SQL server IP: 35.196.100.59
 - SQL connection name: lexical-script-343520:us-east1:teamkick 
