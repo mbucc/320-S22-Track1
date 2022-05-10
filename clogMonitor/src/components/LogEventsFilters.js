@@ -94,6 +94,9 @@ const LogEventsFilters = ({ dataSetHandler }) => {
                     func(filters[key]);
                 }
             }
+        } else {
+            // Store the default filters
+            handleApplyFilters();
         }
     }, []);
 
@@ -118,7 +121,9 @@ const LogEventsFilters = ({ dataSetHandler }) => {
 
     // Handlers
     const handleApplyFilters = (e) => {
-        e.preventDefault(); // don't actually submit the form
+        if(e) {
+            e.preventDefault(); // don't actually submit the form
+        }
         console.log("Apply filters was pressed");
         
         // Bundle the filter values for caching
