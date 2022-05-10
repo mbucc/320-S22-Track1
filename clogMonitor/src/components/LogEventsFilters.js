@@ -7,39 +7,21 @@ import TimeRange from "./TimeRange";
 import './LogEvents.css'
 
 /**
- * Returns the current datetime as a valid string for datetime-local inputs
+ * Returns the current datetime minus a given offset as a valid string for datetime-local inputs
  * 
- * @returns {string} 
+ * @param {Number} offset - integer number of ms before current time to return
+ * 
+ * @returns {string} (Now - offset) as a datetime-local valid string
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Date_and_time_formats#local_date_and_time_strings}
  */
-const getCurrentDateTimeString = () => {
+const dateTimeStringFromNow = (offset=0) => {
     let now = new Date();
-    let offset = now.getTimezoneOffset() * 60000;
-    let adjustedDate = new Date(now.getTime() - offset);
+    let tzOffset = now.getTimezoneOffset() * 60000;
+    let adjustedDate = new Date(now.getTime() - tzOffset - offset);
     let formattedDate = adjustedDate.toISOString().substring(0, 19);
     return formattedDate;
 };
 
-/**
- * Returns the default start datetime or end datetime depending on if i is 0 or 1, in local time
- * 
- * @param {0 | 1} i 0 if requesting default start, 1 if requesting default end
- * @returns {string} The default local datetime string formatted for datetime-local inputs
- * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Date_and_time_formats#local_date_and_time_strings}
- */
-const getDefaultDateTimeString = (i) => {
-    // Uses min time for start and max time for end
-    // unless there is no data, in which we use current datetime
-    const mmtime = getActualMinMaxTime();
-    if(mmtime) {
-        // mmtime is in utc, we need offset;
-        let adjustedDates = mmtime.map((d) => new Date(d.getTime() + (60000 * d.getTimezoneOffset())));
-        // use 23 instead of 19 for ms precision
-        return adjustedDates[i].toISOString().substring(0, 19);
-    } else {
-        return getCurrentDateTimeString();
-    }
-}
 
 /**
  * The filters for the Log Events Table.
@@ -80,8 +62,9 @@ const LogEventsFilters = ({ dataSetHandler }) => {
     const [processServices, setProcessServices] = React.useState([]);
     const [process_service, setProcess_service] = React.useState("All");
     // Datetime states (Dates stored are as local time strings, not UTC time)
-    const [startTime, setStartTime] = React.useState(getDefaultDateTimeString(0));
-    const [endTime, setEndTime] = React.useState(getDefaultDateTimeString(1));
+    const defaultOffset = 24 * 60 * 60 * 1000; // 24 hour * 60 min/hr * 60 sec/min * 1000 ms/sec
+    const [startTime, setStartTime] = React.useState(dateTimeStringFromNow(defaultOffset));
+    const [endTime, setEndTime] = React.useState(dateTimeStringFromNow(0));
 
     // On component load, try to find and load cached filters
     useEffect(() => {

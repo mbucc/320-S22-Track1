@@ -2,6 +2,11 @@ pipeline {
     agent any
     
     stages {
+        stage('Dashboard View') {
+            steps {
+                build job: 'DashboardTests'
+            }
+        }
         stage('Business Process View'){
             steps {
                 build job: 'BusinessProcessViewTests'
@@ -12,6 +17,11 @@ pipeline {
         stage('Log Events View') {
             steps {
                 build job: 'LogViewTests'
+            }
+        }
+        stage('Deploy'){
+            steps {
+                build job: 'MainDeployment'
             }
         }
     }

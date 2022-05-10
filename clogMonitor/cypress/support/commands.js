@@ -34,7 +34,7 @@ Cypress.Commands.add("loginForLogEvents", () => {
   });
   cy.reload();
 
-  cy.visit("/log-events");
+  cy.visit("/#/log-events");
   cy.get(".username-input").type("Mark");
   cy.get(".password-input").type("12345678");
   cy.get(".login-btn").click();

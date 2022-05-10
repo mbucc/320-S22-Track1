@@ -11,7 +11,7 @@ function ErrorLogBox({ logEvent }) {
   }
   return (
     <Link
-      href={"/log-details/" + logEvent["globalInstanceId"]}
+      href={"#/log-details/" + logEvent["globalInstanceId"]}
       onClick={saveLogDetails}
       target="_blank"
       underline="none"
