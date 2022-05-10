@@ -5,6 +5,8 @@ import java.util.TimeZone;
 import javax.annotation.PostConstruct;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.track1.clog.security.JWTAuthorizationFilter;
 
 @SpringBootApplication
-public class ClogApplication {
+public class ClogApplication extends SpringBootServletInitializer  {
 
 	//Set Time Zone to UTC for handeling API calls
 	@PostConstruct
@@ -31,7 +33,12 @@ public class ClogApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ClogApplication.class, args);
-	}
+	}	
+	
+	@Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(ClogApplication.class);
+    }
 
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
