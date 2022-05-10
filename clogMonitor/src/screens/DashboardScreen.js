@@ -5,7 +5,7 @@ import "./DashboardScreen.css";
 import Home from "../components/Home/Home";
 import LogEvents from "../components/LogEvents";
 import LogDetail from "../components/LogDetail";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { getLogDetails } from '../fakeDatabase';
 import { BusinessView } from '../components/BusinessView';
 import { AppBar, Toolbar, Typography } from '@mui/material';
@@ -13,6 +13,7 @@ import { AppBar, Toolbar, Typography } from '@mui/material';
 function DashboardScreen({ setLoggedIn }) {
   const [logEvents, setLogEvents] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [hideNav, setHideNav] = React.useState(false);
   const token = sessionStorage.getItem("token");
 
   const defaultQuery = {
@@ -41,6 +42,13 @@ function DashboardScreen({ setLoggedIn }) {
 
   }, [token])
 
+  // Hides SideNav when on the Log Details page
+  React.useEffect(() => {
+    if (window.location.href.indexOf('log-details') !== -1) {
+      setHideNav(true)
+    }
+  }, []);
+
   return (
     <div className="Layout">
       <AppBar>
@@ -51,8 +59,8 @@ function DashboardScreen({ setLoggedIn }) {
         </Toolbar>
       </AppBar>
       <Toolbar></Toolbar> {/* For alignment */}
-      <div className="DashboardScreen"> 
-        <div className="DashboardScreen__SideNav">
+      <div className={`DashboardScreen ${hideNav ? "DashboardScreen_Hide" : ""}`}> 
+        <div className={`DashboardScreen__SideNav ${hideNav ? "DashboardScreen__SideNav_Hide" : ""}`}>
           <div className="DashboardScreen__NavigationPane__Display">
             <NavigationPane/>
           </div>
@@ -62,14 +70,14 @@ function DashboardScreen({ setLoggedIn }) {
         {/* </div> */}
         <div className="DashboardScreen__Center">
           <div className="DashboardScreen__Center__main">
-            <BrowserRouter>
+            <HashRouter>
               <Routes>
                 <Route path="/" element={<Home logEvents={logEvents} loading={loading} />} />
                 <Route path="business-processes" element={<BusinessView/>} />
                 <Route path="/log-events" element={<LogEvents/>} />
                 <Route path="/log-details/:id" element={<LogDetail/>} />
               </Routes>
-            </BrowserRouter>
+            </HashRouter>
           </div>
         </div>
       </div>
