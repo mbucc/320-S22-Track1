@@ -55,6 +55,8 @@ const prioritiesMapping = { "High": 70, "Medium": 50, "Low": 10 };
 /**
  * Transforms the raw Log Events filters into a list of filter functions
  * 
+ * @deprecated
+ * 
  * @param {{[columnName: string]: Set<String> | String | [String, String];}} filters A map from column names to raw filter values
  * @returns {{[columnName: string]: (value: any) => boolean}} A list of filter functions
  */
@@ -109,6 +111,8 @@ function parseFilters(filters) {
 
 /**
  * Returns tData filtered with the given filters
+ * 
+ * @deprecated
  * 
  * @param {{[columnName: string]: Set<String> | String | [String, String];}} filters A map from column names to raw filter values
  * @param {{[columnName: string]: String;}[]} tData The table data to filter
@@ -224,8 +228,12 @@ severity: 10
 version: "1.0"
 */
 
+// Use .env file to set the backend URL
+const storedBackendURL = process.env.REACT_APP_BACKEND_URL
+export const backendBaseURL = storedBackendURL ? storedBackendURL : "http://localhost:8080"
+
 // This is the base URL for the api, which is different from login auth
-export const apiBaseURL = "http://localhost:8080/api";
+export const apiBaseURL = backendBaseURL + "/api";
 
 let logDetails = [];
 /**
@@ -275,7 +283,7 @@ export function validateCredential(username, password) {
 
     var config = {
         method: 'post',
-        url: 'http://localhost:8080/user',
+        url: backendBaseURL + '/user',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
