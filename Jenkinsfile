@@ -19,5 +19,10 @@ pipeline {
                 build job: 'LogViewTests'
             }
         }
+        stage('Deploy'){
+            steps {
+                build job: 'MainDeployment'
+            }
+        }
     }
 }

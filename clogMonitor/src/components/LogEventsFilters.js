@@ -3,43 +3,25 @@ import React, { useEffect } from "react";
 import { getActualMinMaxTime, getColumnValues, getLogEventColumn } from "../fakeDatabase";
 import CheckboxGroup from "./CheckboxGroup";
 import Dropdown from "./Dropdown";
-import TimeRange from "./TimeRange";
 import './LogEvents.css'
+import TimeRange, { hasDSTerror, hasDSTconflict, convertDSTtoUTC, isRangeError } from "./TimeRange";
 
 /**
- * Returns the current datetime as a valid string for datetime-local inputs
+ * Returns the current datetime minus a given offset as a valid string for datetime-local inputs
  * 
- * @returns {string} 
+ * @param {Number} offset - integer number of ms before current time to return
+ * 
+ * @returns {string} (Now - offset) as a datetime-local valid string
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Date_and_time_formats#local_date_and_time_strings}
  */
-const getCurrentDateTimeString = () => {
+const dateTimeStringFromNow = (offset=0) => {
     let now = new Date();
-    let offset = now.getTimezoneOffset() * 60000;
-    let adjustedDate = new Date(now.getTime() - offset);
+    let tzOffset = now.getTimezoneOffset() * 60000;
+    let adjustedDate = new Date(now.getTime() - tzOffset - offset);
     let formattedDate = adjustedDate.toISOString().substring(0, 19);
     return formattedDate;
 };
 
-/**
- * Returns the default start datetime or end datetime depending on if i is 0 or 1, in local time
- * 
- * @param {0 | 1} i 0 if requesting default start, 1 if requesting default end
- * @returns {string} The default local datetime string formatted for datetime-local inputs
- * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Date_and_time_formats#local_date_and_time_strings}
- */
-const getDefaultDateTimeString = (i) => {
-    // Uses min time for start and max time for end
-    // unless there is no data, in which we use current datetime
-    const mmtime = getActualMinMaxTime();
-    if(mmtime) {
-        // mmtime is in utc, we need offset;
-        let adjustedDates = mmtime.map((d) => new Date(d.getTime() + (60000 * d.getTimezoneOffset())));
-        // use 23 instead of 19 for ms precision
-        return adjustedDates[i].toISOString().substring(0, 19);
-    } else {
-        return getCurrentDateTimeString();
-    }
-}
 
 /**
  * The filters for the Log Events Table.
@@ -80,8 +62,19 @@ const LogEventsFilters = ({ dataSetHandler }) => {
     const [processServices, setProcessServices] = React.useState([]);
     const [process_service, setProcess_service] = React.useState("All");
     // Datetime states (Dates stored are as local time strings, not UTC time)
-    const [startTime, setStartTime] = React.useState(getDefaultDateTimeString(0));
-    const [endTime, setEndTime] = React.useState(getDefaultDateTimeString(1));
+    const defaultOffset = 24 * 60 * 60 * 1000; // 24 hour * 60 min/hr * 60 sec/min * 1000 ms/sec
+    const [startTime, setStartTime] = React.useState(dateTimeStringFromNow(defaultOffset));
+    const [endTime, setEndTime] = React.useState(dateTimeStringFromNow(0));
+    
+    // DST states
+    const [startTimeDST, setStartTimeDST] = React.useState('BEFORE');
+    const [endTimeDST, setEndTimeDST] = React.useState('BEFORE');
+    
+    // DST selection handlers
+    const getDstDatetimeHandler = (setter) => {
+        return (event) => setter(event.target.value); // 'BEFORE' or 'AFTER'
+    }
+    
 
     // On component load, try to find and load cached filters
     useEffect(() => {
@@ -98,6 +91,8 @@ const LogEventsFilters = ({ dataSetHandler }) => {
                 application: setApplication,
                 eventContext: setProcess_service,
                 creationTime: (x) => { setStartTime(x[0]); setEndTime(x[1]); },
+                startTimeDST: setStartTimeDST,
+                endTimeDST: setEndTimeDST
             }
             const filters = JSON.parse(value);
             for(let key in filters) {
@@ -144,13 +139,20 @@ const LogEventsFilters = ({ dataSetHandler }) => {
             application: application,
             eventContext: process_service,
             creationTime: [startTime, endTime],
+            startTimeDST: startTimeDST,
+            endTimeDST: endTimeDST,            
         };
 
         // Ensure that seconds are included in the time params
         const actualStartString = startTime.length === 16 ? startTime + ":00" : startTime;
         const actualEndString = endTime.length === 16 ? endTime + ":00" : endTime;
         // Convert to UTC
-        const localDates = [new Date(actualStartString), new Date(actualEndString)]
+        let localDates = [new Date(actualStartString), new Date(actualEndString)]
+
+        // If DST, convert date/time after choosing "BEFORE/AFTER" to UTC
+        localDates[0] = convertDSTtoUTC(localDates[0], hasDSTconflict(startTime), startTimeDST);
+        localDates[1] = convertDSTtoUTC(localDates[1], hasDSTconflict(endTime), endTimeDST);
+        
         const [actualStart, actualEnd] = localDates.map(d => d.toISOString().substring(0, 19));
         
         // set the API parameters based on filter values
@@ -241,8 +243,15 @@ const LogEventsFilters = ({ dataSetHandler }) => {
         if (startTime === "" || endTime === "") {
             return true;
         }
-        if ((new Date(endTime) < (new Date(startTime)))) {
-            return true;
+
+        let end = new Date(endTime);
+        let start = new Date(startTime)
+        if(isRangeError(start, end, startTimeDST, endTimeDST)){
+            return true
+        }
+        
+        if (hasDSTerror(startTime) || hasDSTerror(endTime)) {
+            return true
         }
         // Dropdowns
         const dropdownError = dropdownProps.some(p => {
@@ -307,12 +316,16 @@ const LogEventsFilters = ({ dataSetHandler }) => {
                 }
 
                 <TimeRange 
-                    startTime={startTime} 
+                    startTime={startTime}
                     startChangeHandler={getDatetimeHandler(setStartTime)}
                     endTime={endTime}
                     endChangeHandler={getDatetimeHandler(setEndTime)}
+                    startTimeDST={startTimeDST} // startTimeDST
+                    startDstChangeHandler={getDstDatetimeHandler(setStartTimeDST)} // startTimeDST handle
+                    endTimeDST={endTimeDST} // endTimeDST
+                    endDstChangeHandler={getDstDatetimeHandler(setEndTimeDST)} // endTimeDST handle
                 />
-
+                
                 <div className="dropdown-group">
                     {
                         dropdownProps.map(dprops => {
