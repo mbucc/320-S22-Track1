@@ -68,8 +68,7 @@ export function hasDSTerror(time) {
 /**
  * Returns converted time to UTC in conflicting DST clock change period 
  * 
- * @param {Object} props
- * @param {string} props.datetimeString - The string representing local date/time, format: YYYY-MM-DDTHH:mm:ss
+ * @param {string} datetimeString - The string representing local date/time, format: YYYY-MM-DDTHH:mm:ss
  * @param {boolean} hasDST_conflict - The boolean value representing whether chosen date/time has DST conflict
  * @param {string} choice - The string representing your choice of BEFORE or AFTER
  *
@@ -89,11 +88,10 @@ export function convertDSTtoUTC(datetimeString, hasDST_conflict, choice) {
 /**
  * Returns true if end time is before start time
  * 
- * @param {Object} props
- * @param {string} props.startTime - The string representing the start Date, format: YYYY-MM-DDTHH:mm:ss
-= * @param {string} props.endTime - The string representing the end Date, format: YYYY-MM-DDTHH:mm:ss
- * @param {string} props.startTimeDST - The string representing BEFORE/AFTER selection for start time in DST
- * @param {string} props.endTimeDST - The string representing BEFORE/AFTER selection for end time in DST
+ * @param {string} startTime - The string representing the start Date, format: YYYY-MM-DDTHH:mm:ss
+= * @param {string} endTime - The string representing the end Date, format: YYYY-MM-DDTHH:mm:ss
+ * @param {string} startTimeDST - The string representing BEFORE/AFTER selection for start time in DST
+ * @param {string} endTimeDST - The string representing BEFORE/AFTER selection for end time in DST
  *
  * @returns {boolean}
  */
