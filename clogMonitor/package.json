@@ -43,7 +43,8 @@
     "cy:runlev": "cypress run --spec /clogMonitor/cypress/integration/lev/*.js",
     "cy:rundboard": "cypress run --spec /clogMonitor/cypress/integration/dboard/*.js",
     "testlev": "start-server-and-test start http://localhost:3000 cy:runlev",
-    "testbpv": "start-server-and-test start http://localhost:3000 cy:runbpv"
+    "testbpv": "start-server-and-test start http://localhost:3000 cy:runbpv",
+    "testdboard": "start-server-and-test start http://localhost:3000 cy:rundboard"
   },
   "eslintConfig": {
     "extends": [
