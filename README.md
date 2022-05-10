@@ -35,6 +35,7 @@ Credentials
 Admin
 - Username: admin
 - Password: teamkick
+
 Other users
 - Username: Track1 
 - Password: jenkins
@@ -44,6 +45,7 @@ Other users
 Tomcat credentials: jenkins automated credentials 
 - username: war-deployer 
   password: jenkins-tomcat-deploy 
+
 Tomcat GUIcredentials 
 - username: admin
 - password: teamkick 
