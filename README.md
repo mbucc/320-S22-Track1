@@ -23,6 +23,10 @@ mvn -v
 
 ## Jenkins
 Access from terminal:
+- create ssh key
+```
+ssh-keygen -t rsa -b 4096 -C <USERNAME>
+```
 - ssh to server: 
 ```
 cd .ssh
