@@ -20,6 +20,8 @@ describe("TimeRange Component Tests", () => {
             startChangeHandler={selectionchange}
             endTime={testEndTime}
             endChangeHandler={selectionchange}
+            startDstChangeHandler={selectionchange}
+            endDstChangeHandler={selectionchange}
         />);
     });
 
@@ -84,7 +86,96 @@ describe("TimeRange Component Tests", () => {
           .contains('Start must be before End');
     });
 
-    
-   
 
+    /*  DST tests */
+    // Correct error message shows up when time does not exist (March 14th 2:30 am) in starttime and endtime
+    it('Shows the correct error message when time does not exist in starttime', () => {
+      mount(<TimeRange 
+          startTime={"2021-03-14T02:30"} 
+          startChangeHandler={selectionchange}
+          endTime={"2022-05-01T08:30"} 
+          endChangeHandler={selectionchange}
+      />);
+      cy
+        .get('[id="startformcontrol"]')
+        .contains('Chosen date/time does not exist!');
+    });
+
+    it('Shows the correct error message when time does not exist in endtime', () => {
+      mount(<TimeRange 
+          startTime={"2020-03-14T03:30"} 
+          startChangeHandler={selectionchange}
+          endTime={"2021-03-14T02:30"} 
+          endChangeHandler={selectionchange}
+      />);
+      cy
+        .get('[id="endformcontrol"]')
+        .contains('Chosen date/time does not exist!');
+    });
+    
+    it('Shows the correct error message, DST BEFORE/AFTER buttons, and functionality when starttime is ambiguous ', () => {
+      mount(<TimeRange 
+          startTime={"2021-11-07T01:30"} 
+          startChangeHandler={selectionchange}
+          endTime={"2021-11-14T02:30"} 
+          endChangeHandler={selectionchange}
+          startDstChangeHandler={selectionchange}
+          endDstChangeHandler={selectionchange}
+      />);
+      // Correct message shows up when time is ambiguous (November 7th, 1:00 am)
+      cy
+        .get('[id="startformcontrol"]')
+        .contains('Daylight saving time conflict exists! Please choose:');
+      // BEFORE/AFTER select appears on screen when time is ambiguous (November 7th, 1:00 am)
+      cy
+        .get('[id="startformcontrol"]').should("be.visible")
+      // BEFORE/AFTER select, when visible, shows options: BEFORE and AFTER
+      let labels = ["BEFORE", "AFTER"]; 
+      cy
+        .get('[id="startTimeDST"]').click()
+        .get('[role="listbox"]').children().each((e, i) => expect(e).to.contain(labels[i]));
+      // BEFORE/AFTER select, when visible, has options that are clickable and fire the correct handlers
+      cy
+        .get('[role="listbox"]').children().contains(labels[0]).click()
+        .then(() => expect(calledvalue).to.equal(labels[0]));
+    });
+
+    it('Shows the correct error message, DST BEFORE/AFTER buttons, and functionality when endtime is ambiguous', () => {
+      mount(<TimeRange 
+          startTime={"2021-11-06T01:30"} 
+          startChangeHandler={selectionchange}
+          endTime={"2021-11-07T01:30"} 
+          endChangeHandler={selectionchange}
+          startDstChangeHandler={selectionchange}
+          endDstChangeHandler={selectionchange}
+      />);
+      // Correct message shows up when time is ambiguous (November 7th, 1:00 am)
+      cy
+        .get('[id="endformcontrol"]')
+        .contains('Daylight saving time conflict exists! Please choose:');
+      // BEFORE/AFTER select appears on screen when time is ambiguous (November 7th, 1:00 am)
+      cy
+        .get('[id="endformcontrol"]').should("be.visible")
+      // BEFORE/AFTER select, when visible, shows options: BEFORE and AFTER
+      let labels = ["BEFORE", "AFTER"]; 
+      cy
+        .get('[id="endTimeDST"]').click()
+        .get('[role="listbox"]').children().each((e, i) => expect(e).to.contain(labels[i]));
+      // BEFORE/AFTER select, when visible, has options that are clickable and fire the correct handlers
+      cy
+        .get('[role="listbox"]').children().contains(labels[0]).click()
+        .then(() => expect(calledvalue).to.equal(labels[0]));
+    });
+
+    // BEFORE/AFTER select does not appears on screen when time is unambiguous (November 6th, 1:00 am)
+    it('Does not show the BEFORE/AFTER select when time is unambiguous', () => {
+      mount(<TimeRange 
+          startTime={"2021-10-06T01:30"} 
+          startChangeHandler={selectionchange}
+          endTime={"2021-11-08T01:30"} 
+          endChangeHandler={selectionchange}
+      />);
+      cy.get('[id="startTimeDST"]').should("not.be.visible")
+      cy.get('[id="endTimeDST"]').should("not.be.visible")
+    });
 });
