@@ -55,7 +55,7 @@ const columns = [
         headerName: 'Log Event',
         type: 'actions',
         getActions: (params) => [
-            <Button key="detailkey" href={"/log-details/" + params.id}>Detail</Button>
+            <Button key="detailkey" href={"#/log-details/" + params.id}>Detail</Button>
         ]
     }
 ];
@@ -87,23 +87,14 @@ const BusinessTable = ({data, loading, error}) => {
     return (
     //   <div>
         <DataGrid
-            style={{height: "50vh"}}
+            style={{height: "50vh", width:"90%"}}
             rows={data}
             loading={loading}
             columns={columns}
             pageSize={pageSize}
             rowsPerPageOptions={[5, 10, 25, 50, 100]}
             onPageSizeChange={(newSize) => setPageSize(newSize)}
-            getRowId={(row) => row["globalInstanceId"]}
-            components={{
-                ErrorOverlay: () => customErrorOverlay(error),
-                Toolbar: gridToolbar,
-            }}
-            initialState={{
-                sorting: {
-                  sortModel: [{ field: 'creationTime', sort: 'desc' }],
-                },
-            }}
+            getRowId={(row) => row["GLOBAL_INSTANCE_ID"]}
         />
     );
 }

@@ -17,18 +17,18 @@
   transition: 1s;
 }
 
+.DashboardScreen__SideNav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 64px);
+  background-color: rgb(27, 37, 24);
+}
+
 .DashboardScreen__NavigationPane__Display {
   display: block;
   text-align: left;
-  max-width: 250px;
-  width: 200px;
-  /* display: flex; */
-  /* align-self: center; */
-  padding: 20px;
-  background-color: #f9f9f9;
-  height: 100vh;
-  z-index: 2;
-  transition: 1s;
+  height: 100%;
 }
 
 .DashboardScreen__NavigationPane__No__Display {
@@ -38,11 +38,9 @@
 }
 
 .DashboardScreen {
-  display: flex;
-  justify-content: space-between;
-  /* flex-direction: column; */
-  /* max-height: 100vh; */
-  max-width: 100vw;
+  display: inline-grid;
+  grid-template-columns: 240px 1fr;
+  width: 100vw;
 }
 
 .DashboardScreen__NameAndLogout {
@@ -55,7 +53,7 @@
 }
 
 .DashboardScreen__Center { 
-  height: 100vh;
+  height: calc(100vh - 64px);
   overflow-y: auto;
   z-index: 1;
   position: relative;

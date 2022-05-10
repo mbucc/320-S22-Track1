@@ -7,39 +7,21 @@ import TimeRange from "./TimeRange";
 import './LogEvents.css'
 
 /**
- * Returns the current datetime as a valid string for datetime-local inputs
+ * Returns the current datetime minus a given offset as a valid string for datetime-local inputs
  * 
- * @returns {string} 
+ * @param {Number} offset - integer number of ms before current time to return
+ * 
+ * @returns {string} (Now - offset) as a datetime-local valid string
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Date_and_time_formats#local_date_and_time_strings}
  */
-const getCurrentDateTimeString = () => {
+const dateTimeStringFromNow = (offset=0) => {
     let now = new Date();
-    let offset = now.getTimezoneOffset() * 60000;
-    let adjustedDate = new Date(now.getTime() - offset);
+    let tzOffset = now.getTimezoneOffset() * 60000;
+    let adjustedDate = new Date(now.getTime() - tzOffset - offset);
     let formattedDate = adjustedDate.toISOString().substring(0, 19);
     return formattedDate;
 };
 
-/**
- * Returns the default start datetime or end datetime depending on if i is 0 or 1, in local time
- * 
- * @param {0 | 1} i 0 if requesting default start, 1 if requesting default end
- * @returns {string} The default local datetime string formatted for datetime-local inputs
- * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Date_and_time_formats#local_date_and_time_strings}
- */
-const getDefaultDateTimeString = (i) => {
-    // Uses min time for start and max time for end
-    // unless there is no data, in which we use current datetime
-    const mmtime = getActualMinMaxTime();
-    if(mmtime) {
-        // mmtime is in utc, we need offset;
-        let adjustedDates = mmtime.map((d) => new Date(d.getTime() + (60000 * d.getTimezoneOffset())));
-        // use 23 instead of 19 for ms precision
-        return adjustedDates[i].toISOString().substring(0, 19);
-    } else {
-        return getCurrentDateTimeString();
-    }
-}
 
 /**
  * The filters for the Log Events Table.
@@ -80,8 +62,9 @@ const LogEventsFilters = ({ dataSetHandler }) => {
     const [processServices, setProcessServices] = React.useState([]);
     const [process_service, setProcess_service] = React.useState("All");
     // Datetime states (Dates stored are as local time strings, not UTC time)
-    const [startTime, setStartTime] = React.useState(getDefaultDateTimeString(0));
-    const [endTime, setEndTime] = React.useState(getDefaultDateTimeString(1));
+    const defaultOffset = 24 * 60 * 60 * 1000; // 24 hour * 60 min/hr * 60 sec/min * 1000 ms/sec
+    const [startTime, setStartTime] = React.useState(dateTimeStringFromNow(defaultOffset));
+    const [endTime, setEndTime] = React.useState(dateTimeStringFromNow(0));
 
     // On component load, try to find and load cached filters
     useEffect(() => {
@@ -146,16 +129,12 @@ const LogEventsFilters = ({ dataSetHandler }) => {
             creationTime: [startTime, endTime],
         };
 
-        // Filters for filtering on our side
-        const todoFilters = {
-            priority: [...selectedPriorities],
-            severity: [...selectedSeverities],
-            categoryName: [...selectedCategories],
-        }
-
         // Ensure that seconds are included in the time params
-        const actualStart = startTime.length === 16 ? startTime + ":00" : startTime;
-        const actualEnd = endTime.length === 16 ? endTime + ":00" : endTime;
+        const actualStartString = startTime.length === 16 ? startTime + ":00" : startTime;
+        const actualEndString = endTime.length === 16 ? endTime + ":00" : endTime;
+        // Convert to UTC
+        const localDates = [new Date(actualStartString), new Date(actualEndString)]
+        const [actualStart, actualEnd] = localDates.map(d => d.toISOString().substring(0, 19));
         
         // set the API parameters based on filter values
         const params = {
@@ -181,10 +160,22 @@ const LogEventsFilters = ({ dataSetHandler }) => {
             // category_name: String
             // activity: String
             // msg: String
+            sev_info: selectedSeverities.has("Info") ? "true" : "false", // boolean
+            sev_succ: selectedSeverities.has("Success") ? "true" : "false", // boolean
+            sev_warn: selectedSeverities.has("Warning") ? "true" : "false", // boolean
+            sev_err: selectedSeverities.has("Error") ? "true" : "false", // boolean
+            priority_low: selectedPriorities.has("Low") ? "true" : "false", // boolean
+            priority_med: selectedPriorities.has("Medium") ? "true" : "false", // boolean
+            priority_high: selectedPriorities.has("High") ? "true" : "false", // boolean
+            status: selectedCategories.has("Status") ? "true" : "false",
+            start: selectedCategories.has("Start") ? "true" : "false",
+            stop: selectedCategories.has("Stop") ? "true" : "false",
+            security: selectedCategories.has("Security") ? "true" : "false",
+            heartbeat: selectedCategories.has("Heartbeat") ? "true" : "false",
         }
 
         // Set the data based on params
-        dataSetHandler(params, todoFilters);
+        dataSetHandler(params, {});
 
         // Cache the filters in sessionStorage
         sessionStorage.setItem("LogEventsFilters", JSON.stringify(allFilters));
@@ -323,7 +314,7 @@ const LogEventsFilters = ({ dataSetHandler }) => {
                 </div>
 
                 <FormControl>
-                    <Button sx={{marginTop: "16px"}} disabled={hasError()} variant="contained" type="submit">
+                    <Button className="apply-filters-btn" sx={{marginTop: "16px"}} disabled={hasError()} variant="contained" type="submit">
                         Apply
                     </Button>
                 </FormControl>

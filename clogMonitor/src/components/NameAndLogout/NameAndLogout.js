@@ -22,12 +22,8 @@ function NameAndLogout({ setLoggedIn }) {
     <div>
       <Box
         sx={{
-          position: "absolute",
           border: "1px solid grey",
           borderRadius: "15px",
-          left: "0px",
-          bottom: "0px",
-          color: "grey",
           margin: 0.5,
           padding: 0.5,
         }}
@@ -49,7 +45,7 @@ function NameAndLogout({ setLoggedIn }) {
             <Avatar
               sx={{
                 borderRadius: "50%",
-                backgroundColor: "red",
+                backgroundColor: "primary.main",
               }}
               alt="Remy Sharp"
               src="./img_avatar.png"
@@ -67,10 +63,10 @@ function NameAndLogout({ setLoggedIn }) {
               fontSize: "90%",
             }}
           >
-            <Typography variant="body2">Mark Robison</Typography>
+            <Typography color="white" variant="body2">Mark Robison</Typography>
           </Stack>
 
-          <KeyboardArrowDownIcon />
+          <KeyboardArrowDownIcon sx={{color: "white"}}/>
         </Stack>
       </Box>
       <Menu
@@ -92,9 +88,9 @@ function NameAndLogout({ setLoggedIn }) {
           onClick={() => {
             handleClose();
             setLoggedIn("false");
-            console.log("here");
             sessionStorage.setItem("loginCheck", "false");
           }}
+          sx={{width: "180px"}}
         >
           <Stack
             direction="row"
