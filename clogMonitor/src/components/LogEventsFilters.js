@@ -314,10 +314,8 @@ const LogEventsFilters = ({ dataSetHandler }) => {
                     if (filters[name] !== namesAndData[name]) return true;
                 }
             }
-
-            return false;
         }
-        return true;
+        return false;
 
     }
     const getBorderColor = () => {
