@@ -5,9 +5,8 @@ import moment from 'moment';
 
 /**
  * Returns true if DST is in effect in user's timezone 
- * 
- * @param {Object} props
- * @param {string} props.time - The string representing the current time, format: YYYY-MM-DDTHH:mm:ss
+ * g
+ * @param {string} time - The string representing the current time, format: YYYY-MM-DDTHH:mm:ss
  * 
  * @returns {boolean} 
  * @see {@link https://stackoverflow.com/questions/11887934/how-to-check-if-dst-daylight-saving-time-is-in-effect-and-if-so-the-offset}
