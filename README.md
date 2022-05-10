@@ -9,6 +9,7 @@ This is the code base for Track 1 CLOG Monitor.
 - Node.js. Install from [Node.js](https://nodejs.org/en/)
 - Jenkins 2.332.1 from [Jenkins](https://www.jenkins.io/doc/book/installing/)
 - Tomcat9 from [Tomcat](https://tomcat.apache.org/download-90.cgi)
+- MySQL from [MySQL Workbench](https://dev.mysql.com/downloads/workbench/)
 
 
 After installing, use your terminal to run the following commands to check if the requirements are installed.
