@@ -56,7 +56,7 @@ describe('Dropdown works correctly', () => {
       namesToLists[name] = values;
     }).catch(err => {
         console.error(`Querying for ${name} ran into an error, \nUsing mock database for dropdown values`);
-        namesToLists[name].push(getColumnValues(name.toUpperCase()));
+        namesToLists[name] = getColumnValues(name.toUpperCase());
     })
   }
 
