@@ -28,9 +28,6 @@ const theme = createTheme({
   },
 });
 
-console.log('test: ', process.env.REACT_APP_TEST_VAR);
-console.log('other test: ', process.env.OTHER_TEST);
-
 function App() {
   const [loggedIn, setLoggedIn] = useState(
     sessionStorage.getItem("loginCheck") !== null
