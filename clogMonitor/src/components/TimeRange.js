@@ -5,7 +5,7 @@ import moment from 'moment';
 
 /**
  * Returns true if DST is in effect in user's timezone 
- * g
+ * 
  * @param {string} time - The string representing the current time, format: YYYY-MM-DDTHH:mm:ss
  * 
  * @returns {boolean} 
@@ -25,8 +25,7 @@ function hasDSTeffect(time) {
 /**
  * Returns true if chosen date/time has conflict during DST clock changing period
  * 
- * @param {Object} props
- * @param {string} props.time - The string representing the current time, format: YYYY-MM-DDTHH:mm:ss
+ * @param {string} time - The string representing the current time, format: YYYY-MM-DDTHH:mm:ss
  * 
  * @returns {boolean} 
  */
@@ -50,8 +49,7 @@ export function hasDSTconflict(time) {
 /**
  * Returns true if chosen date/time does not exist (e.g. 2021-3-14 2:30AM)
  * 
- * @param {Object} props
- * @param {string} props.time - The string representing the current time, format: YYYY-MM-DDTHH:mm:ss
+ * @param {string} time - The string representing the current time, format: YYYY-MM-DDTHH:mm:ss
  * 
  * @returns {boolean}
  */
