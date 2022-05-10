@@ -40,9 +40,9 @@
     "build": "react-scripts build",
     "test": "cypress",
     "eject": "react-scripts eject",
-    "cy:runbpv": "cypress run --spec ./clogMonitor/cypress/integration/bpv/*.js",
-    "cy:runlev": "cypress run --spec ./clogMonitor/cypress/integration/lev/*.js",
-    "cy:rundboard": "cypress run --spec ./clogMonitor/cypress/integration/dboard/*.js",
+    "cy:runbpv": "cypress run --spec ./cypress/integration/bpv/*.js",
+    "cy:runlev": "cypress run --spec ./cypress/integration/lev/*.js",
+    "cy:rundboard": "cypress run --spec ./cypress/integration/dboard/*.js",
     "testlev": "start-server-and-test start http://localhost:3000 cy:runlev",
     "testbpv": "start-server-and-test start http://localhost:3000 cy:runbpv",
     "testdboard": "start-server-and-test start http://localhost:3000 cy:rundboard"
