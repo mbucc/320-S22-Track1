@@ -19,5 +19,10 @@ pipeline {
                 build job: 'LogViewTests'
             }
         }
+        if(env.BRANCH_NAME == 'main') {
+            stage('Deploy'){
+                build job: 'MainDeployment'
+            }
+        }
     }
 }
