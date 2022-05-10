@@ -3,6 +3,7 @@ import { filterTableData, getLogDetails } from '../fakeDatabase';
 import BusinessTable from "../components/BusinessTable";
 import BusinessTreeFilters from "../components/BusinessTreeFilters";
 import BusinessTableFilters from "./BusinessTableFilters";
+import { Grid } from "@mui/material"
 
 //keeping consistent with other views, similar code is here for handling checkboxes
 //checkbox and dropdown both need to be here since they're post selection filtering
