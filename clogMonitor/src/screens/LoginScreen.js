@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import "./LoginScreen.css";
 import Home from "../components/Home/Home";
@@ -32,6 +32,13 @@ function LoginScreen({ setLoggedIn }) {
       setErrorMessages({ name: "pass", message: errors.pass });
     });
   }
+
+  // Bypass login screen for log details in new tab
+  useEffect(() => {
+    if (window.location.href.indexOf('log-details') !== -1) {
+      setLoggedIn("true")
+    }
+  },[]);
 
 
   function help() {
