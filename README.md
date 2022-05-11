@@ -2,6 +2,8 @@
 
 This is the code base for Track 1 CLOG Monitor.
 
+[Link to GitHub repository](https://github.com/david-fisher/320-S22-Track1)
+
 ## Requirements
 
 - Java 11. Install from [Java](https://www.oracle.com/java/technologies/downloads/)
