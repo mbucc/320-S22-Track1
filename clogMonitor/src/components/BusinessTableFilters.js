@@ -105,6 +105,15 @@ const BusinessTableFilters = ({ dataSetHandler }) => {
             sev_succ: selectedSeverities.has("Success") ? "true" : "false", // boolean
             sev_warn: selectedSeverities.has("Warning") ? "true" : "false", // boolean
             sev_err: selectedSeverities.has("Error") ? "true" : "false", // boolean
+            priority_low: "true", // boolean
+            priority_med: "true", // boolean
+            priority_high: "true", // boolean
+            status: "true",
+            start: "true",
+            stop: "true",
+            security: "true",
+            heartbeat: "true",
+
         }
 
         // Set the data based on params
