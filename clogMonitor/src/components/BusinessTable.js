@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DataGrid, GridFilterModel} from '@mui/x-data-grid';
+import { DataGrid, GridFilterModel, getGridDateOperators, GridToolbarContainer, GridToolbarExport} from '@mui/x-data-grid';
 import { Button } from "@mui/material";
 // Defines the columns for mui DataGrid
 // See https://mui.com/components/data-grid/columns/ for possible keys and more details
@@ -15,6 +15,7 @@ import { Button } from "@mui/material";
  * reworked code to work for business 
  * original author: @klin17 , edited for business purpose by @hiimlo
  */
+ const DateCompare = new Date('December 1, 1900 00:00:00')
 const columns = [
     { 
         field: 'SEVERITY', 
@@ -60,43 +61,65 @@ const columns = [
     }
 ];
 
+const customErrorOverlay = (error) => {
+    return (
+        <div className='error-overlay'>
+            An error occured. {error ? "Maybe the API isn't running?" : ""}
+        </div>
+    )
+}
+
+
+const gridToolbar = () => {
+    return (
+        <GridToolbarContainer>
+          <GridToolbarExport printOptions={{disableToolbarButton: true}} />
+        </GridToolbarContainer>
+      );
+}
+
 /**
 
  * table displays business events
  */
-const BusinessTable = ({data, loading}) => {
+const BusinessTable = ({data, loading, error}) => {
     const [pageSize, setPageSize] = useState(5)
 
     console.log("business table data:");
     console.log(data);
+    console.log(getGridDateOperators(true))
 
     return (
     //   <div>
         <DataGrid
-            /*initialState={{
-            filter: {
-                filterModel: {
-                items: [{ columnField: 'CREATION_TIME', operatorValue: '>', value: '2.5' }],
-                },
-            },
-            }}*/
-            /*initialState={{
+
+        /*initialState={{
           ...data.initialState,
           filter: {
             filterModel: {
               items: [
                 {
                   columnField: 'CREATION_TIME',
-                  operatorValue: '>',
-                  value: '0',
+                  operatorValue: 'onOrAfter',
+                  value:  DateCompare,
                 },
               ],
             },
-          },
+          }
         }}*/
+        components={{
+                    ErrorOverlay: () => customErrorOverlay(error),
+                    Toolbar: gridToolbar,
+                }}
+        initialState={{
+                    sorting: {
+                      sortModel: [{ field: 'creationTime', sort: 'desc' }],
+                    },
+                }}
             style={{height: "50vh", width:"90%"}}
             rows={data}
             loading={loading}
+            error={error ? true : undefined}
             columns={columns}
             pageSize={pageSize}
             rowsPerPageOptions={[5, 10, 25, 50, 100]}

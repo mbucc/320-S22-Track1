@@ -4,6 +4,7 @@ import CustomDateTimePicker from "./CustomDateTimePicker"
 import { Grid} from '@mui/material';
 import Dropdown from "./Dropdown";
 import BusinessTree from './BusinessTree';
+import {RichObjectTreeView, useStateValue } from './GBBusinessTree';
 
 
 /**
@@ -173,6 +174,26 @@ const BusinessFilters = ({dataSetHandler}) => {
         makeDropdownProps("Publishing Business Domain", PUBLISHING_BUSINESS_DOMAIN_ID, pubBusinessDomains, pubBusinessDomain, setPubBusinessDomain)
     ]
 
+    //Filter Change
+  //const [{ theme }, dispatch] = useStateValue();
+
+  const initialState = {
+    theme: { primary: 'green' }
+  };
+  //Filter Change
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case 'changeTheme':
+        return {
+          ...state,
+          theme: action.newTheme
+        };
+        
+      default:
+        return state;
+    }
+  };
+
     return (
         <div>
             <form className="business-filters" onSubmit={handleApplyFilters}>
@@ -181,6 +202,7 @@ const BusinessFilters = ({dataSetHandler}) => {
                         <h1>Business Processes</h1>
                     </Grid>
                     <Grid item lg={2.75} xl={2.5} justifyContent="center" align="center">
+                    {/*Date Time Picker to Filter Business Tree Data*/}
                         <CustomDateTimePicker 
                         id={'bp-tree-filter-start-date-picker'}
                         label = {"Start Time"}
@@ -217,18 +239,29 @@ const BusinessFilters = ({dataSetHandler}) => {
                             })
                         }
                     </Grid>
-                    <Grid item lg={8} xl={8} justifyContent="center">
-                        <BusinessTree />
+                    <Grid item container spacing={1} lg={4} xl={8} justifyContent="center">
+                        <RichObjectTreeView 
+                         initialState={initialState} 
+                         reducer={reducer}
+
+                         startTime = {startValue}
+                         endTime = {endValue}
+                        />
                     </Grid>
                     <Grid item lg={1} xl={4}>
                         <FormControl>
                             <Button
+                                //primaryColor={theme.primary}
                                 onClick={() => {
-                                var d = new Date(); // get current date
+                                
+                                /*var d = new Date(); // get current date
                                 d.setHours(d.getHours(),d.getMinutes()-30,0,0);
                                 setStartValue(d);
                                 setEndValue(new Date());
-                                onApplyClick()}}>
+                                onApplyClick()*/
+
+                                }
+                                }>
                                 Refresh
                             </Button>
                         </FormControl>
