@@ -123,7 +123,7 @@ const data =
      {
         id: '20',
         name: 'EAI Domain 2',
-        date: '',
+        date: dates,
         children: 
         [
             {
@@ -284,10 +284,17 @@ return nodes.map((el) => { //<-- mapping on array
       
       renderTree(data.filter((obj)=>
       {
+                console.log("Timer")
                 console.log(obj)
-                return true
-                if (obj.date.getTime() >= startTime.getTime() && obj.date.getTime() <= endTime.getTime())
+                console.log(obj.date)
+                console.log("Timer")
+                console.log(startTime)
+                
+                console.log(startTime.getTime())
+                //return true
+                if (obj.date.getTime() < startTime.getTime() && obj.date.getTime() > endTime.getTime())
                 {
+                    console.log("Timer")
                     return true
                 }
                 return false       
