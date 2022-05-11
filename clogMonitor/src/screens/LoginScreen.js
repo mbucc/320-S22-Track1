@@ -13,7 +13,7 @@ function LoginScreen({ setLoggedIn }) {
   // User Login info
   const errors = {
     uname: "invalid username",
-    pass: "invalid password",
+    pass: "invalid username and/or password",
     forgot: "Please contact support at xxx-xxx-xxxx or at example@email.com",
   };
   const handleSubmit = (event) => {
@@ -28,7 +28,6 @@ function LoginScreen({ setLoggedIn }) {
         setTimeout(() => setLoggedIn("true"), 100); // Wait until session storage is set before logging in
       }).catch(error => {
         console.log(error);
-        setErrorMessages({ name: "uname", message: errors.uname });
         setErrorMessages({ name: "pass", message: errors.pass });
       });
   }
@@ -62,7 +61,6 @@ function LoginScreen({ setLoggedIn }) {
         <div className="input-container">
           <label>Username </label>
           <input className="outlined-input username-input" type="text" name="uname" required />
-          {renderErrorMessage("uname")}
         </div>
         <div className="input-container">
           <label>Password </label>
