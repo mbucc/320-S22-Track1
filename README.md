@@ -88,4 +88,4 @@ As maven creates static files for the project, any new changes made to the code 
 
 ### Development
 
-Navigate to **./backend** directory, run `mvn spring-boot:run`. Then navigate to **./clogMonitor** directory, run `npm start`. If there are any issues, run `npm install` before `npm start`.
+Navigate to **./backend** directory, run `mvn spring-boot:run`. Then navigate to **./clogMonitor** directory, run `npm start`. If there are any issues, run `npm install` before `npm start` to install required libraries.
