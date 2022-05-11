@@ -15,6 +15,12 @@ import { Button } from "@mui/material";
  * reworked code to work for business 
  * original author: @klin17 , edited for business purpose by @hiimlo
  */
+// onClick event handler for log details button
+const saveLogDetails = (params) => {
+    localStorage.setItem(`LogDetails-${params.id}`, JSON.stringify(params.row));
+}
+
+
 const columns = [
     { 
         field: 'severity', 
