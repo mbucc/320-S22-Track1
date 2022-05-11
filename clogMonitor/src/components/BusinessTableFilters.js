@@ -117,7 +117,7 @@ const BusinessTableFilters = ({ dataSetHandler }) => {
         }
 
         // Set the data based on params
-        dataSetHandler(params, allFilters);
+        dataSetHandler(params);
 
         // Cache the filters in sessionStorage
         sessionStorage.setItem("BusinessTableFilters", JSON.stringify(allFilters));
