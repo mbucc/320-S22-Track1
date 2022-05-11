@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import { Button } from "@mui/material";
+import { LogDetailsButton } from './LogDetailsButton'
 import './LogEvents.css'
 
-// onClick event handler for log details button
-const saveLogDetails = (params) => {
-    localStorage.setItem(`LogDetails-${params.id}`, JSON.stringify(params.row));
-}
 
 // Defines the columns for mui DataGrid
 // See https://mui.com/components/data-grid/columns/ for possible keys and more details
@@ -79,7 +76,7 @@ const columns = [
         headerName: 'Log Event',
         type: 'actions',
         getActions: (params) => [
-            <Button onClick={() => saveLogDetails(params)} key="detailkey" href={"#/log-details/" + params.id} target="_blank">Detail</Button>
+            <LogDetailsButton label="Detail" logEvent={params.row} key="detailkey" href={"#/log-details/" + params.id} target="_blank" />
         ]
     }
 ];
