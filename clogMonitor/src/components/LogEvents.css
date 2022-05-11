@@ -1,13 +1,26 @@
 .log-events-container {
-  display: grid;
-  grid-template-rows: 7fr 13fr;
+  display: flex;
+  flex-direction: column;
+  /* grid-template-rows: 7fr 13fr; */
   padding: 10px;
   height: calc(100vh - 20px - 64px);
 }
 
-.log-events-filters {
+
+.log-events-filters .MuiCollapse-wrapperInner {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
+}
+
+.log-events-filters-outline {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-radius: 5px;
+  padding: 5px;
+  border-width: 2px;
+  border-style: solid;
 }
 
 .apply-filters-btn {
@@ -22,7 +35,7 @@
 }
 
 .log-events-table-container {
-  height: 100%;
+  flex-grow: 1;
   width: 100%;
 }
 

@@ -88,3 +88,10 @@
   display: flex;
   flex-direction: row;
 }
+
+.DashboardScreen_Hide {
+  grid-template-columns: 0px 1fr;
+}
+.DashboardScreen__SideNav_Hide {
+  visibility: hidden;
+}
