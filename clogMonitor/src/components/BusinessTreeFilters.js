@@ -97,8 +97,8 @@ const BusinessFilters = ({dataSetHandler}) => {
     /*onChange({
       'startTime': startTime,
       'endTime': endTime,
-      'eaiDomain': EAIDomain.join(','),
-      'publishingBusinessDomain': pubBusinessDomains.join(','),
+      //'eaiDomain': EAIDomain.join(','),
+      //'publishingBusinessDomain': pubBusinessDomains.join(','),
     });*/
     // Handlers
     const handleApplyFilters = (e) => {
@@ -177,7 +177,7 @@ const BusinessFilters = ({dataSetHandler}) => {
     //Filter Change
   //const [{ theme }, dispatch] = useStateValue();
 
-  const initialState = {
+  /*const initialState = {
     theme: { primary: 'green' }
   };
   //Filter Change
@@ -192,7 +192,7 @@ const BusinessFilters = ({dataSetHandler}) => {
       default:
         return state;
     }
-  };
+  };*/
 
     return (
         <div>
@@ -241,8 +241,8 @@ const BusinessFilters = ({dataSetHandler}) => {
                     </Grid>
                     <Grid item container spacing={1} lg={4} xl={8} justifyContent="center">
                         <RichObjectTreeView 
-                         initialState={initialState} 
-                         reducer={reducer}
+                         //initialState={initialState} 
+                         //reducer={reducer}
 
                          startTime = {startValue}
                          endTime = {endValue}
@@ -252,13 +252,14 @@ const BusinessFilters = ({dataSetHandler}) => {
                         <FormControl>
                             <Button
                                 //primaryColor={theme.primary}
+                                //type="submit"
                                 onClick={() => {
                                 
-                                /*var d = new Date(); // get current date
+                                var d = new Date(); // get current date
                                 d.setHours(d.getHours(),d.getMinutes()-30,0,0);
                                 setStartValue(d);
                                 setEndValue(new Date());
-                                onApplyClick()*/
+                                //onApplyClick()
 
                                 }
                                 }>

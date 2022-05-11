@@ -10,7 +10,7 @@ import { FormControl } from '@mui/material'
 
 //wilsonnexus
 
-export const StateContext = createContext();
+//export const StateContext = createContext();
 const dates = new Date()
 
 const data = 
@@ -238,7 +238,7 @@ function parentCounter(render) {
     return(1)
 }
 
-export function RichObjectTreeView({reducer, initialState, startTime, endTime}) {
+export function RichObjectTreeView({startTime, endTime}) {
     
     /*const listNode = (nodes) =>{ 
     const lst = []
@@ -268,7 +268,7 @@ return nodes.map((el) => { //<-- mapping on array
   
 
   return (
-  <StateContext.Provider value={useReducer(reducer, initialState)}>
+  //<StateContext.Provider value={useReducer(reducer, initialState)}>
     
   <FormControl sx={{ height: 300, flexGrow: 1, minWidth: 900, overflowX: 'hidden', overflowY: 'auto', border: 1, borderColor: 'grey.500', borderRadius: 1}}>
   
@@ -292,7 +292,7 @@ return nodes.map((el) => { //<-- mapping on array
                 
                 console.log(startTime.getTime())
                 //return true
-                if (obj.date.getTime() < startTime.getTime() && obj.date.getTime() > endTime.getTime())
+                if (obj.date.getTime() >= startTime.getTime() && obj.date.getTime() <= endTime.getTime())
                 {
                     console.log("Timer")
                     return true
@@ -321,10 +321,10 @@ return nodes.map((el) => { //<-- mapping on array
       }
     </TreeView>
     </FormControl>
-    </StateContext.Provider>
+    //</StateContext.Provider>
   );
   
   
 }
 
-export const useStateValue = () => useContext(StateContext);
+//export const useStateValue = () => useContext(StateContext);
