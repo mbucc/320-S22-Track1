@@ -3,7 +3,7 @@ describe("DashboardTests", () => {
   it("log into application", () => {
     cy.loginForLogEvents();
   });
-  
+
   beforeEach(() => {
     cy.visit("/");
   });
@@ -11,6 +11,7 @@ describe("DashboardTests", () => {
   it("test to check if the page loads correctly", () => {
     cy.get('.DashboardScreen').should("exist");
   });
+
 
   it("test to check if the clicking on Business Processes redirects us to the right page", () => {
     cy.get(".DashboardScreen__SideNav")
