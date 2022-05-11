@@ -83,12 +83,18 @@ const LogEventsFilters = ({ dataSetHandler }) => {
 
     // On component load, try to find and load cached filters
     useEffect(() => {
-        const value = sessionStorage.getItem("BusinessTreeFilters");
+        const value = sessionStorage.getItem("LogEventsFilters");
         if(value) {
-            console.log("Restoring cached business tree filters");
+            console.log("Restoring cached log events filters");
             const namesAndSetters = {
+                priority: (x) => setSelectedPriorities(new Set(x)),
+                severity: (x) => setSelectedSeverities(new Set(x)),
+                categoryName: (x) => setSelectedCategories(new Set(x)),
                 eaiDomain: setEAIDomain,
                 businessDomain: setBusinessDomain,
+                businessSubDomain: setBusinessSubDomain,
+                application: setApplication,
+                eventContext: setProcess_service,
                 creationTime: (x) => { setStartTime(x[0]); setEndTime(x[1]); },
                 startTimeDST: setStartTimeDST,
                 endTimeDST: setEndTimeDST
@@ -410,4 +416,6 @@ const LogEventsFilters = ({ dataSetHandler }) => {
     );
 };
 
-export default LogEventsFilters;
+export
+ default LogEventsFilters;
+
