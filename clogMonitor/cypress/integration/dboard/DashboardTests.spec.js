@@ -3,9 +3,16 @@ describe("DashboardTests", () => {
   it("log into application", () => {
     cy.loginForLogEvents();
   });
-  
+
   beforeEach(() => {
     cy.visit("/");
+  });
+
+  it("test to check if Home featureInfo, chart, and error log pane are loaded", () => {
+    cy.get('.Home').should("exist")
+      .get(".Home__featureInfo").should("exist")
+      .get(".Home__Charts").should("exist")
+      .get(".Home___ErrorLogPane").should("exist");
   });
 
   it("test to check if the page loads correctly", () => {

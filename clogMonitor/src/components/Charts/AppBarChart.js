@@ -79,6 +79,7 @@ export default function AppBarChart({ logEvents }) {
   let ticks = chart === "Last week" ? [lastWeek[0], lastWeek[lastWeek.length - 1]] : [lastMonth[0], lastMonth[lastMonth.length - 1]];
   return (
     <div className='rows'>
+      {chart === "Last week" ? <div className="Last_week_chart" /> : <div className="Last_month_chart" />}
       <Typography component='div'>
         <Box sx={{
           textAlign: 'left',
@@ -92,9 +93,9 @@ export default function AppBarChart({ logEvents }) {
       <div className='timeSpan' >
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Time span</InputLabel>
-          <Select label="Time span">
-            <MenuItem value="Last week" onClick={() => setChart("Last week")}> Last week </MenuItem>
-            <MenuItem value="Last month" onClick={() => setChart("Last month")}> Last Month </MenuItem>
+          <Select label="Time span" defaultValue={"Last week"}>
+            <MenuItem className='last_week_option' value="Last week" onClick={() => setChart("Last week")}> Last week </MenuItem>
+            <MenuItem className='last_month_option' value="Last month" onClick={() => setChart("Last month")}> Last Month </MenuItem>
           </Select>
         </FormControl>
       </div >
@@ -114,6 +115,7 @@ export default function AppBarChart({ logEvents }) {
         >
 
           {<LineChart
+            className='chart'
             width={800}
             height={500}
             data={data}

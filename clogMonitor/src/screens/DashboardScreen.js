@@ -52,30 +52,29 @@ function DashboardScreen({ setLoggedIn }) {
   return (
     <div className="Layout">
       <AppBar>
-        <Toolbar sx={{backgroundColor: "primary.dark"}}>
+        <Toolbar sx={{ backgroundColor: "primary.dark" }}>
           <Typography variant="h6" noWrap component="div">
             CLOG Monitor
           </Typography>
         </Toolbar>
       </AppBar>
       <Toolbar></Toolbar> {/* For alignment */}
-      <div className={`DashboardScreen ${hideNav ? "DashboardScreen_Hide" : ""}`}> 
+      <div className={`DashboardScreen ${hideNav ? "DashboardScreen_Hide" : ""}`}>
         <div className={`DashboardScreen__SideNav ${hideNav ? "DashboardScreen__SideNav_Hide" : ""}`}>
           <div className="DashboardScreen__NavigationPane__Display">
-            <NavigationPane/>
+            <NavigationPane />
           </div>
           <NameAndLogout setLoggedIn={setLoggedIn} />
         </div>
-        
-        {/* </div> */}
+
         <div className="DashboardScreen__Center">
           <div className="DashboardScreen__Center__main">
             <HashRouter>
               <Routes>
                 <Route path="/" element={<Home logEvents={logEvents} loading={loading} />} />
-                <Route path="business-processes" element={<BusinessView/>} />
-                <Route path="/log-events" element={<LogEvents/>} />
-                <Route path="/log-details/:id" element={<LogDetail/>} />
+                <Route path="business-processes" element={<BusinessView />} />
+                <Route path="/log-events" element={<LogEvents />} />
+                <Route path="/log-details/:id" element={<LogDetail />} />
               </Routes>
             </HashRouter>
           </div>

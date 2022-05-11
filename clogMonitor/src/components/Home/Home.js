@@ -14,8 +14,8 @@ function Home({ logEvents, loading }) {
       </div>
       <div className="Home__featureInfo">
         <div classNmae="Home__FeaturedInfo">
-          {(!loading) ? <FeaturedInfo 
-            logEvents={logEvents} />: <CircularProgress/>}
+          {(!loading) ? <FeaturedInfo
+            logEvents={logEvents} /> : <div></div>}
         </div>
       </div>
 
