@@ -14,11 +14,10 @@ import { Button } from "@mui/material";
  */
 
 export const LogDetailsButton = (props) => {
-    // onClick event handler for log details button
+    // onClick event handler 
     const saveLogDetails = (logEvent) => {
         localStorage.setItem(`LogDetails-${logEvent.globalInstanceId}`, JSON.stringify(logEvent));
     }
-    console.log(props.logEvent);
     return (
     <Button onClick={() => saveLogDetails(props.logEvent)} {...props}>{props.label}</Button>
   )
