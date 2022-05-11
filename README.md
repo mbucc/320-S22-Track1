@@ -21,7 +21,7 @@ java -version
 mvn -v
 ```
 
-## Jenkins
+### Jenkins
 Access from terminal:
 - create ssh key
 ```
@@ -48,7 +48,7 @@ Other users
 - Username: Track1 
 - Password: jenkins
 
-## Tomcat
+### Tomcat
 
 Tomcat credentials: jenkins automated credentials 
 - username: war-deployer 
@@ -64,7 +64,7 @@ From browser:
 - Click on “/MainDeployment”, Login with user: admin, pass: admin
 - Land on CLOG Monitor login page, credentials: <>
   
-## MySQL
+### MySQL
 
 Login:
 
