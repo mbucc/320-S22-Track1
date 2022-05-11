@@ -61,8 +61,8 @@ Tomcat GUIcredentials
 From browser:
 - Visit http://34.148.168.151:8081/
 - Click on “manager webapp", Login with user: admin, pass: teamkick
-- Click on “/MainDeployment”, Login with user: admin, pass: admin
-- Land on CLOG Monitor login page, credentials: <>
+- Click on “/MainDeployment”
+- Land on CLOG Monitor login page, Login with user: Mark, pass: 12345678
   
 ### MySQL
 
