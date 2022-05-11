@@ -94,7 +94,7 @@ const BusinessTable = ({data, loading, error}) => {
             pageSize={pageSize}
             rowsPerPageOptions={[5, 10, 25, 50, 100]}
             onPageSizeChange={(newSize) => setPageSize(newSize)}
-            getRowId={(row) => row["GLOBAL_INSTANCE_ID"]}
+            getRowId={(row) => row["globalInstanceId"]}
         />
     );
 }
