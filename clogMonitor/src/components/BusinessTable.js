@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import { Button } from "@mui/material";
 // Defines the columns for mui DataGrid
 // See https://mui.com/components/data-grid/columns/ for possible keys and more details
@@ -17,7 +17,7 @@ import { Button } from "@mui/material";
  */
 const columns = [
     { 
-        field: 'SEVERITY', 
+        field: 'severity', 
         headerName: 'Severity', 
         type: 'number',
         align: 'left',
@@ -39,7 +39,7 @@ const columns = [
         },
     },
     { 
-        field: 'CREATION_TIME', 
+        field: 'creationTime', 
         type: 'dateTime',
         headerName: 'Create Date', 
         flex: 5,
@@ -48,8 +48,8 @@ const columns = [
             return val.toLocaleString();
         },
     },
-    { field: 'APPLICATION', headerName: 'Application', flex: 4 },
-    { field: 'ACTIVITY', headerName: 'Activity', flex: 6 },
+    { field: 'application', headerName: 'Application', flex: 4 },
+    { field: 'activity', headerName: 'Activity', flex: 6 },
     {
         field: 'actions',
         headerName: 'Log Event',
@@ -60,15 +60,29 @@ const columns = [
     }
 ];
 
+const customErrorOverlay = (error) => {
+    return (
+        <div className='error-overlay'>
+            An error occured. {error ? "Maybe the API isn't running?" : ""}
+        </div>
+    )
+}
+
+const gridToolbar = () => {
+    return (
+        <GridToolbarContainer>
+          <GridToolbarExport printOptions={{disableToolbarButton: true}} />
+        </GridToolbarContainer>
+      );
+}
+
 /**
 
  * table displays business events
  */
-const BusinessTable = ({data, loading}) => {
+const BusinessTable = ({data, loading, error}) => {
     const [pageSize, setPageSize] = useState(5)
 
-    console.log("business table data:");
-    console.log(data);
 
     return (
     //   <div>
@@ -80,7 +94,7 @@ const BusinessTable = ({data, loading}) => {
             pageSize={pageSize}
             rowsPerPageOptions={[5, 10, 25, 50, 100]}
             onPageSizeChange={(newSize) => setPageSize(newSize)}
-            getRowId={(row) => row["GLOBAL_INSTANCE_ID"]}
+            getRowId={(row) => row["globalInstanceId"]}
         />
     );
 }

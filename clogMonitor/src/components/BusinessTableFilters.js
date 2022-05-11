@@ -1,7 +1,7 @@
 import { Button, FormControl, Grid } from "@mui/material";
 import React, { useEffect } from "react";
 import CheckboxGroup from "./CheckboxGroup";
-import { getColumnValues } from "../fakeDatabase";
+import { getColumnValues, getLogEventColumn } from "../fakeDatabase";
 import MultipleSelectDropdown from "./MultipleSelectDropdown";
 
 /**
@@ -11,7 +11,9 @@ import MultipleSelectDropdown from "./MultipleSelectDropdown";
  * @returns 
  */
 
-const BusinessTableFilters = (dataSetHandler) => {
+const BusinessTableFilters = ({ dataSetHandler }) => {
+    
+    const token = sessionStorage.getItem("token");
 
     //checkbox set: state, handler
     const allSeverities = ["Error", "Warning", "Success", "Info"];
@@ -40,7 +42,7 @@ const BusinessTableFilters = (dataSetHandler) => {
     
 
     //dropdown: state, handler
-    const businessDomains = getColumnValues("BUSINESS_SUBDOMAIN")
+    const [businessDomains, setBusiness] = React.useState([]);
     const [selectedBusinessDomains, setBusinessDomains] = React.useState([]);
 
     const handleMultiDropdownChange = (event) => {
@@ -60,7 +62,6 @@ const BusinessTableFilters = (dataSetHandler) => {
     useEffect(() => {
         const value = sessionStorage.getItem("BusinessTableFilters");
         if(value) {
-            console.log("Restoring cached log events filters");
             const namesAndSetters = {
                 severity: (x) => setSelectedSeverities(new Set(x)),
                 businessDomain: setBusinessDomains,
@@ -75,6 +76,20 @@ const BusinessTableFilters = (dataSetHandler) => {
         }
     }, []);
 
+    useEffect(() => {
+        const namesToSetters = {
+            "business_subdomain": setBusiness,
+        }
+        for (let name in namesToSetters) {
+            getLogEventColumn(token, name).then(values => {
+                namesToSetters[name](values);
+            }).catch(err => {
+                console.error(`Querying for ${name} ran into an error, \nUsing mock database for dropdown values`);
+                namesToSetters[name](getColumnValues(name.toUpperCase()));
+            })
+        }
+    }, []);
+
     const handleApplyFilters = (e) => {
         e.preventDefault(); // don't actually submit the form
         console.log("Apply filters was pressed");
@@ -85,8 +100,24 @@ const BusinessTableFilters = (dataSetHandler) => {
             businessSubdomain: [...selectedBusinessDomains],
         };
 
+        const params = {
+            sev_info: selectedSeverities.has("Info") ? "true" : "false", // boolean
+            sev_succ: selectedSeverities.has("Success") ? "true" : "false", // boolean
+            sev_warn: selectedSeverities.has("Warning") ? "true" : "false", // boolean
+            sev_err: selectedSeverities.has("Error") ? "true" : "false", // boolean
+            priority_low: "true", // boolean
+            priority_med: "true", // boolean
+            priority_high: "true", // boolean
+            status: "true",
+            start: "true",
+            stop: "true",
+            security: "true",
+            heartbeat: "true",
+
+        }
+
         // Set the data based on params
-        dataSetHandler(allFilters);
+        dataSetHandler(params);
 
         // Cache the filters in sessionStorage
         sessionStorage.setItem("BusinessTableFilters", JSON.stringify(allFilters));

@@ -416,4 +416,6 @@ const LogEventsFilters = ({ dataSetHandler }) => {
     );
 };
 
-export default LogEventsFilters;
+export
+ default LogEventsFilters;
+
