@@ -1,5 +1,5 @@
 .app{
-  background: linear-gradient(360deg, rgba(40,140,120,1) 0%, rgba(90,210,170,1) 2%,rgba(255,255,255,0) 2.2%),
+  background: linear-gradient(360deg, rgba(40,140,40,1) 0%, rgb(82, 152, 68) 2%,rgba(255,255,255,0) 2.2%),
   url("../components/Images/Beach.jpg");
   background-size: 100% 100%,cover;
   background-repeat: no-repeat;
@@ -22,13 +22,13 @@ input[type="submit"] {
   margin-top: 10px;
   cursor: pointer;
   font-size: 15px;
-  background: #52d3ab;
-  border: 1px solid #52d3ab;
+  background: rgb(82, 152, 68);
+  border: 1px solid rgb(43, 95, 33);
   color: #fff;
   padding: 10px 20px;
 }
 input[type="submit"]:hover {
-  background: #6CF0C2;
+  background: rgb(43, 95, 33);
 }
 
 .button-container {
@@ -63,7 +63,7 @@ input[type="submit"]:hover {
   padding-top: 6px;
   height: 12px;
   width: 14vw;
-  background: #52d3ab;
+  background: rgb(82, 152, 68);
 }
 
 .list-container {

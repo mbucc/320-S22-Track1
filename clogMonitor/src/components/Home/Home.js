@@ -14,9 +14,9 @@ function Home({ logEvents, loading }) {
       </div>
       <div className="Home__featureInfo">
         <div classNmae="Home__FeaturedInfo">
-          <FeaturedInfo />
+          {(!loading) ? <FeaturedInfo
+            logEvents={logEvents} /> : <div></div>}
         </div>
-
       </div>
 
       <div className="Home__subscreen">
