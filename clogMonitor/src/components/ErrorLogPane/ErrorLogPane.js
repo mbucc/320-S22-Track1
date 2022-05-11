@@ -15,10 +15,10 @@ function ErrorLogPane({ logEvents }) {
         <h2 className="ErrorLogPane__heading">Recent Error Logs</h2>
         <div className="ErrorLogPane__body" style={myComponent}>
           {logEvents.filter(logEvent => {
-            // let yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
-            // let dateObject = new Date(logEvent["creationTime"]);
-            // return dateObject.getTime() > yesterday.getTime();
-            return true;
+            let yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
+            let dateObject = new Date(logEvent["creationTime"]);
+            return dateObject.getTime() > yesterday.getTime() && dateObject.getTime() <= Date.now(); 
+            //return true;
           }).map((logEvent) => (
             <ErrorLogBox
               className="ErrorLogPane__box"

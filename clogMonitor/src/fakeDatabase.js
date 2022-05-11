@@ -270,7 +270,6 @@ export function getActualMinMaxTime() {
         return [start, end];
     }
 }
-
 /**
  * 
  * @returns {Promise<string>} A promise for the token if username and password are valid
