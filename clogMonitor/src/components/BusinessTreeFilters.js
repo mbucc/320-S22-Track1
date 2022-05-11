@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Button, FormControl} from "@mui/material";
 import CustomDateTimePicker from "./CustomDateTimePicker"
 import { getColumnValues, getLogEventColumn } from "../fakeDatabase";
@@ -46,6 +46,8 @@ import BusinessTree from './BusinessTree';
 }*/
 
 const BusinessFilters = ({dataSetHandler}) => {
+    const token = sessionStorage.getItem("token");
+
     // Checkbox group states
     const allSeverities = ["Error", "Warning", "Success", "Info"];
     const [selectedSeverities, setSelectedSeverities] = React.useState(new Set(allSeverities));
