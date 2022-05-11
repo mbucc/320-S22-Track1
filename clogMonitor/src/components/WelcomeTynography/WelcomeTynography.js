@@ -14,16 +14,18 @@ function WelcomeTynography(props) {
                     }}
                   > Hello Mark ! </Box>                
             </Typography>
-            <Typography component='div'>
-                <Box sx={{ 
-                    textAlign: 'left', 
-                    m: 2 ,
-                    fontWeight: '500',
-                    fontSize: 'h6.fontSize',                    
-                    }}
-                  > We have 10 new error log events today. </Box>                
-            </Typography>
-        </div>
+            </div>
+             // </div>/<Typography component='div'>
+               // <Box sx={{ 
+                //    textAlign: 'left', 
+                //    m: 2 ,
+                //    fontWeight: '500',
+               //     fontSize: 'h6.fontSize',                    
+              //      }}
+              //</Typography>    > We have 10 new error log events today. </Box>                
+            //</Typography>
+            
+      
     );
 }
 
