@@ -127,10 +127,6 @@ const BusinessFilters = ({dataSetHandler}) => {
         const params = {
             pub_business_domain: pubBusinessDomain === "All" ? undefined : pubBusinessDomain, // String
             eai_domain: EAIDomain === "All" ? undefined : EAIDomain, // String
-            sev_info: selectedSeverities.has("Info") ? "true" : "false", // boolean
-            sev_succ: selectedSeverities.has("Success") ? "true" : "false", // boolean
-            sev_warn: selectedSeverities.has("Warning") ? "true" : "false", // boolean
-            sev_err: selectedSeverities.has("Error") ? "true" : "false", // boolean
         }
 
         // Ensure that seconds are included in the time params

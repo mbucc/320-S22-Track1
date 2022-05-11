@@ -100,8 +100,15 @@ const BusinessTableFilters = ({ dataSetHandler }) => {
             businessSubdomain: [...selectedBusinessDomains],
         };
 
+        const params = {
+            sev_info: selectedSeverities.has("Info") ? "true" : "false", // boolean
+            sev_succ: selectedSeverities.has("Success") ? "true" : "false", // boolean
+            sev_warn: selectedSeverities.has("Warning") ? "true" : "false", // boolean
+            sev_err: selectedSeverities.has("Error") ? "true" : "false", // boolean
+        }
+
         // Set the data based on params
-        dataSetHandler(allFilters);
+        dataSetHandler(params, allFilters);
 
         // Cache the filters in sessionStorage
         sessionStorage.setItem("BusinessTableFilters", JSON.stringify(allFilters));
