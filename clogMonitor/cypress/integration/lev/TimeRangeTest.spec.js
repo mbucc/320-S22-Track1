@@ -68,4 +68,26 @@ describe("TimeRange works correctly", () => {
 
     cy.get(".apply-filters-btn").should("be.disabled");
   });
+
+  /*  DST tests TODO *********************************************/
+
+  // Apply button is disabled when time does not exist
+  it("validates that the apply button is disabled when time does not exist", () => {
+    cy.get('[id="startformcontrol"]').click().type("2018-06-01T08:30");
+    cy.get('[id="endformcontrol"]').click().type("2021-03-14T02:30");
+
+    cy.get(".apply-filters-btn").should("be.disabled");
+  });
+  // Apply button is enabled with startime = November 7th 1:05 am (BEFORE), endtime = November 7th 1:00 (AFTER)
+  it("validates that the apply button is enabled with startime = November 7th 1:05 am (BEFORE), endtime = November 7th 1:00 (AFTER)", () => {
+    cy.get('[id="startformcontrol"]').click().type("2021-11-07T01:05")
+      .get('[id="startTimeDST"]').click()
+      .get('[role="listbox"]').children().contains("BEFORE").click();
+
+    cy.get('[id="endformcontrol"]').click().type("2021-11-07T01:00")
+      .get('[id="endTimeDST"]').click()
+      .get('[role="listbox"]').children().contains("AFTER").click();
+
+    cy.get(".apply-filters-btn").should("not.be.disabled");
+  });
 });
