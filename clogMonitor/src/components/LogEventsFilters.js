@@ -403,12 +403,12 @@ const LogEventsFilters = ({ dataSetHandler }) => {
 
             <FormControl sx={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
                 <Collapse in={!collapsed}>
-                    <Button className="apply-filters-btn" sx={{marginTop: "16px", width: "88px"}} disabled={hasError()} variant="contained" type="submit">
+                    <Button className="log-filters-btn" sx={{marginTop: "16px", width: "100%"}} disabled={hasError()} variant="contained" type="submit">
                         {filtersChanged() ? "Apply" : "Applied"}
                     </Button>
                 </Collapse>
 
-                <Button variant="outlined" onClick={handleCollapse}>
+                <Button variant="outlined" onClick={handleCollapse} className="log-filters-btn">
                     {collapsed ? <ExpandMoreIcon/> : <ExpandLessIcon/>}
                 </Button>
             </FormControl>

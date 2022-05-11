@@ -4,6 +4,7 @@
   /* grid-template-rows: 7fr 13fr; */
   padding: 10px;
   height: calc(100vh - 20px - 64px);
+  min-width: 940px;
 }
 
 
@@ -23,8 +24,8 @@
   border-style: solid;
 }
 
-.apply-filters-btn {
-  margin-top: 16px;
+.log-filters-btn {
+  min-width: 0px !important;
 }
 
 .dropdown-group {
