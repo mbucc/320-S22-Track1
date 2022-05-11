@@ -62,7 +62,7 @@ public class ClogApplication extends SpringBootServletInitializer  {
 				.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/user").permitAll()
 				.antMatchers("/swagger-ui/**").permitAll()
-				.anyRequest().authenticated()
+				// .anyRequest().authenticated()
 				.and()
 				.httpBasic();
 		}
