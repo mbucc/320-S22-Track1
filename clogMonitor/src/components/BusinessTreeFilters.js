@@ -3,8 +3,8 @@ import {Button, FormControl} from "@mui/material";
 import CustomDateTimePicker from "./CustomDateTimePicker"
 import { Grid} from '@mui/material';
 import Dropdown from "./Dropdown";
-import BusinessTree from './BusinessTree';
 import {RichObjectTreeView, useStateValue } from './GBBusinessTree';
+import { getTableData } from '../fakeDatabase';
 
 
 /**
@@ -46,6 +46,9 @@ import {RichObjectTreeView, useStateValue } from './GBBusinessTree';
 }*/
 
 const BusinessFilters = ({dataSetHandler}) => {
+    // Data
+    const token = sessionStorage.getItem("token");
+    const [tableData, setTableData] = React.useState([]);
     // Checkbox group states
     const allSeverities = ["Error", "Warning", "Success", "Info"];
     const [selectedSeverities, setSelectedSeverities] = React.useState(new Set(allSeverities));
@@ -69,6 +72,18 @@ const BusinessFilters = ({dataSetHandler}) => {
     const [endTimeError, setEndTimeError] = useState(null);
     const [startValue, setStartValue] = useState(startTime);
     const [endValue, setEndValue] = useState(endTime);
+
+    React.useEffect(() => {
+      const tdata = getTableData(undefined);
+      setTableData(tdata);
+      // setLoading(true);
+      // getLogDetails(undefined).then((resultData) => {
+      //     console.log("Got api data")
+      //     setTableData(resultData)
+      //     setLoading(false);
+      // });
+  }, [])
+
     // Track the common date picker error.
   useEffect(() => {
     if (startTime && startTime > new Date()) {
@@ -243,9 +258,9 @@ const BusinessFilters = ({dataSetHandler}) => {
                         <RichObjectTreeView 
                          //initialState={initialState} 
                          //reducer={reducer}
-
                          startTime = {startValue}
                          endTime = {endValue}
+                         data2={tableData} //loading={loading} error={loadError}
                         />
                     </Grid>
                     <Grid item lg={1} xl={4}>
